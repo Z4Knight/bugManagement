@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapper.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.z4knight.bugmanagement.repository.ProjectGroupMapper">
+
+    <resultMap id="BaseResultMap"
+               type="com.z4knight.bugmanagement.dataobject.ProjectGroup">
+        <result column="groupId" property="groupId" jdbcType="VARCHAR" />
+        <result column="open" property="open" jdbcType="INTEGER" />
+        <result column="groupName" property="groupName" jdbcType="VARCHAR" />
+        <result column="groupManager" property="groupManager" jdbcType="VARCHAR" />
+        <result column="note" property="note" jdbcType="VARCHAR" />
+        <result column="register" property="register" jdbcType="VARCHAR" />
+        <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+        <result column="createTime" property="createTime" jdbcType="VARCHAR"/>
+        <result column="editTime" property="editTime" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        groupId, open, groupName, groupName, groupManager, note, register, modifier, createTime, editTime
+    </sql>
+
+    <select id="selectAll" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        FROM project_group
+    </select>
+
+    <select id="selectByGroupId" resultMap="BaseResultMap" parameterType="com.z4knight.bugmanagement.dataobject.ProjectGroup" >
+        select
+        <include refid="Base_Column_List" />
+        from project_group
+        where groupId = #{groupId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByGroupName" resultMap="BaseResultMap" parameterType="com.z4knight.bugmanagement.dataobject.ProjectGroup" >
+        select
+        <include refid="Base_Column_List" />
+        from project_group
+        where groupName = #{groupName,jdbcType=VARCHAR}
+    </select>
+
+
+    <insert id="save" parameterType="com.z4knight.bugmanagement.dataobject.ProjectGroup">
+        insert into project_group
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="groupId != null" >
+                groupId,
+            </if>
+            <if test="open != null" >
+                open,
+            </if>
+            <if test="groupName != null" >
+                groupName,
+            </if>
+            <if test="groupManager != null" >
+                groupManager,
+            </if>
+            <if test="note != null" >
+                note,
+            </if>
+            <if test="register != null" >
+                register,
+            </if>
+            <if test="modifier != null" >
+                modifier,
+            </if>
+            <if test="createTime != null" >
+                createTime,
+            </if>
+            <if test="editTime != null" >
+                editTime
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="groupId != null" >
+                #{groupId,jdbcType=VARCHAR},
+            </if>
+            <if test="open != null" >
+                #{open,jdbcType=INTEGER},
+            </if>
+            <if test="groupName != null" >
+                #{groupName,jdbcType=VARCHAR},
+            </if>
+            <if test="groupManager != null" >
+                #{groupManager,jdbcType=VARCHAR},
+            </if>
+            <if test="note != null" >
+                #{note,jdbcType=VARCHAR},
+            </if>
+            <if test="register != null" >
+                #{register,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null" >
+                #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="editTime != null" >
+                #{editTime,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="delete" parameterType="com.z4knight.bugmanagement.dataobject.ProjectGroup">
+        delete from  project_group
+        where groupId = #{groupId,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="update" parameterType="com.z4knight.bugmanagement.dataobject.ProjectGroup" >
+        update project_group
+        <set>
+            <if test="open != null" >
+                open = #{open,jdbcType=INTEGER},
+            </if>
+            <if test="groupName != null" >
+                groupName = #{groupName,jdbcType=VARCHAR},
+            </if>
+            <if test="groupManager != null" >
+                groupManager = #{groupManager,jdbcType=VARCHAR},
+            </if>
+            <if test="note != null" >
+                note = #{note,jdbcType=VARCHAR},
+            </if>
+            <if test="register != null" >
+                register = #{register,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null" >
+                modifier = #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                createTime = #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="editTime != null" >
+                editTime = #{editTime,jdbcType=VARCHAR}
+            </if>
+        </set>
+        <where>
+            groupId = #{groupId,jdbcType=VARCHAR}
+        </where>
+    </update>
+    
+</mapper>
