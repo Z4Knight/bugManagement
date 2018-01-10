@@ -51,7 +51,7 @@ public class ProjectGroupServiceImpl implements ProjectGroupService{
         PageInfo<ProjectGroup> groupPageInfo = new PageInfo<>(groupList);
         groupList = groupPageInfo.getList();
         if (null == groupList || groupList.size() == 0) {
-            throw new ServiceException(ErrorMsg.NOT_EXIST.getMsg());
+            throw new ServiceException(ErrorMsg.DATA_NOT_EXIST.getMsg());
         }
         return groupList;
     }
@@ -79,7 +79,12 @@ public class ProjectGroupServiceImpl implements ProjectGroupService{
 
     @Override
     public ProjectGroup update(ProjectGroupForm projectGroupForm) {
-        ProjectGroup result = new ProjectGroup();
+        ProjectGroup result = null;
+        result = selectByGroupName(projectGroupForm.getGroupName());
+        if (null != result) {
+            throw new ServiceException(ErrorMsg.GROUP_NAME_EXIST.getMsg());
+        }
+        result = new ProjectGroup();
         ProjectGroup group = selectByGroupId(projectGroupForm.getGroupId());
         // 设置来自于前端传送的接口信息
         BeanUtils.copyProperties(projectGroupForm, result);
@@ -99,7 +104,7 @@ public class ProjectGroupServiceImpl implements ProjectGroupService{
         }
         ProjectGroup group = mapper.selectByGroupId(groupId);
         if (null == group) {
-            throw new ServiceException(ErrorMsg.NOT_EXIST.getMsg());
+            throw new ServiceException(ErrorMsg.DATA_NOT_EXIST.getMsg());
         }
         return group;
     }
@@ -111,7 +116,7 @@ public class ProjectGroupServiceImpl implements ProjectGroupService{
         }
         ProjectGroup group = selectByGroupId(groupId);
         if (null == group) {
-            throw new ServiceException(ErrorMsg.NOT_EXIST.getMsg());
+            throw new ServiceException(ErrorMsg.DATA_NOT_EXIST.getMsg());
         }
         mapper.delete(groupId);
     }

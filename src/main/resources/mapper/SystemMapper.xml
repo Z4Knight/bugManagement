@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapper.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.z4knight.bugmanagement.repository.TestSystemMapper">
+
+    <resultMap id="BaseResultMap"
+               type="com.z4knight.bugmanagement.dataobject.TestSystem">
+        <result column="systemId" property="systemId" jdbcType="VARCHAR" />
+        <result column="open" property="open" jdbcType="INTEGER" />
+        <result column="systemName" property="systemName" jdbcType="VARCHAR" />
+        <result column="testDirector" property="testDirector" jdbcType="VARCHAR" />
+        <result column="devDirector" property="devDirector" jdbcType="VARCHAR" />
+        <result column="versionNumber" property="versionNumber" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+        <result column="note" property="note" jdbcType="VARCHAR" />
+        <result column="register" property="register" jdbcType="VARCHAR" />
+        <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+        <result column="createTime" property="createTime" jdbcType="VARCHAR"/>
+        <result column="editTime" property="editTime" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        systemId, open, systemName, testDirector, devDirector, versionNumber, description, note, register, modifier, createTime, editTime
+    </sql>
+
+    <select id="selectAll" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        FROM test_system
+    </select>
+
+    <select id="selectBySystemId" resultMap="BaseResultMap" parameterType="com.z4knight.bugmanagement.dataobject.TestSystem" >
+        select
+        <include refid="Base_Column_List" />
+        from test_system
+        where systemId = #{systemId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectBySystemName" resultMap="BaseResultMap" parameterType="com.z4knight.bugmanagement.dataobject.TestSystem" >
+        select
+        <include refid="Base_Column_List" />
+        from test_system
+        where systemName = #{systemName,jdbcType=VARCHAR}
+    </select>
+
+
+    <insert id="save" parameterType="com.z4knight.bugmanagement.dataobject.TestSystem">
+        insert into test_system
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="systemId != null" >
+                systemId,
+            </if>
+            <if test="open != null" >
+                open,
+            </if>
+            <if test="systemName != null" >
+                systemName,
+            </if>
+            <if test="testDirector != null" >
+                testDirector,
+            </if>
+            <if test="devDirector != null" >
+                devDirector,
+            </if>
+            <if test="versionNumber != null" >
+                versionNumber,
+            </if>
+            <if test="description != null" >
+                description,
+            </if>
+            <if test="note != null" >
+                note,
+            </if>
+            <if test="register != null" >
+                register,
+            </if>
+            <if test="modifier != null" >
+                modifier,
+            </if>
+            <if test="createTime != null" >
+                createTime,
+            </if>
+            <if test="editTime != null" >
+                editTime
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="systemId != null" >
+                #{systemId,jdbcType=VARCHAR},
+            </if>
+            <if test="open != null" >
+                #{open,jdbcType=INTEGER},
+            </if>
+            <if test="systemName != null" >
+                #{systemName,jdbcType=VARCHAR},
+            </if>
+            <if test="testDirector != null" >
+                #{testDirector,jdbcType=VARCHAR},
+            </if>
+            <if test="devDirector != null" >
+                #{devDirector,jdbcType=VARCHAR},
+            </if>
+            <if test="versionNumber != null" >
+                #{versionNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null" >
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="note != null" >
+                #{note,jdbcType=VARCHAR},
+            </if>
+            <if test="register != null" >
+                #{register,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null" >
+                #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="editTime != null" >
+                #{editTime,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="delete" parameterType="com.z4knight.bugmanagement.dataobject.TestSystem">
+        delete from  test_system
+        where systemId = #{systemId,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="update" parameterType="com.z4knight.bugmanagement.dataobject.TestSystem" >
+        update test_system
+        <set>
+            <if test="open != null" >
+                open = #{open,jdbcType=INTEGER},
+            </if>
+            <if test="systemName != null" >
+                systemName = #{systemName,jdbcType=VARCHAR},
+            </if>
+            <if test="testDirector != null" >
+                testDirector = #{testDirector,jdbcType=VARCHAR},
+            </if>
+            <if test="devDirector != null" >
+                devDirector = #{devDirector,jdbcType=VARCHAR},
+            </if>
+            <if test="versionNumber != null" >
+                versionNumber = #{versionNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null" >
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="note != null" >
+                note = #{note,jdbcType=VARCHAR},
+            </if>
+            <if test="register != null" >
+                register = #{register,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null" >
+                modifier = #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                createTime = #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="editTime != null" >
+                editTime = #{editTime,jdbcType=VARCHAR}
+            </if>
+        </set>
+        <where>
+            systemId = #{systemId,jdbcType=VARCHAR}
+        </where>
+    </update>
+    
+</mapper>

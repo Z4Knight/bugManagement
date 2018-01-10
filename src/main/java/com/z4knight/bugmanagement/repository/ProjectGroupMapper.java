@@ -7,6 +7,8 @@ import java.util.List;
 /**
  * @Author Z4knight
  * @Date 2018/1/5 16:53
+ *
+ * 小组管理-mapper类
  */
 public interface ProjectGroupMapper {
 

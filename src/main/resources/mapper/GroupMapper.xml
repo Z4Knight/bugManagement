@@ -16,7 +16,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        groupId, open, groupName, groupName, groupManager, note, register, modifier, createTime, editTime
+        groupId, open, groupName, groupManager, note, register, modifier, createTime, editTime
     </sql>
 
     <select id="selectAll" resultMap="BaseResultMap" >
