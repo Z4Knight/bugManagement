@@ -67,8 +67,8 @@ public class TestSystemServiceImpl implements TestSystemService {
         // 默认开启
         system.setOpen(OpenCode.OPEN.code());
         // 设置自动生成编码
-        system.setSystemId(CodeGeneratorUtil.generateCode(ItemCode.SYSTERM));
-        // 设置登录与修改日期为系统当前日期
+        system.setSystemId(CodeGeneratorUtil.generateCode(ItemCode.SYSTEM));
+        // 设置登记与修改日期为系统当前日期
         system.setCreateTime(DateUtil.getCurrentDate());
         system.setEditTime(DateUtil.getCurrentDate());
         mapper.save(system);
@@ -79,7 +79,7 @@ public class TestSystemServiceImpl implements TestSystemService {
     public TestSystem update(TestSystemForm testSystemForm) {
         TestSystem result = null;
         result = selectBySystemName(testSystemForm.getSystemName());
-        if (null != result) {
+        if (null != result && !result.getSystemId().equals(testSystemForm.getSystemId())) {
             throw new ServiceException(ErrorMsg.SYSTEM_NAME_EXIST.getMsg());
         }
         result = new TestSystem();

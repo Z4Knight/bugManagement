@@ -11,9 +11,9 @@ public enum ItemCode {
     // 小组
     GROUP("G"),
     // 系统
-    SYSTERM("S"),
+    SYSTEM("S"),
     // 工单
-    PROJECT("P"),
+    ORDER("PRJ_"),
     // 任务
     TASK("T");
 

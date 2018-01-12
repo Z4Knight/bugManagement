@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapper.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.z4knight.bugmanagement.repository.ProjectOrderMapper">
+
+    <resultMap id="BaseResultMap"
+               type="com.z4knight.bugmanagement.dataobject.ProjectOrder">
+        <result column="orderId" property="orderId" jdbcType="VARCHAR" />
+        <result column="orderName" property="orderName" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+        <result column="state" property="state" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="VARCHAR" />
+        <result column="priority" property="priority" jdbcType="VARCHAR" />
+        <result column="principal" property="principal" jdbcType="VARCHAR" />
+        <result column="testManager" property="testManager" jdbcType="VARCHAR" />
+        <result column="devDirector" property="devDirector" jdbcType="VARCHAR" />
+        <result column="handler" property="handler" jdbcType="VARCHAR" />
+        <result column="workLoad" property="workLoad" jdbcType="VARCHAR" />
+        <result column="devScale" property="devScale" jdbcType="VARCHAR" />
+        <result column="ownSystem" property="ownSystem" jdbcType="VARCHAR" />
+        <result column="testEnv" property="testEnv" jdbcType="VARCHAR" />
+        <result column="testRange" property="testRange" jdbcType="VARCHAR" />
+        <result column="testSug" property="testSug" jdbcType="VARCHAR" />
+        <result column="startTime" property="startTime" jdbcType="VARCHAR" />
+        <result column="endTime" property="endTime" jdbcType="VARCHAR" />
+        <result column="register" property="register" jdbcType="VARCHAR" />
+        <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+        <result column="createTime" property="createTime" jdbcType="VARCHAR"/>
+        <result column="editTime" property="editTime" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        orderId, orderName, description, state, type, priority, principal,
+         testManager, devDirector, handler, workLoad, devScale, ownSystem, testEnv,
+         testRange, testSug, startTime, endTime, register, modifier, createTime, editTime
+    </sql>
+
+    <select id="selectAll" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        FROM project_order
+    </select>
+
+    <select id="selectByOrderId" resultMap="BaseResultMap" parameterType="com.z4knight.bugmanagement.dataobject.ProjectOrder" >
+        select
+        <include refid="Base_Column_List" />
+        from project_order
+        where orderId = #{orderId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByOrderName" resultMap="BaseResultMap" parameterType="com.z4knight.bugmanagement.dataobject.ProjectOrder" >
+        select
+        <include refid="Base_Column_List" />
+        from project_order
+        where orderName = #{orderName,jdbcType=VARCHAR}
+    </select>
+
+
+    <insert id="save" parameterType="com.z4knight.bugmanagement.dataobject.ProjectOrder">
+        insert into project_order
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="orderId != null" >
+                orderId,
+            </if>
+            <if test="orderName != null" >
+                orderName,
+            </if>
+            <if test="description != null" >
+                description,
+            </if>
+            <if test="state != null" >
+                state,
+            </if>
+            <if test="type != null" >
+                type,
+            </if>
+            <if test="priority != null" >
+                priority,
+            </if>
+            <if test="principal != null" >
+                principal,
+            </if>
+            <if test="testManager != null" >
+                testManager,
+            </if>
+            <if test="devDirector != null" >
+                devDirector,
+            </if>
+            <if test="handler != null" >
+                handler,
+            </if>
+            <if test="workLoad != null" >
+                workLoad,
+            </if>
+            <if test="devScale != null" >
+                devScale,
+            </if>
+            <if test="ownSystem != null" >
+                ownSystem,
+            </if>
+            <if test="testEnv != null" >
+                testEnv,
+            </if>
+            <if test="testRange != null" >
+                testRange,
+            </if>
+            <if test="testSug != null" >
+                testSug,
+            </if>
+            <if test="startTime != null" >
+                startTime,
+            </if>
+            <if test="endTime != null" >
+                endTime,
+            </if>
+            <if test="register != null" >
+                register,
+            </if>
+            <if test="modifier != null" >
+                modifier,
+            </if>
+            <if test="createTime != null" >
+                createTime,
+            </if>
+            <if test="editTime != null" >
+                editTime
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="orderId != null" >
+                #{orderId,jdbcType=VARCHAR},
+            </if>
+            <if test="orderName != null" >
+                #{orderName,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null" >
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null" >
+                #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null" >
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="priority != null" >
+                #{priority,jdbcType=VARCHAR},
+            </if>
+            <if test="principal != null" >
+                #{principal,jdbcType=VARCHAR},
+            </if>
+
+            <if test="testManager != null" >
+                #{testManager,jdbcType=VARCHAR},
+            </if>
+            <if test="devDirector != null" >
+                #{devDirector,jdbcType=VARCHAR},
+            </if>
+            <if test="handler != null" >
+                #{handler,jdbcType=VARCHAR},
+            </if>
+            <if test="workLoad != null" >
+                #{workLoad,jdbcType=VARCHAR},
+            </if>
+            <if test="devScale != null" >
+                #{devScale,jdbcType=VARCHAR},
+            </if>
+            <if test="ownSystem != null" >
+                #{ownSystem,jdbcType=VARCHAR},
+            </if>
+            <if test="testEnv != null" >
+                #{testEnv,jdbcType=VARCHAR},
+            </if>
+            <if test="testRange != null" >
+                #{testRange,jdbcType=VARCHAR},
+            </if>
+            <if test="testSug != null" >
+                #{testSug,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null" >
+                #{startTime,jdbcType=VARCHAR},
+            </if>
+            <if test="endTime != null" >
+                #{endTime,jdbcType=VARCHAR},
+            </if>
+
+            <if test="register != null" >
+                #{register,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null" >
+                #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="editTime != null" >
+                #{editTime,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="delete" parameterType="com.z4knight.bugmanagement.dataobject.ProjectOrder">
+        delete from  project_order
+        where orderId = #{orderId,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="update" parameterType="com.z4knight.bugmanagement.dataobject.ProjectOrder" >
+        update project_order
+        <set>
+            <if test="orderName != null" >
+                orderName = #{orderName,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null" >
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null" >
+                state = #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null" >
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="priority != null" >
+                priority = #{priority,jdbcType=VARCHAR},
+            </if>
+            <if test="principal != null" >
+                principal = #{principal,jdbcType=VARCHAR},
+            </if>
+
+            <if test="testManager != null" >
+                testManager = #{testManager,jdbcType=VARCHAR},
+            </if>
+            <if test="devDirector != null" >
+                devDirector = #{devDirector,jdbcType=VARCHAR},
+            </if>
+            <if test="handler != null" >
+                handler = #{handler,jdbcType=VARCHAR},
+            </if>
+            <if test="workLoad != null" >
+                workLoad = #{workLoad,jdbcType=VARCHAR},
+            </if>
+            <if test="devScale != null" >
+                devScale = #{devScale,jdbcType=VARCHAR},
+            </if>
+            <if test="ownSystem != null" >
+                ownSystem = #{ownSystem,jdbcType=VARCHAR},
+            </if>
+            <if test="testEnv != null" >
+                testEnv = #{testEnv,jdbcType=VARCHAR},
+            </if>
+            <if test="testRange != null" >
+                testRange = #{testRange,jdbcType=VARCHAR},
+            </if>
+            <if test="testSug != null" >
+                testSug = #{testSug,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null" >
+                startTime = #{startTime,jdbcType=VARCHAR},
+            </if>
+            <if test="endTime != null" >
+                endTime = #{endTime,jdbcType=VARCHAR},
+            </if>
+
+            <if test="register != null" >
+                register = #{register,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null" >
+                modifier = #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                createTime = #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="editTime != null" >
+                editTime = #{editTime,jdbcType=VARCHAR}
+            </if>
+        </set>
+        <where>
+            orderId = #{orderId,jdbcType=VARCHAR}
+        </where>
+    </update>
+    
+</mapper>

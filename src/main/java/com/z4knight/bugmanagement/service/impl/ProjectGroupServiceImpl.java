@@ -70,7 +70,7 @@ public class ProjectGroupServiceImpl implements ProjectGroupService{
         group.setOpen(OpenCode.OPEN.code());
         // 设置自动生成编码
         group.setGroupId(CodeGeneratorUtil.generateCode(ItemCode.GROUP));
-        // 设置登录与修改日期为系统当前日期
+        // 设置登记与修改日期为系统当前日期
         group.setCreateTime(DateUtil.getCurrentDate());
         group.setEditTime(DateUtil.getCurrentDate());
         mapper.save(group);
@@ -81,7 +81,7 @@ public class ProjectGroupServiceImpl implements ProjectGroupService{
     public ProjectGroup update(ProjectGroupForm projectGroupForm) {
         ProjectGroup result = null;
         result = selectByGroupName(projectGroupForm.getGroupName());
-        if (null != result) {
+        if (null != result && !result.getGroupId().equals(projectGroupForm.getGroupId())) {
             throw new ServiceException(ErrorMsg.GROUP_NAME_EXIST.getMsg());
         }
         result = new ProjectGroup();

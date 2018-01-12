@@ -19,6 +19,11 @@ public enum ErrorMsg {
     SYSTEM_CODE_REQUIRED("系统编码必填"),
     SYSTEM_NAME_REQUIRED("系统名称必填"),
 
+
+    ORDER_NAME_EXIST("工单名称已存在"),
+    ORDER_CODE_REQUIRED("工单编码必填"),
+    ORDER_NAME_REQUIRED("工单名称必填"),
+
     ;
 
     private final String msg;

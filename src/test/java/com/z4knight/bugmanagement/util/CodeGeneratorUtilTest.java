@@ -15,7 +15,7 @@ public class CodeGeneratorUtilTest {
     @Test
     public void generateCode() {
         CodeGeneratorUtil.setGroupNum(4);
-        String result = CodeGeneratorUtil.generateCode(ItemCode.SYSTERM);
+        String result = CodeGeneratorUtil.generateCode(ItemCode.SYSTEM);
         Assert.assertEquals("S000001",result);
     }
 }

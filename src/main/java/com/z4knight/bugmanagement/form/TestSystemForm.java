@@ -6,6 +6,8 @@ import lombok.Data;
 /**
  * @Author Z4knight
  * @Date 2018/1/10 16:30
+ *
+ * 前端请求接口，被测系统提交表单数据
  */
 
 @Data

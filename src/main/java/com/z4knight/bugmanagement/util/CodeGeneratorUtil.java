@@ -24,13 +24,13 @@ public class CodeGeneratorUtil {
      *
      * @param itemCode
      * @return String 对应的项目编码
-     * 生成规则为： 一个大写字母开头，后跟六位自增数字
+     * 生成规则为： 一个或多个标识符，后跟六位自增数字
      * 比如： G000001
      */
     public static String generateCode(ItemCode itemCode) {
         StringBuilder sb = new StringBuilder();
         String code = itemCode.code();
-        int num = increaseNum(code);
+        int num = increaseNum(itemCode);
         String zero = addZero(num);
         sb.append(code);
         sb.append(zero);
@@ -56,15 +56,15 @@ public class CodeGeneratorUtil {
         return sb.toString();
     }
 
-    private static int increaseNum(String code) {
+    private static int increaseNum(ItemCode code) {
         int result = 0;
-        if ("G".equals(code)) {
+        if (ItemCode.GROUP.equals(code)) {
             result = ++groupNum;
-        } else if ("S".equals(code)) {
+        } else if (ItemCode.SYSTEM.equals(code)) {
             result = ++systemNum;
-        } else if ("P".equals(code)) {
+        } else if (ItemCode.ORDER.equals(code)) {
             result = ++projectNum;
-        } else if ("T".equals(code)) {
+        } else if (ItemCode.TASK.equals(code)) {
             result = ++taskNum;
         }
         return result;

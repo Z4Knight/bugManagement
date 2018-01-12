@@ -46,7 +46,7 @@ public class TestSystemMapperTest {
         system.setNote("");
         system.setOpen(OpenCode.OPEN.code());
         system.setRegister("tom");
-        system.setSystemId(CodeGeneratorUtil.generateCode(ItemCode.SYSTERM));
+        system.setSystemId(CodeGeneratorUtil.generateCode(ItemCode.SYSTEM));
         system.setSystemName("test1");
         system.setTestDirector("胖哥");
         system.setVersionNumber("v2.0");
@@ -70,7 +70,7 @@ public class TestSystemMapperTest {
         system.setNote("");
         system.setOpen(OpenCode.OPEN.code());
         system.setRegister("tom");
-        system.setSystemId(CodeGeneratorUtil.generateCode(ItemCode.SYSTERM));
+        system.setSystemId(CodeGeneratorUtil.generateCode(ItemCode.SYSTEM));
         system.setSystemName("test");
         system.setTestDirector("胖哥");
         system.setVersionNumber("v1.0");

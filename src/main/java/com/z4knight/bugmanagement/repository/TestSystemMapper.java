@@ -8,7 +8,7 @@ import java.util.List;
  * @Author Z4knight
  * @Date 2018/1/10 15:23
  *
- * 被测系统-mapper类
+ * 被测系统-mapper接口
  */
 public interface TestSystemMapper {
 
