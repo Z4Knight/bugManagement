@@ -5,7 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.z4knight.bugmanagement.dataobject.ProjectOrder;
 import com.z4knight.bugmanagement.enums.ErrorMsg;
 import com.z4knight.bugmanagement.enums.ItemCode;
-import com.z4knight.bugmanagement.enums.StateMsg;
+import com.z4knight.bugmanagement.enums.OrderState;
 import com.z4knight.bugmanagement.exception.ServiceException;
 import com.z4knight.bugmanagement.form.ProjectOrderForm;
 import com.z4knight.bugmanagement.repository.ProjectOrderMapper;
@@ -22,6 +22,8 @@ import java.util.List;
 /**
  * @Author Z4knight
  * @Date 2018/1/12 11:29
+ *
+ * 工单-服务实现类
  */
 
 @Service
@@ -62,7 +64,7 @@ public class ProjectOrderServiceImpl implements ProjectOrderService{
         // 设置来自于前端传送的接口信息
         BeanUtils.copyProperties(projectOrderForm, order);
         // 新的工单状态默认设置为：排期审批通过
-        order.setState(StateMsg.PASS_SCHEDULE_APPROVAL.getMsg());
+        order.setState(OrderState.PASS_SCHEDULE_APPROVAL.getMsg());
         // 设置自动生成编码
         order.setOrderId(CodeGeneratorUtil.generateCode(ItemCode.ORDER));
         // 设置登记与修改日期为系统当前日期

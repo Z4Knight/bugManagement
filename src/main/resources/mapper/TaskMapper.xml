@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapper.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.z4knight.bugmanagement.repository.ProjectTaskMapper">
+
+    <resultMap id="BaseResultMap"
+               type="com.z4knight.bugmanagement.dataobject.ProjectTask">
+        <result column="taskId" property="taskId" jdbcType="VARCHAR" />
+        <result column="taskName" property="taskName" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+        <result column="state" property="state" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="VARCHAR" />
+        <result column="priority" property="priority" jdbcType="VARCHAR" />
+        <result column="principal" property="principal" jdbcType="VARCHAR" />
+        <result column="executor" property="executor" jdbcType="VARCHAR" />
+        <result column="reviewer" property="reviewer" jdbcType="VARCHAR" />
+        <result column="handler" property="handler" jdbcType="VARCHAR" />
+        <result column="workLoad" property="workLoad" jdbcType="VARCHAR" />
+        <result column="mileStone" property="mileStone" jdbcType="VARCHAR" />
+        <result column="tailor" property="tailor" jdbcType="VARCHAR" />
+        <result column="automation" property="automation" jdbcType="VARCHAR" />
+        <result column="ownOrder" property="ownOrder" jdbcType="VARCHAR" />
+        <result column="ownSystem" property="ownSystem" jdbcType="VARCHAR" />
+        <result column="startTime" property="startTime" jdbcType="VARCHAR" />
+        <result column="endTime" property="endTime" jdbcType="VARCHAR" />
+        <result column="register" property="register" jdbcType="VARCHAR" />
+        <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+        <result column="createTime" property="createTime" jdbcType="VARCHAR"/>
+        <result column="editTime" property="editTime" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        taskId, taskName, description, state, type, priority, principal,
+         executor, reviewer, handler, workLoad, mileStone, tailor, automation,
+         ownOrder, ownSystem, startTime, endTime, register, modifier, createTime, editTime
+    </sql>
+
+    <select id="selectAll" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        FROM project_task
+    </select>
+
+    <select id="selectByTaskId" resultMap="BaseResultMap" parameterType="com.z4knight.bugmanagement.dataobject.ProjectTask" >
+        select
+        <include refid="Base_Column_List" />
+        from project_task
+        where taskId = #{taskId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByTaskName" resultMap="BaseResultMap" parameterType="com.z4knight.bugmanagement.dataobject.ProjectTask" >
+        select
+        <include refid="Base_Column_List" />
+        from project_task
+        where taskName = #{taskName,jdbcType=VARCHAR}
+    </select>
+
+
+    <insert id="save" parameterType="com.z4knight.bugmanagement.dataobject.ProjectTask">
+        insert into project_task
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="taskId != null" >
+                taskId,
+            </if>
+            <if test="taskName != null" >
+                taskName,
+            </if>
+            <if test="description != null" >
+                description,
+            </if>
+            <if test="state != null" >
+                state,
+            </if>
+            <if test="type != null" >
+                type,
+            </if>
+            <if test="priority != null" >
+                priority,
+            </if>
+            <if test="principal != null" >
+                principal,
+            </if>
+            <if test="executor != null" >
+                executor,
+            </if>
+            <if test="reviewer != null" >
+                reviewer,
+            </if>
+            <if test="handler != null" >
+                handler,
+            </if>
+            <if test="workLoad != null" >
+                workLoad,
+            </if>
+            <if test="mileStone != null" >
+                mileStone,
+            </if>
+            <if test="tailor != null" >
+                tailor,
+            </if>
+            <if test="automation != null" >
+                automation,
+            </if>
+            <if test="ownOrder != null" >
+                ownOrder,
+            </if>
+            <if test="ownSystem != null" >
+                ownSystem,
+            </if>
+            <if test="startTime != null" >
+                startTime,
+            </if>
+            <if test="endTime != null" >
+                endTime,
+            </if>
+            <if test="register != null" >
+                register,
+            </if>
+            <if test="modifier != null" >
+                modifier,
+            </if>
+            <if test="createTime != null" >
+                createTime,
+            </if>
+            <if test="editTime != null" >
+                editTime
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="taskId != null" >
+                #{taskId,jdbcType=VARCHAR},
+            </if>
+            <if test="taskName != null" >
+                #{taskName,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null" >
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null" >
+                #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null" >
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="priority != null" >
+                #{priority,jdbcType=VARCHAR},
+            </if>
+            <if test="principal != null" >
+                #{principal,jdbcType=VARCHAR},
+            </if>
+
+            <if test="executor != null" >
+                #{executor,jdbcType=VARCHAR},
+            </if>
+            <if test="reviewer != null" >
+                #{reviewer,jdbcType=VARCHAR},
+            </if>
+            <if test="handler != null" >
+                #{handler,jdbcType=VARCHAR},
+            </if>
+            <if test="workLoad != null" >
+                #{workLoad,jdbcType=VARCHAR},
+            </if>
+            <if test="mileStone != null" >
+                #{mileStone,jdbcType=VARCHAR},
+            </if>
+            <if test="tailor != null" >
+                #{tailor,jdbcType=VARCHAR},
+            </if>
+            <if test="automation != null" >
+                #{automation,jdbcType=VARCHAR},
+            </if>
+            <if test="ownOrder != null" >
+                #{ownOrder,jdbcType=VARCHAR},
+            </if>
+            <if test="ownSystem != null" >
+                #{ownSystem,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null" >
+                #{startTime,jdbcType=VARCHAR},
+            </if>
+            <if test="endTime != null" >
+                #{endTime,jdbcType=VARCHAR},
+            </if>
+
+            <if test="register != null" >
+                #{register,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null" >
+                #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="editTime != null" >
+                #{editTime,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="delete" parameterType="com.z4knight.bugmanagement.dataobject.ProjectTask">
+        delete from  project_task
+        where taskId = #{taskId,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="update" parameterType="com.z4knight.bugmanagement.dataobject.ProjectTask" >
+        update project_task
+        <set>
+            <if test="taskName != null" >
+                taskName = #{taskName,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null" >
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null" >
+                state = #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null" >
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="priority != null" >
+                priority = #{priority,jdbcType=VARCHAR},
+            </if>
+            <if test="principal != null" >
+                principal = #{principal,jdbcType=VARCHAR},
+            </if>
+
+            <if test="executor != null" >
+                executor = #{executor,jdbcType=VARCHAR},
+            </if>
+            <if test="reviewer != null" >
+                reviewer = #{reviewer,jdbcType=VARCHAR},
+            </if>
+            <if test="handler != null" >
+                handler = #{handler,jdbcType=VARCHAR},
+            </if>
+            <if test="workLoad != null" >
+                workLoad = #{workLoad,jdbcType=VARCHAR},
+            </if>
+            <if test="mileStone != null" >
+                mileStone = #{mileStone,jdbcType=VARCHAR},
+            </if>
+            <if test="tailor != null" >
+                tailor = #{tailor,jdbcType=VARCHAR},
+            </if>
+            <if test="automation != null" >
+                automation = #{automation,jdbcType=VARCHAR},
+            </if>
+            <if test="ownOrder != null" >
+                ownOrder = #{ownOrder,jdbcType=VARCHAR},
+            </if>
+            <if test="ownSystem != null" >
+                ownSystem = #{ownSystem,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null" >
+                startTime = #{startTime,jdbcType=VARCHAR},
+            </if>
+            <if test="endTime != null" >
+                endTime = #{endTime,jdbcType=VARCHAR},
+            </if>
+
+            <if test="register != null" >
+                register = #{register,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null" >
+                modifier = #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                createTime = #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="editTime != null" >
+                editTime = #{editTime,jdbcType=VARCHAR}
+            </if>
+        </set>
+        <where>
+            taskId = #{taskId,jdbcType=VARCHAR}
+        </where>
+    </update>
+    
+</mapper>

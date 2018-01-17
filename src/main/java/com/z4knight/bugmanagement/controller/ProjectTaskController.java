@@ -1,12 +1,12 @@
 package com.z4knight.bugmanagement.controller;
 
-import com.z4knight.bugmanagement.dataobject.ProjectOrder;
+import com.z4knight.bugmanagement.dataobject.ProjectTask;
 import com.z4knight.bugmanagement.enums.ReqType;
-import com.z4knight.bugmanagement.form.ProjectOrderForm;
-import com.z4knight.bugmanagement.param.ProjectOrderFilter;
+import com.z4knight.bugmanagement.form.ProjectTaskForm;
+import com.z4knight.bugmanagement.param.ProjectTaskFilter;
 import com.z4knight.bugmanagement.resultVO.Result;
 import com.z4knight.bugmanagement.resultVO.ResultGenerator;
-import com.z4knight.bugmanagement.service.ProjectOrderService;
+import com.z4knight.bugmanagement.service.ProjectTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,25 +14,23 @@ import java.util.List;
 
 /**
  * @Author Z4knight
- * @Date 2018/1/12 14:54
+ * @Date 2018/1/17 16:37
  *
- * 工单-控制类
+ * 任务-控制类
  */
-
 @RestController
-@RequestMapping("/orderManagement")
-public class ProjectOrderController {
-
+@RequestMapping("/taskManagement")
+public class ProjectTaskController {
     @Autowired
-    private ProjectOrderService service;
+    private ProjectTaskService service;
 
     @PostMapping("/list")
     public Result list(@RequestParam(value = "page", defaultValue = "0") Integer page,
                        @RequestParam(value = "size", defaultValue = "10") Integer size) {
         try {
             // 请求成功，则按接口定义，返回成功信息以及数据
-            List<ProjectOrder> orderList = service.selectAll(page, size);
-            return ResultGenerator.genSuccessResult(orderList);
+            List<ProjectTask> taskList = service.selectAll(page, size);
+            return ResultGenerator.genSuccessResult(taskList);
         } catch (Exception e) {
             // 请求失败，则按接口定义，返回失败信息
             return ResultGenerator.genFailResult(e.getMessage());
@@ -40,55 +38,56 @@ public class ProjectOrderController {
     }
 
     @PostMapping("/add")
-    public Result add(@RequestBody ProjectOrderForm projectOrderForm) {
+    public Result add(@RequestBody ProjectTaskForm projectTaskForm) {
         try {
             // 对输入数据进行校验
-            ProjectOrderFilter.valid(projectOrderForm, ReqType.ADD);
+            ProjectTaskFilter.valid(projectTaskForm, ReqType.ADD);
             // 请求成功，则按接口定义，返回成功信息以及数据
-            ProjectOrder projectOrder = service.save(projectOrderForm);
-            return ResultGenerator.genSuccessResult(projectOrder);
+            ProjectTask projectTask = service.save(projectTaskForm);
+            return ResultGenerator.genSuccessResult(projectTask);
         } catch (Exception e) {
             // 请求失败，则按接口定义，返回失败信息
             return ResultGenerator.genFailResult(e.getMessage());
         }
     }
 
-    @PostMapping("/selectByOrderId")
-    public Result selectByOrderId(@RequestParam(value = "orderId") String orderId) {
+    @PostMapping("/selectByTaskId")
+    public Result selectByTaskId(@RequestParam(value = "taskId") String taskId) {
         try {
             // 请求成功，则按接口定义，返回成功信息以及数据
-            ProjectOrder projectOrder = service.selectByOrderId(orderId);
-            return ResultGenerator.genSuccessResult(projectOrder);
+            ProjectTask projectTask = service.selectByTaskId(taskId);
+            return ResultGenerator.genSuccessResult(projectTask);
         } catch (Exception e) {
             // 请求失败，则按接口定义，返回失败信息
             return ResultGenerator.genFailResult(e.getMessage());
         }
     }
 
-    @PostMapping("/updateByOrderId")
-    public Result updateByOrderId(@RequestBody ProjectOrderForm projectOrderForm) {
+    @PostMapping("/updateByTaskId")
+    public Result updateByTaskId(@RequestBody ProjectTaskForm projectTaskForm) {
         try {
             // 对输入数据进行校验
-            ProjectOrderFilter.valid(projectOrderForm, ReqType.UPDATE);
+            ProjectTaskFilter.valid(projectTaskForm, ReqType.UPDATE);
             // 请求成功，则按接口定义，返回成功信息以及数据
-            ProjectOrder projectOrder = service.update(projectOrderForm);
-            return ResultGenerator.genSuccessResult(projectOrder);
+            ProjectTask projectTask = service.update(projectTaskForm);
+            return ResultGenerator.genSuccessResult(projectTask);
         } catch (Exception e) {
             // 请求失败，则按接口定义，返回失败信息
             return ResultGenerator.genFailResult(e.getMessage());
         }
     }
 
-    @DeleteMapping("/deleteByOrderId")
-    public Result deleteByOrderId(@RequestParam(value = "orderId") String orderId) {
+    @DeleteMapping("/deleteByTaskId")
+    public Result deleteByTaskId(@RequestParam(value = "taskId") String taskId) {
         try {
             // 请求成功，则按接口定义，返回成功信息以及数据
-            service.delete(orderId);
+            service.delete(taskId);
             return ResultGenerator.genSuccessResult();
         } catch (Exception e) {
             // 请求失败，则按接口定义，返回失败信息
             return ResultGenerator.genFailResult(e.getMessage());
         }
     }
+
 
 }

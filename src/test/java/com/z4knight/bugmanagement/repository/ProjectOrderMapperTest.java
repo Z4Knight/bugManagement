@@ -40,7 +40,7 @@ public class ProjectOrderMapperTest {
         order.setModifier("zk");
         order.setOrderId(CodeGeneratorUtil.generateCode(ItemCode.ORDER));
         order.setEndTime(DateUtil.getCurrentDate());
-        order.setOrderName("test");
+        order.setOrderName("testTest");
         order.setOwnSystem("test");
         order.setPrincipal("zdf");
         order.setPriority("G");

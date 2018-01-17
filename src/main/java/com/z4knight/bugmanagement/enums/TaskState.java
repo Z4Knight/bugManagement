@@ -2,19 +2,19 @@ package com.z4knight.bugmanagement.enums;
 
 /**
  * @Author Z4knight
- * @Date 2018/1/12 14:04
+ * @Date 2018/1/16 17:01
  *
- * 工单状态码
+ * 任务状态码
  */
-public enum StateMsg {
+public enum  TaskState {
 
-    PASS_SCHEDULE_APPROVAL("排期审批通过"),
-    DO_NOT_TEST("不需测试"),
+    NEW_TASK("新建"),
+    UNDER_REVIEW("审核中"),
     ;
 
     private final String msg;
 
-    StateMsg(String msg) {
+    TaskState(String msg) {
         this.msg = msg;
     }
 
