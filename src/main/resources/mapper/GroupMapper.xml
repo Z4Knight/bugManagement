@@ -102,9 +102,11 @@
         </trim>
     </insert>
 
-    <delete id="delete" parameterType="com.z4knight.bugmanagement.dataobject.ProjectGroup">
-        delete from  project_group
-        where groupId = #{groupId,jdbcType=VARCHAR}
+    <delete id="delete" parameterType="java.util.List">
+        delete from project_group where groupId in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </delete>
 
     <update id="update" parameterType="com.z4knight.bugmanagement.dataobject.ProjectGroup" >

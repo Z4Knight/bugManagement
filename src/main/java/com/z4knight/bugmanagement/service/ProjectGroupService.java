@@ -26,6 +26,6 @@ public interface ProjectGroupService {
 
     ProjectGroup selectByGroupName(String groupName);
 
-    void delete(String groupId);
+    int delete(List<String> groupIds);
 
 }

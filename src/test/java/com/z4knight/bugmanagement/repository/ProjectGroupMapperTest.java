@@ -2,6 +2,8 @@ package com.z4knight.bugmanagement.repository;
 
 
 import com.z4knight.bugmanagement.dataobject.ProjectGroup;
+import com.z4knight.bugmanagement.enums.ItemCode;
+import com.z4knight.bugmanagement.util.CodeGeneratorUtil;
 import com.z4knight.bugmanagement.util.DateUtil;
 
 import org.junit.Assert;
@@ -11,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 /**
@@ -39,9 +44,9 @@ public class ProjectGroupMapperTest {
         ProjectGroup group = new ProjectGroup();
         group.setCreateTime(DateUtil.getCurrentDate());
         group.setEditTime(DateUtil.getCurrentDate());
-        group.setGroupId("G000001");
+        group.setGroupId("G000009");
         group.setGroupManager("zk");
-        group.setGroupName("缺陷管理");
+        group.setGroupName("缺陷管理123");
         group.setModifier("zk");
         group.setNote("test");
         group.setOpen(0);
@@ -72,7 +77,10 @@ public class ProjectGroupMapperTest {
 
     @Test
     public void delete() {
-        mapper.delete("G000006");
+        List<String> groupIds = new ArrayList<>();
+        groupIds.add("G000006");
+        int result = mapper.delete(groupIds);
+        Assert.assertNotEquals(0, result);
     }
 
     @Test

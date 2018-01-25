@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapper.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.z4knight.bugmanagement.repository.GeneralProcessMapper">
+
+    <resultMap id="BaseResultMap"
+               type="com.z4knight.bugmanagement.dataobject.GeneralProcess">
+        <result column="uuid" property="uuid" jdbcType="VARCHAR"/>
+        <result column="objectId" property="objectId" jdbcType="VARCHAR" />
+        <result column="objectType" property="objectType" jdbcType="VARCHAR" />
+        <result column="objectName" property="objectName" jdbcType="VARCHAR" />
+        <result column="procDefId" property="procDefId" jdbcType="VARCHAR" />
+        <result column="procInstId" property="procInstId" jdbcType="VARCHAR" />
+        <result column="taskId" property="taskId" jdbcType="VARCHAR" />
+        <result column="executionId" property="executionId" jdbcType="VARCHAR" />
+        <result column="taskName" property="taskName" jdbcType="VARCHAR" />
+        <result column="procStatus" property="procStatus" jdbcType="VARCHAR" />
+        <result column="procDate" property="procDate" jdbcType="VARCHAR" />
+        <result column="procUser" property="procUser" jdbcType="VARCHAR" />
+        <result column="procResult" property="procResult" jdbcType="VARCHAR" />
+        <result column="procDesp" property="procDesp" jdbcType="VARCHAR" />
+        <result column="procAssigner" property="procAssigner" jdbcType="VARCHAR" />
+        <result column="register" property="register" jdbcType="VARCHAR" />
+        <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+        <result column="createTime" property="createTime" jdbcType="VARCHAR"/>
+        <result column="editTime" property="editTime" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="HeadResultMap"
+               type="com.z4knight.bugmanagement.vo.GeneralProcessVO">
+        <result column="objectType" property="objectType" jdbcType="VARCHAR" />
+        <result column="objectId" property="objectId" jdbcType="VARCHAR" />
+        <result column="taskName" property="taskName" jdbcType="VARCHAR" />
+        <result column="objectName" property="objectName" jdbcType="VARCHAR" />
+        <result column="procStatus" property="procStatus" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        objectId, objectType, objectName,procDefId, procInstId, taskId, executionId,
+         taskName, procStatus, procDate, procUser, procResult, procDesp,
+         procAssigner, register, modifier, createTime, editTime
+    </sql>
+
+    <sql id="For_Head_Column_List">
+        objectType, objectId, taskName, objectName, procStatus
+    </sql>
+
+    <select id="selectAll" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        FROM general_process
+    </select>
+
+    <select id="selectByObjectId" resultMap="BaseResultMap" parameterType="com.z4knight.bugmanagement.dataobject.GeneralProcess" >
+        select
+        <include refid="Base_Column_List" />
+        from general_process
+        where objectId = #{objectId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByProcAssigner" resultMap="HeadResultMap" parameterType="com.z4knight.bugmanagement.dataobject.GeneralProcess" >
+        select
+        <include refid="For_Head_Column_List" />
+        from general_process
+        where procAssigner = #{procAssigner,jdbcType=VARCHAR}
+    </select>
+
+
+    <insert id="save" parameterType="com.z4knight.bugmanagement.dataobject.GeneralProcess">
+        insert into general_process
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="uuid != null" >
+                uuid,
+            </if>
+
+            <if test="objectId != null" >
+                objectId,
+            </if>
+            <if test="objectType != null" >
+                objectType,
+            </if>
+
+            <if test="objectName != null" >
+                objectName,
+            </if>
+            <if test="procDefId != null" >
+                procDefId,
+            </if>
+            <if test="procInstId != null" >
+                procInstId,
+            </if>
+            <if test="taskId != null" >
+                taskId,
+            </if>
+            <if test="executionId != null" >
+                executionId,
+            </if>
+            <if test="taskName != null" >
+                taskName,
+            </if>
+            <if test="procStatus != null" >
+                procStatus,
+            </if>
+            <if test="procDate != null" >
+                procDate,
+            </if>
+            <if test="procUser != null" >
+                procUser,
+            </if>
+            <if test="procResult != null" >
+                procResult,
+            </if>
+            <if test="procDesp != null" >
+                procDesp,
+            </if>
+            <if test="procAssigner != null" >
+                procAssigner,
+            </if>
+            <if test="register != null" >
+                register,
+            </if>
+            <if test="modifier != null" >
+                modifier,
+            </if>
+            <if test="createTime != null" >
+                createTime,
+            </if>
+            <if test="editTime != null" >
+                editTime
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="uuid != null" >
+                #{uuid,jdbcType=VARCHAR},
+            </if>
+
+            <if test="objectId != null" >
+                #{objectId,jdbcType=VARCHAR},
+            </if>
+            <if test="objectType != null" >
+                #{objectType,jdbcType=VARCHAR},
+            </if>
+            <if test="objectName != null" >
+                #{objectName,jdbcType=VARCHAR},
+            </if>
+
+            <if test="procDefId != null" >
+                #{procDefId,jdbcType=VARCHAR},
+            </if>
+            <if test="procInstId != null" >
+                #{procInstId,jdbcType=VARCHAR},
+            </if>
+            <if test="taskId != null" >
+                #{taskId,jdbcType=VARCHAR},
+            </if>
+            <if test="executionId != null" >
+                #{executionId,jdbcType=VARCHAR},
+            </if>
+
+            <if test="taskName != null" >
+                #{taskName,jdbcType=VARCHAR},
+            </if>
+            <if test="procStatus != null" >
+                #{procStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="procDate != null" >
+                #{procDate,jdbcType=VARCHAR},
+            </if>
+            <if test="procUser != null" >
+                #{procUser,jdbcType=VARCHAR},
+            </if>
+            <if test="procResult != null" >
+                #{procResult,jdbcType=VARCHAR},
+            </if>
+            <if test="procDesp != null" >
+                #{procDesp,jdbcType=VARCHAR},
+            </if>
+            <if test="procAssigner != null" >
+                #{procAssigner,jdbcType=VARCHAR},
+            </if>
+
+            <if test="register != null" >
+                #{register,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null" >
+                #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="editTime != null" >
+                #{editTime,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="delete" parameterType="com.z4knight.bugmanagement.dataobject.GeneralProcess">
+        delete from  general_process
+        where objectId = #{objectId,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="update" parameterType="com.z4knight.bugmanagement.dataobject.GeneralProcess" >
+        update general_process
+        <set>
+            <if test="objectType != null" >
+                objectType = #{objectType,jdbcType=VARCHAR},
+            </if>
+            <if test="objectName != null" >
+                objectName = #{objectName,jdbcType=VARCHAR},
+            </if>
+
+            <if test="procDefId != null" >
+                procDefId = #{procDefId,jdbcType=VARCHAR},
+            </if>
+            <if test="procInstId != null" >
+                procInstId = #{procInstId,jdbcType=VARCHAR},
+            </if>
+            <if test="taskId != null" >
+                taskId = #{taskId,jdbcType=VARCHAR},
+            </if>
+            <if test="executionId != null" >
+                executionId = #{executionId,jdbcType=VARCHAR},
+            </if>
+
+            <if test="taskName != null" >
+                taskName = #{taskName,jdbcType=VARCHAR},
+            </if>
+            <if test="procStatus != null" >
+                procStatus = #{procStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="procDate != null" >
+                procDate = #{procDate,jdbcType=VARCHAR},
+            </if>
+            <if test="procUser != null" >
+                procUser = #{procUser,jdbcType=VARCHAR},
+            </if>
+            <if test="procResult != null" >
+                procResult = #{procResult,jdbcType=VARCHAR},
+            </if>
+
+            <if test="procDesp != null" >
+                procDesp = #{procDesp,jdbcType=VARCHAR},
+            </if>
+            <if test="procAssigner != null" >
+                procAssigner = #{procAssigner,jdbcType=VARCHAR},
+            </if>
+
+
+            <if test="register != null" >
+                register = #{register,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null" >
+                modifier = #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                createTime = #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="editTime != null" >
+                editTime = #{editTime,jdbcType=VARCHAR}
+            </if>
+        </set>
+        <where>
+            objectId = #{objectId,jdbcType=VARCHAR}
+        </where>
+    </update>
+    
+</mapper>

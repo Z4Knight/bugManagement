@@ -28,7 +28,7 @@ public class ProjectOrderController {
 
     @PostMapping("/list")
     public Result list(@RequestParam(value = "page", defaultValue = "0") Integer page,
-                       @RequestParam(value = "size", defaultValue = "10") Integer size) {
+                       @RequestParam(value = "size", defaultValue = "30") Integer size) {
         try {
             // 请求成功，则按接口定义，返回成功信息以及数据
             List<ProjectOrder> orderList = service.selectAll(page, size);

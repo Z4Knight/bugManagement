@@ -79,7 +79,7 @@ public class TestSystemMapperTest {
 
     @Test
     public void delete() throws Exception {
-        mapper.delete("S000001");
+//        mapper.delete("S000001");
     }
 
     @Test

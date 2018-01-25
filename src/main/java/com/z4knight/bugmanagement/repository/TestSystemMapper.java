@@ -20,7 +20,7 @@ public interface TestSystemMapper {
 
     void save(TestSystem system);
 
-    void delete(String systemId);
+    int delete(List<String> systemIds);
 
     TestSystem selectBySystemName(String systemName);
 }

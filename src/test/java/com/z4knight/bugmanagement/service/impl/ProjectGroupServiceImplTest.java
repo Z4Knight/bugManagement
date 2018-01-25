@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -50,5 +51,16 @@ public class ProjectGroupServiceImplTest {
         projectGroupForm.setRegister("老铁");
         ProjectGroup group = projectGroupService.save(projectGroupForm);
         Assert.assertNotNull(group);
+    }
+
+
+    @Test
+    public void delete() {
+        List<String> groupIds = new ArrayList<>();
+        groupIds.add("G000007");
+        groupIds.add("G000008");
+        int result = projectGroupService.delete(groupIds);
+        Assert.assertEquals(2, result);
+
     }
 }

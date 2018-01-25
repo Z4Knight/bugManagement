@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.z4knight.bugmanagement.dataobject.TestSystem;
 import com.z4knight.bugmanagement.enums.ErrorMsg;
 import com.z4knight.bugmanagement.enums.ItemCode;
+import com.z4knight.bugmanagement.enums.LoggerMsg;
 import com.z4knight.bugmanagement.enums.OpenCode;
 import com.z4knight.bugmanagement.exception.ServiceException;
 import com.z4knight.bugmanagement.form.TestSystemForm;
@@ -12,6 +13,7 @@ import com.z4knight.bugmanagement.repository.TestSystemMapper;
 import com.z4knight.bugmanagement.service.TestSystemService;
 import com.z4knight.bugmanagement.util.CodeGeneratorUtil;
 import com.z4knight.bugmanagement.util.DateUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +27,7 @@ import java.util.List;
  *
  * 被测系统-服务实现类
  */
-
+@Slf4j
 @Service
 public class TestSystemServiceImpl implements TestSystemService {
 
@@ -41,6 +43,7 @@ public class TestSystemServiceImpl implements TestSystemService {
         if (startPage == 0 && pageRow == 0) {
             List<TestSystem> systemList = mapper.selectAll();
             if (systemList != null && systemList.size() > 1000L) {
+                log.error(LoggerMsg.SYSTEM_MANAGER_QUERY_LIST.getMsg() + ", ErrorMsg={}",ErrorMsg.DATA_OVERFLOW.getMsg());
                 throw new ServiceException(ErrorMsg.DATA_OVERFLOW.getMsg());
             }
         }
@@ -49,8 +52,10 @@ public class TestSystemServiceImpl implements TestSystemService {
         PageInfo<TestSystem> systemPageInfo = new PageInfo<>(systemList);
         systemList = systemPageInfo.getList();
         if (null == systemList || systemList.size() == 0) {
+            log.error(LoggerMsg.SYSTEM_MANAGER_QUERY_LIST.getMsg() + ", ErrorMsg={}",ErrorMsg.DATA_NOT_EXIST.getMsg());
             throw new ServiceException(ErrorMsg.DATA_NOT_EXIST.getMsg());
         }
+        log.info(LoggerMsg.SYSTEM_MANAGER_QUERY_LIST.getMsg() + ", List={}", systemList);
         return systemList;
     }
 
@@ -59,6 +64,7 @@ public class TestSystemServiceImpl implements TestSystemService {
         TestSystem system = null;
         system = selectBySystemName(testSystemForm.getSystemName());
         if (null != system) {
+            log.error(LoggerMsg.SYSTEM_MANAGER_QUERY_LIST.getMsg() + ", ErrorMsg={}",ErrorMsg.SYSTEM_NAME_EXIST.getMsg());
             throw new ServiceException(ErrorMsg.SYSTEM_NAME_EXIST.getMsg());
         }
         system = new TestSystem();
@@ -72,6 +78,7 @@ public class TestSystemServiceImpl implements TestSystemService {
         system.setCreateTime(DateUtil.getCurrentDate());
         system.setEditTime(DateUtil.getCurrentDate());
         mapper.save(system);
+        log.info(LoggerMsg.SYSTEM_MANAGER_ADD.getMsg() + ", system={}", system);
         return system;
     }
 
@@ -80,6 +87,7 @@ public class TestSystemServiceImpl implements TestSystemService {
         TestSystem result = null;
         result = selectBySystemName(testSystemForm.getSystemName());
         if (null != result && !result.getSystemId().equals(testSystemForm.getSystemId())) {
+            log.error(LoggerMsg.SYSTEM_MANAGER_QUERY_LIST.getMsg() + ", ErrorMsg={}",ErrorMsg.SYSTEM_NAME_EXIST.getMsg());
             throw new ServiceException(ErrorMsg.SYSTEM_NAME_EXIST.getMsg());
         }
         result = new TestSystem();
@@ -92,39 +100,45 @@ public class TestSystemServiceImpl implements TestSystemService {
         result.setEditTime(DateUtil.getCurrentDate());
         result.setRegister(system.getRegister());
         mapper.update(result);
+        log.info(LoggerMsg.SYSTEM_MANAGER_UPDATE.getMsg() + ", system={}", system);
         return result;
     }
 
     @Override
     public TestSystem selectBySystemId(String systemId) {
         if (StringUtils.isEmpty(systemId)) {
+            log.error(LoggerMsg.SYSTEM_MANAGER_QUERY_POINT.getMsg() + ", ErrorMsg={}",ErrorMsg.SYSTEM_CODE_REQUIRED.getMsg());
             throw new ServiceException(ErrorMsg.SYSTEM_CODE_REQUIRED.getMsg());
         }
         TestSystem system = mapper.selectBySystemId(systemId);
         if (null == system) {
+            log.error(LoggerMsg.SYSTEM_MANAGER_QUERY_POINT.getMsg() + ", ErrorMsg={}",ErrorMsg.DATA_NOT_EXIST.getMsg());
             throw new ServiceException(ErrorMsg.DATA_NOT_EXIST.getMsg());
         }
+        log.info(LoggerMsg.SYSTEM_MANAGER_QUERY_POINT.getMsg() + ", system={}", system);
         return system;
     }
 
     @Override
     public TestSystem selectBySystemName(String systemName) {
         if (StringUtils.isEmpty(systemName)) {
+            log.error(LoggerMsg.SYSTEM_MANAGER_QUERY_POINT.getMsg() + ", ErrorMsg={}",ErrorMsg.SYSTEM_NAME_REQUIRED.getMsg());
             throw new ServiceException(ErrorMsg.SYSTEM_NAME_REQUIRED.getMsg());
         }
         TestSystem system = mapper.selectBySystemName(systemName);
+        log.info(LoggerMsg.SYSTEM_MANAGER_QUERY_POINT.getMsg() + ", system={}", system);
         return system;
     }
 
     @Override
-    public void delete(String systemId) {
-        if (StringUtils.isEmpty(systemId)) {
-            throw new ServiceException(ErrorMsg.SYSTEM_CODE_REQUIRED.getMsg());
+    public int delete(List<String> systemIds) {
+        if (systemIds != null || systemIds.size() > 0) {
+            int result = mapper.delete(systemIds);
+            log.info(LoggerMsg.SYSTEM_MANAGER_DELETE.getMsg() + ", delete numbers={}", result);
+            return result;
+        } else {
+            log.error(LoggerMsg.SYSTEM_MANAGER_DELETE.getMsg() + ", ErrorMsg={}",ErrorMsg.NO_MESSAGE_DELETED.getMsg());
+            throw new ServiceException(ErrorMsg.NO_MESSAGE_DELETED.getMsg());
         }
-        TestSystem system = selectBySystemId(systemId);
-        if (null == system) {
-            throw new ServiceException(ErrorMsg.DATA_NOT_EXIST.getMsg());
-        }
-        mapper.delete(systemId);
     }
 }

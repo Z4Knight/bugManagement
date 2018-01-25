@@ -20,7 +20,7 @@ public interface ProjectGroupMapper {
 
     void save(ProjectGroup group);
 
-    void delete(String groupId);
+    int delete(List<String> groupIds);
 
     ProjectGroup selectByGroupName(String groupName);
 }

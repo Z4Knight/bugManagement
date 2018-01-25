@@ -123,9 +123,11 @@
         </trim>
     </insert>
 
-    <delete id="delete" parameterType="com.z4knight.bugmanagement.dataobject.TestSystem">
-        delete from  test_system
-        where systemId = #{systemId,jdbcType=VARCHAR}
+    <delete id="delete" parameterType="java.util.List">
+        delete from  test_system WHERE systemId IN
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+        #{item}
+    </foreach>
     </delete>
 
     <update id="update" parameterType="com.z4knight.bugmanagement.dataobject.TestSystem" >

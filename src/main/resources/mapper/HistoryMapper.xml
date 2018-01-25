@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapper.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.z4knight.bugmanagement.repository.HistoricProcessMapper">
+
+    <resultMap id="BaseResultMap"
+               type="com.z4knight.bugmanagement.dataobject.HistoricProcess">
+        <result column="uuid" property="uuid" jdbcType="VARCHAR"/>
+        <result column="objectId" property="objectId" jdbcType="VARCHAR" />
+        <result column="taskName" property="taskName" jdbcType="VARCHAR" />
+        <result column="taskId" property="taskId" jdbcType="VARCHAR" />
+        <result column="createTime" property="createTime" jdbcType="VARCHAR"/>
+        <result column="procTime" property="procTime" jdbcType="VARCHAR" />
+        <result column="procUser" property="procUser" jdbcType="VARCHAR" />
+        <result column="procAssigner" property="procAssigner" jdbcType="VARCHAR" />
+        <result column="procResult" property="procResult" jdbcType="VARCHAR" />
+        <result column="procDesp" property="procDesp" jdbcType="VARCHAR" />
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+         taskName, createTime, procTime, procUser,
+         procAssigner, procResult, procDesp
+    </sql>
+
+    <select id="selectAll" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        FROM history_process
+    </select>
+
+    <select id="selectByObjectId" resultMap="BaseResultMap" parameterType="com.z4knight.bugmanagement.dataobject.HistoricProcess" >
+        select
+        <include refid="Base_Column_List" />
+        from history_process
+        where objectId = #{objectId,jdbcType=VARCHAR}
+    </select>
+
+
+    <insert id="save" parameterType="com.z4knight.bugmanagement.dataobject.HistoricProcess">
+        insert into history_process
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="uuid != null" >
+                uuid,
+            </if>
+            <if test="objectId != null" >
+                objectId,
+            </if>
+            <if test="taskName != null" >
+                taskName,
+            </if>
+            <if test="taskId != null" >
+                taskId,
+            </if>
+            <if test="createTime != null" >
+                createTime,
+            </if>
+
+            <if test="procTime != null" >
+                procTime,
+            </if>
+            <if test="procUser != null" >
+                procUser,
+            </if>
+            <if test="procAssigner != null" >
+                procAssigner,
+            </if>
+            <if test="procResult != null" >
+                procResult,
+            </if>
+            <if test="procDesp != null" >
+                procDesp
+            </if>
+        </trim>
+
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="uuid != null" >
+                #{uuid,jdbcType=VARCHAR},
+            </if>
+
+            <if test="objectId != null" >
+                #{objectId,jdbcType=VARCHAR},
+            </if>
+
+            <if test="taskName != null" >
+            #{taskName,jdbcType=VARCHAR},
+            </if>
+
+            <if test="taskId != null" >
+                #{taskId,jdbcType=VARCHAR},
+            </if>
+
+            <if test="createTime != null" >
+                #{createTime,jdbcType=VARCHAR},
+            </if>
+
+            <if test="procTime != null" >
+                #{procTime,jdbcType=VARCHAR},
+            </if>
+            <if test="procUser != null" >
+                #{procUser,jdbcType=VARCHAR},
+            </if>
+            <if test="procAssigner != null" >
+                #{procAssigner,jdbcType=VARCHAR},
+            </if>
+
+            <if test="procResult != null" >
+                #{procResult,jdbcType=VARCHAR},
+            </if>
+            <if test="procDesp != null" >
+                #{procDesp,jdbcType=VARCHAR}
+            </if>
+
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.z4knight.bugmanagement.dataobject.HistoricProcess" >
+        update history_process
+        <set>
+            <if test="procTime != null" >
+                procTime = #{procTime,jdbcType=VARCHAR},
+            </if>
+            <if test="procAssigner != null" >
+                procAssigner = #{procAssigner,jdbcType=VARCHAR},
+            </if>
+            <if test="procResult != null" >
+                procResult = #{procResult,jdbcType=VARCHAR},
+            </if>
+
+            <if test="procDesp != null" >
+                procDesp = #{procDesp,jdbcType=VARCHAR}
+            </if>
+
+        </set>
+        <where>
+            objectId = #{objectId,jdbcType=VARCHAR} AND taskId = #{taskId, jdbcType=VARCHAR}
+        </where>
+    </update>
+    
+</mapper>

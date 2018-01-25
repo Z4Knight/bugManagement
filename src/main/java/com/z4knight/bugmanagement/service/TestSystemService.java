@@ -23,6 +23,6 @@ public interface TestSystemService {
 
     TestSystem selectBySystemName(String systemName);
 
-    void delete(String groupId);
+    int delete(List<String> systemIds);
 
 }
