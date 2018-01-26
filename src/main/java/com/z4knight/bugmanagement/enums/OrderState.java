@@ -14,6 +14,13 @@ public enum OrderState {
 
     // 关闭类型
     NOT_CLOSED("未关闭"),
+    NORMAL_CLOSED("正常关闭"),
+    FORCE_CLOSED("强制关闭"),
+
+    // 修改来源-管理界面 0、流转界面 1
+    FROM_MANAGER("管理"),
+    FROM_PROCESS("流转"),
+
     ;
 
     private final String msg;

@@ -107,26 +107,6 @@ public class ProjectOrderServiceImpl implements ProjectOrderService{
         return order;
     }
 
-    @Override
-    public ProjectOrderPaneVO updateToPane(ProjectOrderForm projectOrderForm) {
-        return null;
-    }
-
-    @Override
-    public ProjectOrderProcessVO updateToProfile(ProcessOrderForm processOrderForm) {
-        return null;
-    }
-
-    @Override
-    public ProjectOrderDetailVO selectByOrderIdToDetail(String orderId) {
-        return null;
-    }
-
-    @Override
-    public ProjectOrderProcessVO selectByOrderIdToProfile(String orderId) {
-        return null;
-    }
-
     private void storeOrderCreateProcess(ProjectOrder order) {
         HistoricProcess process = new HistoricProcess();
         process.setObjectId(order.getOrderId());
@@ -167,31 +147,78 @@ public class ProjectOrderServiceImpl implements ProjectOrderService{
         generalProcessService.save(process, procDefKey);
     }
 
-//    @Override
-//    public ProjectOrderVO update(ProjectOrderForm projectOrderForm) {
-//        ProjectOrderVO result = selectByOrderName(projectOrderForm.getOrderName());
-//        // 判断工单名称是否重复
-//        if (null != result && !result.getOrderId().equals(projectOrderForm.getOrderId())) {
-//            throw new ServiceException(ErrorMsg.ORDER_NAME_EXIST.getMsg());
-//        }
-//        // 判断工单是否流转
-//        if (null != generalProcessService.selectByObjectId(projectOrderForm.getOrderId())) {
-//            throw new ServiceException(ErrorMsg.ORDER_HAS_FLOW_NOT_MODIFIY.getMsg());
-//        }
-//        result = new ProjectOrderVO();
-//        ProjectOrderVO order = selectByOrderId(projectOrderForm.getOrderId());
-//        // 设置来自于前端传送的接口信息
-//        BeanUtils.copyProperties(projectOrderForm, result);
-//        // 设置其他原本存于数据库中的数据
-//        result.setState(order.getState());
-//        result.setCreateTime(order.getCreateTime());
-//        result.setEditTime(DateUtil.getCurrentDate());
-//        result.setRegister(order.getRegister());
-//        mapper.update(result);
-//        return result;
-//    }
+    // 更新来自于工单管理界面的信息
+    @Override
+    public ProjectOrderPaneVO updateToPane(ProjectOrderForm projectOrderForm) {
+        ProjectOrder order = new ProjectOrder();
+        ProjectOrder originOrder = selectByOrderId(projectOrderForm.getOrderId());
+        // 设置数据库中信息
+        BeanUtils.copyProperties(originOrder, order);
+        // 设置前端信息
+        BeanUtils.copyProperties(projectOrderForm, order);
+        ProjectOrder result = update(order, OrderState.FROM_MANAGER);
+        ProjectOrderPaneVO projectOrderPaneVO = new ProjectOrderPaneVO();
+        BeanUtils.copyProperties(result, projectOrderPaneVO);
+        return projectOrderPaneVO;
+    }
 
+    // 更新来自于工单流转的信息
+    @Override
+    public ProjectOrderProcessVO updateToProfile(ProcessOrderForm processOrderForm, OrderState orderState) {
+        ProjectOrder order = new ProjectOrder();
+        ProjectOrder originOrder = selectByOrderId(processOrderForm.getOrderId());
+        // 设置数据库中信息
+        BeanUtils.copyProperties(originOrder, order);
+        // 设置前端信息
+        BeanUtils.copyProperties(processOrderForm, order);
+        // 判断工单是否结束
+        if (orderState.equals(OrderState.NORMAL_CLOSED)) {
+            order.setIsClosed(GeneralMsg.YES.getMsg());
+            order.setCloseDate(DateUtil.getCurrentDate());
+            order.setCloseType(OrderState.NORMAL_CLOSED.getMsg());
+            order.setCloseDesp(processOrderForm.getProcDesp());
+            order.setCloseUser(processOrderForm.getProcUser());
+        }
+        ProjectOrder result = update(order, OrderState.FROM_PROCESS);
+        ProjectOrderProcessVO projectOrderProcessVO = new ProjectOrderProcessVO();
+        BeanUtils.copyProperties(result, projectOrderProcessVO);
+        return projectOrderProcessVO;
+    }
 
+    private ProjectOrder update(ProjectOrder order, OrderState orderState) {
+        ProjectOrder result = selectByOrderName(order.getOrderName());
+        // 判断工单名称是否重复
+        if (null != result && !result.getOrderId().equals(order.getOrderId())) {
+            log.error(LoggerMsg.ORDER_MANAGER_UPDATE.getMsg() + ", ErrorMsg={}", ErrorMsg.ORDER_NAME_EXIST.getMsg());
+            throw new ServiceException(ErrorMsg.ORDER_NAME_EXIST.getMsg());
+        }
+        // 只有来自工单管理界面修改，才需要判断工单是否流转
+        if (orderState.equals(OrderState.FROM_MANAGER) && null != generalProcessService.selectByObjectId(order.getOrderId())) {
+            log.error(LoggerMsg.ORDER_MANAGER_UPDATE.getMsg() + ", ErrorMsg={}", ErrorMsg.ORDER_HAS_FLOW_NOT_MODIFIY.getMsg());
+            throw new ServiceException(ErrorMsg.ORDER_HAS_FLOW_NOT_MODIFIY.getMsg());
+        }
+        log.info(LoggerMsg.ORDER_MANAGER_UPDATE.getMsg() + ", order={}", order);
+        mapper.update(order);
+        return order;
+    }
+
+    // 工单管理界面，查询工单详情信息
+    @Override
+    public ProjectOrderDetailVO selectByOrderIdToDetail(String orderId) {
+        ProjectOrder order = selectByOrderId(orderId);
+        ProjectOrderDetailVO orderDetail = new ProjectOrderDetailVO();
+        BeanUtils.copyProperties(order, orderDetail);
+        return orderDetail;
+    }
+
+    // 工单流转界面，查询工单流转信息
+    @Override
+    public ProjectOrderProcessVO selectByOrderIdToProfile(String orderId) {
+        ProjectOrder order = selectByOrderId(orderId);
+        ProjectOrderProcessVO orderProcess = new ProjectOrderProcessVO();
+        BeanUtils.copyProperties(order, orderProcess);
+        return orderProcess;
+    }
 
     private ProjectOrder selectByOrderId(String orderId) {
         if (StringUtils.isEmpty(orderId)) {
@@ -221,29 +248,38 @@ public class ProjectOrderServiceImpl implements ProjectOrderService{
     @Override
     public int delete(List<String> orderIds) {
         if (null != orderIds && orderIds.size() > 0) {
-
+            int result = 0;
+            for (String orderId : orderIds) {
+                deleteByOrderId(orderId);
+                result++;
+            }
+            log.info(LoggerMsg.ORDER_MANAGER_DELETE.getMsg() + ", delete numbers={}", result);
+            return result;
         } else {
             log.error(LoggerMsg.ORDER_MANAGER_DELETE.getMsg() + ", ErrorMsg={}", ErrorMsg.NO_MESSAGE_DELETED.getMsg());
             throw new ServiceException(ErrorMsg.NO_MESSAGE_DELETED.getMsg());
         }
-        return 0;
     }
 
 
 
     private void deleteByOrderId(String orderId) {
         if (StringUtils.isEmpty(orderId)) {
+            log.error(LoggerMsg.ORDER_MANAGER_DELETE.getMsg() + ", ErrorMsg={}", ErrorMsg.ORDER_CODE_REQUIRED.getMsg());
             throw new ServiceException(ErrorMsg.ORDER_CODE_REQUIRED.getMsg());
         }
         // 判断工单是否流转
         if (null != generalProcessService.selectByObjectId(orderId)) {
+            log.error(LoggerMsg.ORDER_MANAGER_DELETE.getMsg() + ", ErrorMsg={}", ErrorMsg.ORDER_HAS_FLOW_NOT_DELETE.getMsg());
             throw new ServiceException(ErrorMsg.ORDER_HAS_FLOW_NOT_DELETE.getMsg());
         }
 
         ProjectOrder order = selectByOrderId(orderId);
         if (null == order) {
+            log.error(LoggerMsg.ORDER_MANAGER_DELETE.getMsg() + ", ErrorMsg={}", ErrorMsg.DATA_NOT_EXIST.getMsg());
             throw new ServiceException(ErrorMsg.DATA_NOT_EXIST.getMsg());
         }
+        log.info(LoggerMsg.ORDER_MANAGER_DELETE.getMsg() + ", delete orderId={}", orderId);
         mapper.delete(orderId);
     }
 }

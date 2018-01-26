@@ -10,8 +10,10 @@ import com.z4knight.bugmanagement.form.ProcessOrderForm;
 import com.z4knight.bugmanagement.repository.GeneralProcessMapper;
 import com.z4knight.bugmanagement.service.GeneralProcessService;
 import com.z4knight.bugmanagement.service.HistoricProcessService;
+import com.z4knight.bugmanagement.service.ProjectOrderService;
 import com.z4knight.bugmanagement.util.DateUtil;
 import com.z4knight.bugmanagement.vo.GeneralProcessVO;
+import com.z4knight.bugmanagement.vo.ProjectOrderProcessVO;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
@@ -47,10 +49,13 @@ public class GeneralProcessServiceImpl implements GeneralProcessService {
     @Autowired
     private HistoricProcessService historicProcessService;
 
+    @Autowired
+    private ProjectOrderService projectOrderService;
 
 
-    @Override
-    public List<GeneralProcess> selectAll() {
+
+
+    private List<GeneralProcess> selectAll() {
         List<GeneralProcess> generalProcessList = mapper.selectAll();
         if (null == generalProcessList || generalProcessList.size() == 0) {
             log.error(LoggerMsg.PROCESS_MANAGER_MSG_QUERY_LIST.getMsg() + ", ErrorMsg={}", ErrorMsg.DATA_NOT_EXIST.getMsg());
@@ -62,7 +67,7 @@ public class GeneralProcessServiceImpl implements GeneralProcessService {
 
 
     @Override
-    public GeneralProcess update(ProcessOrderForm orderForm) {
+    public GeneralProcess updateOrder(ProcessOrderForm orderForm) {
         GeneralProcess result = new GeneralProcess();
         GeneralProcess generalProcess = completeTask(orderForm);
         BeanUtils.copyProperties(generalProcess, result);
@@ -72,7 +77,10 @@ public class GeneralProcessServiceImpl implements GeneralProcessService {
         // 判断流程是否结束
         if (null == task) {
             storeOrderEndProcess(generalProcess);
+            // 从流转中删除对应业务id
             delete(generalProcess.getObjectId());
+            // 流程结束，将工单设置为关闭状态
+            projectOrderService.updateToProfile(orderForm, OrderState.NORMAL_CLOSED);
         } else {
             result.setProcDesp(orderForm.getProcDesp());
             result.setTaskName(task.getName());
@@ -87,6 +95,8 @@ public class GeneralProcessServiceImpl implements GeneralProcessService {
             mapper.update(result);
             // 保存流转记录
             storeProcess(result);
+            // 修改对应工单信息
+            projectOrderService.updateToProfile(orderForm, OrderState.NOT_CLOSED);
         }
 
         return result;
@@ -153,6 +163,20 @@ public class GeneralProcessServiceImpl implements GeneralProcessService {
     }
 
     @Override
+    public ProjectOrderProcessVO selectByOrderIdToOrder(String orderId) {
+        if (StringUtils.isEmpty(orderId)) {
+            log.error(LoggerMsg.PROCESS_MANAGER_MSG_QUERY_POINT.getMsg() + ", ErrorMsg={}", ErrorMsg.ORDER_CODE_REQUIRED.getMsg());
+            throw new ServiceException(ErrorMsg.ORDER_CODE_REQUIRED.getMsg());
+        }
+        ProjectOrderProcessVO projectOrderProcessVO = projectOrderService.selectByOrderIdToProfile(orderId);
+        GeneralProcess process = selectByObjectId(orderId);
+        projectOrderProcessVO.setTaskName(process.getTaskName());
+        projectOrderProcessVO.setProcUser(process.getProcUser());
+        log.info(LoggerMsg.PROCESS_MANAGER_MSG_QUERY_POINT.getMsg() + ", process={}", process);
+        return projectOrderProcessVO;
+    }
+
+    @Override
     public GeneralProcess save(GeneralProcess process, String procDefKey) {
         if (StringUtils.isEmpty(procDefKey)) {
             log.error(LoggerMsg.PROCESS_MANAGER_MSG_ADD.getMsg() + ", ErrorMsg={}", ErrorMsg.PRO_DEF_KEY_NOT_EXIST.getMsg());
@@ -191,8 +215,7 @@ public class GeneralProcessServiceImpl implements GeneralProcessService {
         historicProcessService.save(process);
     }
 
-    @Override
-    public GeneralProcess delete(String objectId) {
+    private GeneralProcess delete(String objectId) {
         GeneralProcess process = selectByObjectId(objectId);
         log.info(LoggerMsg.PROCESS_MANAGER_MSG_DELETE.getMsg() + ", process={}", process);
         mapper.delete(objectId);

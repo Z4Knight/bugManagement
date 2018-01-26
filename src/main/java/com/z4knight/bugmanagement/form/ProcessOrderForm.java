@@ -16,9 +16,29 @@ public class ProcessOrderForm {
 
     private String orderId;
 
-    private String workLoad;
+    private String orderName;
+
+    private String principal;
+
+    private String testManager;
+
+    private String type;
+
+    private String degree;
 
     private String priority;
+
+    private String actTestOkDate;
+
+    private String actUatDate;
+
+    private String isJump;
+
+    private String isNewProduct;
+
+    private String ownSystem;
+
+    private String foreWorkLoad;
 
     private String procUser;
 

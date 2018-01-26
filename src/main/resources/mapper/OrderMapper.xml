@@ -363,6 +363,9 @@
             <if test="handler != null" >
                 handler = #{handler,jdbcType=VARCHAR},
             </if>
+            <if test="degree != null" >
+                degree = #{degree,jdbcType=VARCHAR},
+            </if>
             <if test="devWorkLoad != null" >
                 devWorkLoad = #{devWorkLoad,jdbcType=VARCHAR},
             </if>
@@ -380,6 +383,44 @@
             </if>
             <if test="testSug != null" >
                 testSug = #{testSug,jdbcType=VARCHAR},
+            </if>
+
+            <if test="foreWorkLoad != null" >
+                foreWorkLoad = #{foreWorkLoad,jdbcType=VARCHAR},
+            </if>
+            <if test="uatSubmit != null" >
+                uatSubmit = #{uatSubmit,jdbcType=VARCHAR},
+            </if>
+            <if test="uatDate != null" >
+                uatDate = #{uatDate,jdbcType=VARCHAR},
+            </if>
+            <if test="isClosed != null" >
+                isClosed = #{isClosed,jdbcType=VARCHAR},
+            </if>
+            <if test="closeType != null" >
+                closeType = #{closeType,jdbcType=VARCHAR},
+            </if>
+            <if test="closeDate != null" >
+                closeDate = #{closeDate,jdbcType=VARCHAR},
+            </if>
+            <if test="closeUser != null" >
+                closeUser = #{closeUser,jdbcType=VARCHAR},
+            </if>
+            <if test="closeDesp != null" >
+                closeDesp = #{closeDesp,jdbcType=VARCHAR},
+            </if>
+            <if test="isNewProduct != null" >
+                isNewProduct = #{isNewProduct,jdbcType=VARCHAR},
+            </if>
+            <if test="isJump != null" >
+                isJump = #{isJump,jdbcType=VARCHAR},
+            </if>
+
+            <if test="actTestOkDate != null" >
+                actTestOkDate = #{actTestOkDate,jdbcType=VARCHAR},
+            </if>
+            <if test="actUatDate != null" >
+                actUatDate = #{actUatDate,jdbcType=VARCHAR},
             </if>
             <if test="startTime != null" >
                 startTime = #{startTime,jdbcType=VARCHAR},

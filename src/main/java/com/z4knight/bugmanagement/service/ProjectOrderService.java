@@ -1,6 +1,7 @@
 package com.z4knight.bugmanagement.service;
 
 import com.z4knight.bugmanagement.dataobject.ProjectOrder;
+import com.z4knight.bugmanagement.enums.OrderState;
 import com.z4knight.bugmanagement.form.ProcessOrderForm;
 import com.z4knight.bugmanagement.form.ProjectOrderForm;
 import com.z4knight.bugmanagement.vo.ProjectOrderProcessVO;
@@ -25,7 +26,7 @@ public interface ProjectOrderService {
     ProjectOrderPaneVO updateToPane(ProjectOrderForm projectOrderForm);
 
     // 流程管理修改接口
-    ProjectOrderProcessVO updateToProfile(ProcessOrderForm processOrderForm);
+    ProjectOrderProcessVO updateToProfile(ProcessOrderForm processOrderForm, OrderState notClosed);
 
     ProjectOrderDetailVO selectByOrderIdToDetail(String orderId);
 

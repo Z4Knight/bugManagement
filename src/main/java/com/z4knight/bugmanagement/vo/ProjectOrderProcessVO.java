@@ -19,7 +19,7 @@ public class ProjectOrderProcessVO {
 
     private String orderName;
 
-    private String handler;
+    private String principal;
 
     private String testManager;
 
@@ -28,8 +28,6 @@ public class ProjectOrderProcessVO {
     private String degree;
 
     private String priority;
-
-    private String principal;
 
     private String actTestOkDate;
 

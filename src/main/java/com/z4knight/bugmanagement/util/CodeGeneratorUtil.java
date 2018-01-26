@@ -12,7 +12,7 @@ import com.z4knight.bugmanagement.enums.ItemCode;
 public class CodeGeneratorUtil {
 
 
-    private static int groupNum = 15;
+    private static int groupNum = 0;
 
     private static int systemNum = 0;
 

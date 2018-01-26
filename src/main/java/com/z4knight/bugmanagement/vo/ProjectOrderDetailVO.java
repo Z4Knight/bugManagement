@@ -7,7 +7,7 @@ import lombok.Data;
  * @Author Z4knight
  * @Date 2018/1/25 15:08
  *
- * 工单管理-前端工单详情窗口展示类
+ * 工单管理-工单详情前端窗口展示类
  */
 
 @Data
