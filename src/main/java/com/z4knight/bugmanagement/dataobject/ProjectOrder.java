@@ -32,7 +32,9 @@ public class ProjectOrder {
 
     private String handler;
 
-    private String workLoad;
+    private String degree;
+
+    private String devWorkLoad;
 
     private String devScale;
 
@@ -43,6 +45,30 @@ public class ProjectOrder {
     private String testRange;
 
     private String testSug;
+
+    private String foreWorkLoad;
+
+    private String uatSubmit;
+
+    private String uatDate;
+
+    private String isClosed;
+
+    private String closeType;
+
+    private String closeDate;
+
+    private String closeUser;
+
+    private String closeDesp;
+
+    private String isNewProduct;
+
+    private String isJump;
+
+    private String actTestOkDate;
+
+    private String actUatDate;
 
     private String startTime;
 
@@ -55,4 +81,45 @@ public class ProjectOrder {
     private String createTime;
 
     private String editTime;
+
+    @Override
+    public String toString() {
+        return "ProjectOrder{" +
+                "orderId='" + orderId + '\'' +
+                ", orderName='" + orderName + '\'' +
+                ", description='" + description + '\'' +
+                ", state='" + state + '\'' +
+                ", type='" + type + '\'' +
+                ", priority='" + priority + '\'' +
+                ", principal='" + principal + '\'' +
+                ", testManager='" + testManager + '\'' +
+                ", devDirector='" + devDirector + '\'' +
+                ", handler='" + handler + '\'' +
+                ", degree='" + degree + '\'' +
+                ", devWorkLoad='" + devWorkLoad + '\'' +
+                ", devScale='" + devScale + '\'' +
+                ", ownSystem='" + ownSystem + '\'' +
+                ", testEnv='" + testEnv + '\'' +
+                ", testRange='" + testRange + '\'' +
+                ", testSug='" + testSug + '\'' +
+                ", foreWorkLoad='" + foreWorkLoad + '\'' +
+                ", uatSubmit='" + uatSubmit + '\'' +
+                ", uatDate='" + uatDate + '\'' +
+                ", isClosed='" + isClosed + '\'' +
+                ", closeType='" + closeType + '\'' +
+                ", closeDate='" + closeDate + '\'' +
+                ", closeUser='" + closeUser + '\'' +
+                ", closeDesp='" + closeDesp + '\'' +
+                ", isNewProduct='" + isNewProduct + '\'' +
+                ", isJump='" + isJump + '\'' +
+                ", actTestOkDate='" + actTestOkDate + '\'' +
+                ", actUatDate='" + actUatDate + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", register='" + register + '\'' +
+                ", modifier='" + modifier + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", editTime='" + editTime + '\'' +
+                '}';
+    }
 }

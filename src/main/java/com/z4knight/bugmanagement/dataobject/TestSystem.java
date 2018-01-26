@@ -34,4 +34,22 @@ public class TestSystem {
     private String createTime;
 
     private String editTime;
+
+    @Override
+    public String toString() {
+        return "TestSystem{" +
+                "systemId='" + systemId + '\'' +
+                ", open=" + open +
+                ", systemName='" + systemName + '\'' +
+                ", testDirector='" + testDirector + '\'' +
+                ", devDirector='" + devDirector + '\'' +
+                ", versionNumber='" + versionNumber + '\'' +
+                ", description='" + description + '\'' +
+                ", note='" + note + '\'' +
+                ", register='" + register + '\'' +
+                ", modifier='" + modifier + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", editTime='" + editTime + '\'' +
+                '}';
+    }
 }

@@ -22,4 +22,16 @@ public class ManageUser {
     private String institution;
 
     private String groupName;
+
+    @Override
+    public String toString() {
+        return "ManageUser{" +
+                "uuid='" + uuid + '\'' +
+                ", loginName='" + loginName + '\'' +
+                ", userName='" + userName + '\'' +
+                ", role='" + role + '\'' +
+                ", institution='" + institution + '\'' +
+                ", groupName='" + groupName + '\'' +
+                '}';
+    }
 }

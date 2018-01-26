@@ -7,6 +7,7 @@ import com.z4knight.bugmanagement.param.ProjectOrderFilter;
 import com.z4knight.bugmanagement.resultVO.Result;
 import com.z4knight.bugmanagement.resultVO.ResultGenerator;
 import com.z4knight.bugmanagement.service.ProjectOrderService;
+import com.z4knight.bugmanagement.vo.ProjectOrderPaneVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,7 @@ public class ProjectOrderController {
                        @RequestParam(value = "size", defaultValue = "30") Integer size) {
         try {
             // 请求成功，则按接口定义，返回成功信息以及数据
-            List<ProjectOrder> orderList = service.selectAll(page, size);
+            List<ProjectOrderPaneVO> orderList = service.selectAll(page, size);
             return ResultGenerator.genSuccessResult(orderList);
         } catch (Exception e) {
             // 请求失败，则按接口定义，返回失败信息
@@ -53,37 +54,37 @@ public class ProjectOrderController {
         }
     }
 
-    @PostMapping("/selectByOrderId")
-    public Result selectByOrderId(@RequestParam(value = "orderId") String orderId) {
-        try {
-            // 请求成功，则按接口定义，返回成功信息以及数据
-            ProjectOrder projectOrder = service.selectByOrderId(orderId);
-            return ResultGenerator.genSuccessResult(projectOrder);
-        } catch (Exception e) {
-            // 请求失败，则按接口定义，返回失败信息
-            return ResultGenerator.genFailResult(e.getMessage());
-        }
-    }
+//    @PostMapping("/selectByOrderId")
+//    public Result selectByOrderId(@RequestParam(value = "orderId") String orderId) {
+//        try {
+//            // 请求成功，则按接口定义，返回成功信息以及数据
+//            ProjectOrderVO projectOrder = service.selectByOrderId(orderId);
+//            return ResultGenerator.genSuccessResult(projectOrder);
+//        } catch (Exception e) {
+//            // 请求失败，则按接口定义，返回失败信息
+//            return ResultGenerator.genFailResult(e.getMessage());
+//        }
+//    }
 
-    @PostMapping("/updateByOrderId")
-    public Result updateByOrderId(@RequestBody ProjectOrderForm projectOrderForm) {
-        try {
-            // 对输入数据进行校验
-            ProjectOrderFilter.valid(projectOrderForm, ReqType.UPDATE);
-            // 请求成功，则按接口定义，返回成功信息以及数据
-            ProjectOrder projectOrder = service.update(projectOrderForm);
-            return ResultGenerator.genSuccessResult(projectOrder);
-        } catch (Exception e) {
-            // 请求失败，则按接口定义，返回失败信息
-            return ResultGenerator.genFailResult(e.getMessage());
-        }
-    }
+//    @PostMapping("/updateByOrderId")
+//    public Result updateByOrderId(@RequestBody ProjectOrderForm projectOrderForm) {
+//        try {
+//            // 对输入数据进行校验
+//            ProjectOrderFilter.valid(projectOrderForm, ReqType.UPDATE);
+//            // 请求成功，则按接口定义，返回成功信息以及数据
+//            ProjectOrderVO projectOrder = service.update(projectOrderForm);
+//            return ResultGenerator.genSuccessResult(projectOrder);
+//        } catch (Exception e) {
+//            // 请求失败，则按接口定义，返回失败信息
+//            return ResultGenerator.genFailResult(e.getMessage());
+//        }
+//    }
 
     @DeleteMapping("/deleteByOrderId")
-    public Result deleteByOrderId(@RequestParam(value = "orderId") String orderId) {
+    public Result deleteByOrderId(@RequestBody List<String> orderIds) {
         try {
             // 请求成功，则按接口定义，返回成功信息以及数据
-            service.delete(orderId);
+            service.delete(orderIds);
             return ResultGenerator.genSuccessResult();
         } catch (Exception e) {
             // 请求失败，则按接口定义，返回失败信息

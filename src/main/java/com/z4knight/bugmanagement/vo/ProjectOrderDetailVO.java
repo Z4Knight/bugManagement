@@ -1,18 +1,18 @@
-package com.z4knight.bugmanagement.form;
+package com.z4knight.bugmanagement.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 
 /**
  * @Author Z4knight
- * @Date 2018/1/12 11:21
+ * @Date 2018/1/25 15:08
  *
- * 前端请求接口，工单提交表单数据
+ * 工单管理-前端工单详情窗口展示类
  */
 
 @Data
 @JsonSerialize
-public class ProjectOrderForm {
+public class ProjectOrderDetailVO {
 
     private String orderId;
 
@@ -48,7 +48,4 @@ public class ProjectOrderForm {
 
     private String endTime;
 
-    private String register;
-
-    private String modifier;
 }

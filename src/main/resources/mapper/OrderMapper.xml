@@ -14,12 +14,25 @@
         <result column="testManager" property="testManager" jdbcType="VARCHAR" />
         <result column="devDirector" property="devDirector" jdbcType="VARCHAR" />
         <result column="handler" property="handler" jdbcType="VARCHAR" />
-        <result column="workLoad" property="workLoad" jdbcType="VARCHAR" />
+        <result column="degree" property="degree" jdbcType="VARCHAR" />
+        <result column="devWorkLoad" property="devWorkLoad" jdbcType="VARCHAR" />
         <result column="devScale" property="devScale" jdbcType="VARCHAR" />
         <result column="ownSystem" property="ownSystem" jdbcType="VARCHAR" />
         <result column="testEnv" property="testEnv" jdbcType="VARCHAR" />
         <result column="testRange" property="testRange" jdbcType="VARCHAR" />
         <result column="testSug" property="testSug" jdbcType="VARCHAR" />
+        <result column="foreWorkLoad" property="foreWorkLoad" jdbcType="VARCHAR" />
+        <result column="uatSubmit" property="uatSubmit" jdbcType="VARCHAR" />
+        <result column="uatDate" property="uatDate" jdbcType="VARCHAR" />
+        <result column="isClosed" property="isClosed" jdbcType="VARCHAR" />
+        <result column="closeType" property="closeType" jdbcType="VARCHAR" />
+        <result column="closeDate" property="closeDate" jdbcType="VARCHAR" />
+        <result column="closeUser" property="closeUser" jdbcType="VARCHAR" />
+        <result column="closeDesp" property="closeDesp" jdbcType="VARCHAR" />
+        <result column="isNewProduct" property="isNewProduct" jdbcType="VARCHAR" />
+        <result column="isJump" property="isJump" jdbcType="VARCHAR" />
+        <result column="actTestOkDate" property="actTestOkDate" jdbcType="VARCHAR" />
+        <result column="actUatDate" property="actUatDate" jdbcType="VARCHAR" />
         <result column="startTime" property="startTime" jdbcType="VARCHAR" />
         <result column="endTime" property="endTime" jdbcType="VARCHAR" />
         <result column="register" property="register" jdbcType="VARCHAR" />
@@ -28,15 +41,48 @@
         <result column="editTime" property="editTime" jdbcType="VARCHAR" />
     </resultMap>
 
+    <resultMap id="PaneResultMap"
+               type="com.z4knight.bugmanagement.vo.ProjectOrderPaneVO">
+        <result column="orderId" property="orderId" jdbcType="VARCHAR" />
+        <result column="orderName" property="orderName" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+        <result column="state" property="state" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="VARCHAR" />
+        <result column="priority" property="priority" jdbcType="VARCHAR" />
+        <result column="principal" property="principal" jdbcType="VARCHAR" />
+        <result column="testManager" property="testManager" jdbcType="VARCHAR" />
+        <result column="devDirector" property="devDirector" jdbcType="VARCHAR" />
+        <result column="handler" property="handler" jdbcType="VARCHAR" />
+        <result column="devWorkLoad" property="devWorkLoad" jdbcType="VARCHAR" />
+        <result column="ownSystem" property="ownSystem" jdbcType="VARCHAR" />
+        <result column="testEnv" property="testEnv" jdbcType="VARCHAR" />
+        <result column="testRange" property="testRange" jdbcType="VARCHAR" />
+        <result column="testSug" property="testSug" jdbcType="VARCHAR" />
+        <result column="register" property="register" jdbcType="VARCHAR" />
+        <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+        <result column="createTime" property="createTime" jdbcType="VARCHAR"/>
+        <result column="editTime" property="editTime" jdbcType="VARCHAR" />
+    </resultMap>
+
     <sql id="Base_Column_List">
         orderId, orderName, description, state, type, priority, principal,
-         testManager, devDirector, handler, workLoad, devScale, ownSystem, testEnv,
-         testRange, testSug, startTime, endTime, register, modifier, createTime, editTime
+         testManager, devDirector, handler, degree,devWorkLoad, devScale,
+         ownSystem, testEnv, testRange, testSug, foreWorkLoad, uatSubmit
+         uatDate, isClosed, closeType, closeDate,closeUser, closeDesp,
+         isNewProduct, isJump, actTestOkDate, actUatDate,
+         startTime, endTime, register, modifier, createTime, editTime
+    </sql>
+    
+    
+    <sql id="Pane_Show_Column_List">
+         orderId, orderName, description, state, type, priority, principal,
+         testManager, devDirector, handler ,devWorkLoad, ownSystem, testEnv, testRange, testSug,
+         register, modifier, createTime, editTime
     </sql>
 
-    <select id="selectAll" resultMap="BaseResultMap" >
+    <select id="selectAll" resultMap="PaneResultMap" >
         select
-        <include refid="Base_Column_List" />
+        <include refid="Pane_Show_Column_List" />
         FROM project_order
     </select>
 
@@ -88,8 +134,12 @@
             <if test="handler != null" >
                 handler,
             </if>
-            <if test="workLoad != null" >
-                workLoad,
+
+            <if test="degree != null" >
+                degree,
+            </if>
+            <if test="devWorkLoad != null" >
+                devWorkLoad,
             </if>
             <if test="devScale != null" >
                 devScale,
@@ -106,6 +156,44 @@
             <if test="testSug != null" >
                 testSug,
             </if>
+
+            <if test="foreWorkLoad != null" >
+                foreWorkLoad,
+            </if>
+            <if test="uatSubmit != null" >
+                uatSubmit,
+            </if>
+            <if test="uatDate != null" >
+                uatDate,
+            </if>
+            <if test="isClosed != null" >
+                isClosed,
+            </if>
+            <if test="closeType != null" >
+                closeType,
+            </if>
+            <if test="closeDate != null" >
+                closeDate,
+            </if>
+            <if test="closeUser != null" >
+                closeUser,
+            </if>
+            <if test="closeDesp != null" >
+                closeDesp,
+            </if>
+            <if test="isNewProduct != null" >
+                isNewProduct,
+            </if>
+            <if test="isJump != null" >
+                isJump,
+            </if>
+            <if test="actTestOkDate != null" >
+                actTestOkDate,
+            </if>
+            <if test="actUatDate != null" >
+                actUatDate,
+            </if>
+
             <if test="startTime != null" >
                 startTime,
             </if>
@@ -157,8 +245,11 @@
             <if test="handler != null" >
                 #{handler,jdbcType=VARCHAR},
             </if>
-            <if test="workLoad != null" >
-                #{workLoad,jdbcType=VARCHAR},
+            <if test="degree != null" >
+                #{degree,jdbcType=VARCHAR},
+            </if>
+            <if test="devWorkLoad != null" >
+                #{devWorkLoad,jdbcType=VARCHAR},
             </if>
             <if test="devScale != null" >
                 #{devScale,jdbcType=VARCHAR},
@@ -175,6 +266,45 @@
             <if test="testSug != null" >
                 #{testSug,jdbcType=VARCHAR},
             </if>
+
+            <if test="foreWorkLoad != null" >
+                #{foreWorkLoad,jdbcType=VARCHAR},
+            </if>
+
+            <if test="uatSubmit != null" >
+                #{uatSubmit,jdbcType=VARCHAR},
+            </if>
+            <if test="uatDate != null" >
+                #{uatDate,jdbcType=VARCHAR},
+            </if>
+            <if test="isClosed != null" >
+                #{isClosed,jdbcType=VARCHAR},
+            </if>
+            <if test="closeType != null" >
+                #{closeType,jdbcType=VARCHAR},
+            </if>
+            <if test="closeDate != null" >
+                #{closeDate,jdbcType=VARCHAR},
+            </if>
+            <if test="closeUser != null" >
+                #{closeUser,jdbcType=VARCHAR},
+            </if>
+            <if test="closeDesp != null" >
+                #{closeDesp,jdbcType=VARCHAR},
+            </if>
+            <if test="isNewProduct != null" >
+                #{isNewProduct,jdbcType=VARCHAR},
+            </if>
+            <if test="isJump != null" >
+                #{isJump,jdbcType=VARCHAR},
+            </if>
+            <if test="actTestOkDate != null" >
+                #{actTestOkDate,jdbcType=VARCHAR},
+            </if>
+            <if test="actUatDate != null" >
+                #{actUatDate,jdbcType=VARCHAR},
+            </if>
+
             <if test="startTime != null" >
                 #{startTime,jdbcType=VARCHAR},
             </if>
@@ -233,8 +363,8 @@
             <if test="handler != null" >
                 handler = #{handler,jdbcType=VARCHAR},
             </if>
-            <if test="workLoad != null" >
-                workLoad = #{workLoad,jdbcType=VARCHAR},
+            <if test="devWorkLoad != null" >
+                devWorkLoad = #{devWorkLoad,jdbcType=VARCHAR},
             </if>
             <if test="devScale != null" >
                 devScale = #{devScale,jdbcType=VARCHAR},

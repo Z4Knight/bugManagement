@@ -1,6 +1,8 @@
 package com.z4knight.bugmanagement.repository;
 
 import com.z4knight.bugmanagement.dataobject.ProjectOrder;
+import com.z4knight.bugmanagement.vo.ProjectOrderPaneVO;
+
 
 import java.util.List;
 
@@ -12,7 +14,7 @@ import java.util.List;
  */
 public interface ProjectOrderMapper {
 
-    List<ProjectOrder> selectAll();
+    List<ProjectOrderPaneVO> selectAll();
 
     void update(ProjectOrder order);
 

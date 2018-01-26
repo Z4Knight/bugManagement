@@ -30,4 +30,19 @@ public class ProjectGroup {
     private String createTime;
 
     private String editTime;
+
+    @Override
+    public String toString() {
+        return "ProjectGroup{" +
+                "groupId='" + groupId + '\'' +
+                ", open=" + open +
+                ", groupName='" + groupName + '\'' +
+                ", groupManager='" + groupManager + '\'' +
+                ", note='" + note + '\'' +
+                ", register='" + register + '\'' +
+                ", modifier='" + modifier + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", editTime='" + editTime + '\'' +
+                '}';
+    }
 }

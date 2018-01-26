@@ -4,10 +4,7 @@ package com.z4knight.bugmanagement.service.impl;
 import cn.lz.cloud.common.util.UUID;
 import com.z4knight.bugmanagement.dataobject.GeneralProcess;
 import com.z4knight.bugmanagement.dataobject.HistoricProcess;
-import com.z4knight.bugmanagement.enums.ErrorMsg;
-import com.z4knight.bugmanagement.enums.ProcCode;
-import com.z4knight.bugmanagement.enums.ProcStatus;
-import com.z4knight.bugmanagement.enums.ProcVal;
+import com.z4knight.bugmanagement.enums.*;
 import com.z4knight.bugmanagement.exception.ServiceException;
 import com.z4knight.bugmanagement.form.ProcessOrderForm;
 import com.z4knight.bugmanagement.repository.GeneralProcessMapper;
@@ -15,6 +12,7 @@ import com.z4knight.bugmanagement.service.GeneralProcessService;
 import com.z4knight.bugmanagement.service.HistoricProcessService;
 import com.z4knight.bugmanagement.util.DateUtil;
 import com.z4knight.bugmanagement.vo.GeneralProcessVO;
+import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -33,7 +31,7 @@ import java.util.Map;
  *
  * 通用流转信息服务实现类
  */
-
+@Slf4j
 @Service
 public class GeneralProcessServiceImpl implements GeneralProcessService {
 
@@ -55,8 +53,10 @@ public class GeneralProcessServiceImpl implements GeneralProcessService {
     public List<GeneralProcess> selectAll() {
         List<GeneralProcess> generalProcessList = mapper.selectAll();
         if (null == generalProcessList || generalProcessList.size() == 0) {
+            log.error(LoggerMsg.PROCESS_MANAGER_MSG_QUERY_LIST.getMsg() + ", ErrorMsg={}", ErrorMsg.DATA_NOT_EXIST.getMsg());
             throw new ServiceException(ErrorMsg.DATA_NOT_EXIST.getMsg());
         }
+        log.info(LoggerMsg.PROCESS_MANAGER_MSG_QUERY_LIST.getMsg() + ", List={}", generalProcessList);
         return generalProcessList;
     }
 
@@ -83,6 +83,7 @@ public class GeneralProcessServiceImpl implements GeneralProcessService {
             result.setProcDate(DateUtil.getCurrentTime());
             result.setEditTime(DateUtil.getCurrentTime());
             result.setModifier(generalProcess.getProcAssigner());
+            log.info(LoggerMsg.PROCESS_MANAGER_MSG_UPDATE.getMsg() + ", process={}", result);
             mapper.update(result);
             // 保存流转记录
             storeProcess(result);
@@ -111,11 +112,11 @@ public class GeneralProcessServiceImpl implements GeneralProcessService {
         // 设置流程变量，使用流程变量用来指定完成任务后，下一个连线
         taskService.complete(taskID, variables);
         // 更新流转记录
-        updateProcess(orderForm, generalProcess.getTaskId());
+        updateProcessRecord(orderForm, generalProcess.getTaskId());
         return generalProcess;
     }
 
-    private void updateProcess(ProcessOrderForm orderForm, String taskId) {
+    private void updateProcessRecord(ProcessOrderForm orderForm, String taskId) {
         HistoricProcess process = new HistoricProcess();
         process.setProcDesp(orderForm.getProcDesp());
         process.setProcUser(orderForm.getProcUser());
@@ -130,6 +131,7 @@ public class GeneralProcessServiceImpl implements GeneralProcessService {
     @Override
     public GeneralProcess selectByObjectId(String objectId) {
         if (StringUtils.isEmpty(objectId)) {
+            log.error(LoggerMsg.PROCESS_MANAGER_MSG_QUERY_POINT.getMsg() + ", ErrorMsg={}", ErrorMsg.DATA_NOT_EXIST.getMsg());
             throw new ServiceException(ErrorMsg.DATA_NOT_EXIST.getMsg());
         }
         return mapper.selectByObjectId(objectId);
@@ -138,18 +140,22 @@ public class GeneralProcessServiceImpl implements GeneralProcessService {
     @Override
     public List<GeneralProcessVO> selectByProcAssigner(String procAssigner) {
         if (StringUtils.isEmpty(procAssigner)) {
+            log.error(LoggerMsg.PROCESS_MANAGER_MSG_QUERY_LIST.getMsg() + ", ErrorMsg={}", ErrorMsg.ASSIGNER_NOT_EXIST.getMsg());
             throw new ServiceException(ErrorMsg.ASSIGNER_NOT_EXIST.getMsg());
         }
         List<GeneralProcessVO> processList = mapper.selectByProcAssigner(procAssigner);
         if (null == processList || processList.size() == 0) {
+            log.error(LoggerMsg.PROCESS_MANAGER_MSG_QUERY_LIST.getMsg() + ", ErrorMsg={}", ErrorMsg.CUR_ASSIGNER_HAS_NOT_FLOW_DATA.getMsg());
             throw new ServiceException(ErrorMsg.CUR_ASSIGNER_HAS_NOT_FLOW_DATA.getMsg());
         }
+        log.info(LoggerMsg.PROCESS_MANAGER_MSG_QUERY_LIST.getMsg() + ", List={}", processList);
         return processList;
     }
 
     @Override
     public GeneralProcess save(GeneralProcess process, String procDefKey) {
         if (StringUtils.isEmpty(procDefKey)) {
+            log.error(LoggerMsg.PROCESS_MANAGER_MSG_ADD.getMsg() + ", ErrorMsg={}", ErrorMsg.PRO_DEF_KEY_NOT_EXIST.getMsg());
             throw new ServiceException(ErrorMsg.PRO_DEF_KEY_NOT_EXIST.getMsg());
         }
         GeneralProcess result = new GeneralProcess();
@@ -168,6 +174,7 @@ public class GeneralProcessServiceImpl implements GeneralProcessService {
         result.setProcInstId(pi.getId());
         result.setTaskName(task.getName());
         mapper.save(result);
+        log.info(LoggerMsg.PROCESS_MANAGER_MSG_ADD.getMsg() + ", process={}", result);
         // 保存流转记录
         storeProcess(result);
         return result;
@@ -187,6 +194,7 @@ public class GeneralProcessServiceImpl implements GeneralProcessService {
     @Override
     public GeneralProcess delete(String objectId) {
         GeneralProcess process = selectByObjectId(objectId);
+        log.info(LoggerMsg.PROCESS_MANAGER_MSG_DELETE.getMsg() + ", process={}", process);
         mapper.delete(objectId);
         return process;
     }

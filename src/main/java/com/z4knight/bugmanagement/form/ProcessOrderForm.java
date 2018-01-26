@@ -1,5 +1,6 @@
 package com.z4knight.bugmanagement.form;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 
 /**
@@ -9,6 +10,7 @@ import lombok.Data;
  * 前端请求接口，通用流转工单提交表单数据
  */
 
+@JsonSerialize
 @Data
 public class ProcessOrderForm {
 

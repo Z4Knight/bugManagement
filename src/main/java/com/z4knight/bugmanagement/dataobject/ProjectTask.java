@@ -55,4 +55,32 @@ public class ProjectTask {
     private String createTime;
 
     private String editTime;
+
+    @Override
+    public String toString() {
+        return "ProjectTask{" +
+                "taskId='" + taskId + '\'' +
+                ", taskName='" + taskName + '\'' +
+                ", description='" + description + '\'' +
+                ", state='" + state + '\'' +
+                ", type='" + type + '\'' +
+                ", priority='" + priority + '\'' +
+                ", principal='" + principal + '\'' +
+                ", executor='" + executor + '\'' +
+                ", reviewer='" + reviewer + '\'' +
+                ", handler='" + handler + '\'' +
+                ", workLoad='" + workLoad + '\'' +
+                ", mileStone='" + mileStone + '\'' +
+                ", tailor='" + tailor + '\'' +
+                ", automation='" + automation + '\'' +
+                ", ownOrder='" + ownOrder + '\'' +
+                ", ownSystem='" + ownSystem + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", register='" + register + '\'' +
+                ", modifier='" + modifier + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", editTime='" + editTime + '\'' +
+                '}';
+    }
 }

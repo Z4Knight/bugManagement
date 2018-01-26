@@ -33,4 +33,19 @@ public class HistoricProcess {
     private String procDesp;
 
 
+    @Override
+    public String toString() {
+        return "HistoricProcess{" +
+                "uuid='" + uuid + '\'' +
+                ", objectId='" + objectId + '\'' +
+                ", taskName='" + taskName + '\'' +
+                ", taskId='" + taskId + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", procTime='" + procTime + '\'' +
+                ", procUser='" + procUser + '\'' +
+                ", procAssigner='" + procAssigner + '\'' +
+                ", procResult='" + procResult + '\'' +
+                ", procDesp='" + procDesp + '\'' +
+                '}';
+    }
 }

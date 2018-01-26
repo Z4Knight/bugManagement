@@ -14,6 +14,7 @@ import com.z4knight.bugmanagement.service.ProjectOrderService;
 import com.z4knight.bugmanagement.service.ProjectTaskService;
 import com.z4knight.bugmanagement.util.CodeGeneratorUtil;
 import com.z4knight.bugmanagement.util.DateUtil;
+import com.z4knight.bugmanagement.vo.ProjectOrderVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,11 +71,11 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
         // 新任务状态默认设置为：新建
         task.setState(TaskState.NEW_TASK.getMsg());
         // 工作量来自于所属工单
-        ProjectOrder order = orderService.selectByOrderName(projectTaskForm.getOwnOrder());
+        ProjectOrderVO order = orderService.selectByOrderName(projectTaskForm.getOwnOrder());
         if (null == order) {
             throw new ServiceException(ErrorMsg.OWN_ORDER_NOT_EXIST.getMsg());
         }
-        task.setWorkLoad(order.getWorkLoad());
+        task.setWorkLoad(order.getDevWorkLoad());
         // 新任务是否里程碑默认为：否
         task.setMileStone("否");
         // 新任务是否可裁剪默认为：否

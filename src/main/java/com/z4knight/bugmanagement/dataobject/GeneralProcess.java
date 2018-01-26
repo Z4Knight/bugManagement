@@ -49,4 +49,29 @@ public class GeneralProcess {
     private String createTime;
 
     private String editTime;
+
+    @Override
+    public String toString() {
+        return "GeneralProcess{" +
+                "uuid='" + uuid + '\'' +
+                ", objectId='" + objectId + '\'' +
+                ", objectType='" + objectType + '\'' +
+                ", objectName='" + objectName + '\'' +
+                ", procDefId='" + procDefId + '\'' +
+                ", procInstId='" + procInstId + '\'' +
+                ", taskId='" + taskId + '\'' +
+                ", executionId='" + executionId + '\'' +
+                ", taskName='" + taskName + '\'' +
+                ", procStatus='" + procStatus + '\'' +
+                ", procDate='" + procDate + '\'' +
+                ", procUser='" + procUser + '\'' +
+                ", procResult='" + procResult + '\'' +
+                ", procDesp='" + procDesp + '\'' +
+                ", procAssigner='" + procAssigner + '\'' +
+                ", register='" + register + '\'' +
+                ", modifier='" + modifier + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", editTime='" + editTime + '\'' +
+                '}';
+    }
 }
