@@ -2,25 +2,28 @@ package com.z4knight.bugmanagement.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.z4knight.bugmanagement.enums.ErrorMsg;
-import com.z4knight.bugmanagement.enums.ItemCode;
+import com.z4knight.bugmanagement.enums.*;
 import com.z4knight.bugmanagement.dataobject.ProjectGroup;
-import com.z4knight.bugmanagement.enums.LoggerMsg;
-import com.z4knight.bugmanagement.enums.OpenCode;
 import com.z4knight.bugmanagement.exception.ServiceException;
+import com.z4knight.bugmanagement.form.OpenClose;
 import com.z4knight.bugmanagement.form.ProjectGroupForm;
 import com.z4knight.bugmanagement.repository.ProjectGroupMapper;
 import com.z4knight.bugmanagement.service.ProjectGroupService;
 import com.z4knight.bugmanagement.util.CodeGeneratorUtil;
 import com.z4knight.bugmanagement.util.DateUtil;
+import com.z4knight.bugmanagement.util.Group2GroupVoConverter;
+import com.z4knight.bugmanagement.vo.ProjectGroupVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -37,7 +40,7 @@ public class ProjectGroupServiceImpl implements ProjectGroupService{
     private ProjectGroupMapper mapper;
 
     @Override
-    public List<ProjectGroup> selectAll(Integer page, Integer size) {
+    public List<ProjectGroupVO> selectAll(Integer page, Integer size) {
         // 起始页
         int startPage = page.intValue();
         // 每页显示多少条
@@ -58,9 +61,11 @@ public class ProjectGroupServiceImpl implements ProjectGroupService{
             throw new ServiceException(ErrorMsg.DATA_NOT_EXIST.getMsg());
         }
         log.info(LoggerMsg.GROUP_MANAGER_QUERY_LIST.getMsg() + ", List={}", groupList);
-        return groupList;
+        List<ProjectGroupVO> groupVOList = Group2GroupVoConverter.convert(groupList);
+        return groupVOList;
     }
 
+    @Transactional
     @Override
     public ProjectGroup save(ProjectGroupForm projectGroupForm) {
         ProjectGroup group = null;
@@ -84,6 +89,7 @@ public class ProjectGroupServiceImpl implements ProjectGroupService{
         return group;
     }
 
+    @Transactional
     @Override
     public ProjectGroup update(ProjectGroupForm projectGroupForm) {
         ProjectGroup result = null;
@@ -106,9 +112,37 @@ public class ProjectGroupServiceImpl implements ProjectGroupService{
         return result;
     }
 
+    @Transactional
+    @Override
+    public String update(OpenClose openClose) {
+        if (StringUtils.isEmpty(openClose.getGroupId())) {
+            log.error(LoggerMsg.GROUP_MANAGER_UPDATE.getMsg() + ", ErrorMsg={}",ErrorMsg.GROUP_CODE_REQUIRED.getMsg());
+            throw new ServiceException(ErrorMsg.GROUP_CODE_REQUIRED.getMsg());
+        }
+        if (StringUtils.isEmpty(openClose.getOpen())) {
+            log.error(LoggerMsg.GROUP_MANAGER_UPDATE.getMsg() + ", ErrorMsg={}",ErrorMsg.GROUP_OPEN_REQUIRED.getMsg());
+            throw new ServiceException(ErrorMsg.GROUP_OPEN_REQUIRED.getMsg());
+        }
+        // 查询对应小组是否存在
+        ProjectGroup group = selectByGroupId(openClose.getGroupId());
+        // 修改开启状态
+        group.setOpen(openClose.getOpen());
+        group.setEditTime(DateUtil.getCurrentDate());
+        mapper.update(group);
+        log.info(LoggerMsg.GROUP_MANAGER_UPDATE.getMsg() + ", group={}", group);
+        // 根据请求状态返回提示信息
+        if (openClose.getOpen().equals(OpenCode.OPEN.code())) {
+            return GeneralMsg.OPEN_SUCCESS.getMsg();
+        } else {
+            return GeneralMsg.CLOSE_SUCCESS.getMsg();
+        }
+
+    }
+
     @Override
     public ProjectGroup selectByGroupId(String groupId) {
         if (StringUtils.isEmpty(groupId)) {
+            log.error(LoggerMsg.GROUP_MANAGER_QUERY_POINT.getMsg() + ", ErrorMsg={}",ErrorMsg.GROUP_CODE_REQUIRED.getMsg());
             throw new ServiceException(ErrorMsg.GROUP_CODE_REQUIRED.getMsg());
         }
         ProjectGroup group = mapper.selectByGroupId(groupId);
@@ -120,6 +154,7 @@ public class ProjectGroupServiceImpl implements ProjectGroupService{
         return group;
     }
 
+    @Transactional
     @Override
     public int delete(List<String> groupIds) {
         if (groupIds != null && groupIds.size() > 0) {

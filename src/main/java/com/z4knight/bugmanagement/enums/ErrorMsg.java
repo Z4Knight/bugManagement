@@ -18,6 +18,7 @@ public enum ErrorMsg {
     GROUP_NAME_EXIST("小组名称已存在!"),
     GROUP_CODE_REQUIRED("小组编码必填!"),
     GROUP_NAME_REQUIRED("小组名称必填!"),
+    GROUP_OPEN_REQUIRED("小组开启关闭状态必填！"),
 
 
     // 被测系统

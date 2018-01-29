@@ -1,7 +1,9 @@
 package com.z4knight.bugmanagement.service.impl;
 
 import com.z4knight.bugmanagement.dataobject.ProjectGroup;
+import com.z4knight.bugmanagement.exception.ServiceException;
 import com.z4knight.bugmanagement.form.ProjectGroupForm;
+import com.z4knight.bugmanagement.vo.ProjectGroupVO;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +31,7 @@ public class ProjectGroupServiceImplTest {
 
     @Test
     public void selectAll() {
-        List<ProjectGroup> groups = projectGroupService.selectAll(0,1);
+        List<ProjectGroupVO> groups = projectGroupService.selectAll(0,1);
         Assert.assertNotEquals(0, groups.size());
 
     }
@@ -57,8 +59,8 @@ public class ProjectGroupServiceImplTest {
     @Test
     public void delete() {
         List<String> groupIds = new ArrayList<>();
-        groupIds.add("G000007");
-        groupIds.add("G000008");
+        groupIds.add("G000002");
+        groupIds.add("G000003");
         int result = projectGroupService.delete(groupIds);
         Assert.assertEquals(2, result);
 

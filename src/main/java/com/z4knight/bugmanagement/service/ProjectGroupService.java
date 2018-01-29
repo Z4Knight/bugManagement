@@ -1,7 +1,9 @@
 package com.z4knight.bugmanagement.service;
 
 import com.z4knight.bugmanagement.dataobject.ProjectGroup;
+import com.z4knight.bugmanagement.form.OpenClose;
 import com.z4knight.bugmanagement.form.ProjectGroupForm;
+import com.z4knight.bugmanagement.vo.ProjectGroupVO;
 
 import java.util.List;
 
@@ -16,7 +18,7 @@ import java.util.List;
 
 public interface ProjectGroupService {
 
-    List<ProjectGroup> selectAll(Integer page, Integer size);
+    List<ProjectGroupVO> selectAll(Integer page, Integer size);
 
     ProjectGroup save(ProjectGroupForm projectGroupForm);
 
@@ -27,5 +29,7 @@ public interface ProjectGroupService {
     ProjectGroup selectByGroupName(String groupName);
 
     int delete(List<String> groupIds);
+
+    String update(OpenClose openClose);
 
 }

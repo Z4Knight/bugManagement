@@ -1,19 +1,20 @@
 package com.z4knight.bugmanagement.controller;
 
 import com.z4knight.bugmanagement.dataobject.ProjectGroup;
-import com.z4knight.bugmanagement.enums.ErrorMsg;
+import com.z4knight.bugmanagement.enums.OpenCode;
 import com.z4knight.bugmanagement.enums.ReqType;
+import com.z4knight.bugmanagement.form.OpenClose;
 import com.z4knight.bugmanagement.form.ProjectGroupForm;
 import com.z4knight.bugmanagement.param.ProjectGroupFilter;
 import com.z4knight.bugmanagement.resultVO.Result;
 import com.z4knight.bugmanagement.resultVO.ResultGenerator;
 import com.z4knight.bugmanagement.service.ProjectGroupService;
+import com.z4knight.bugmanagement.vo.ProjectGroupVO;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.*;
 
 
-import java.rmi.ServerException;
 import java.util.List;
 
 /**
@@ -35,7 +36,7 @@ public class ProjectGroupController {
                        @RequestParam(value = "size", defaultValue = "30") Integer size) {
         try {
             // 请求成功，则按接口定义，返回成功信息以及数据
-            List<ProjectGroup> groupList = service.selectAll(page, size);
+            List<ProjectGroupVO> groupList = service.selectAll(page, size);
             return ResultGenerator.genSuccessResult(groupList);
         } catch (Exception e) {
             // 请求失败，则按接口定义，返回失败信息
@@ -89,6 +90,18 @@ public class ProjectGroupController {
             // 请求成功，则按接口定义，返回成功信息以及数据
             int result = service.delete(groupIds);
             return ResultGenerator.genSuccessResult(result);
+        } catch (Exception e) {
+            // 请求失败，则按接口定义，返回失败信息
+            return ResultGenerator.genFailResult(e.getMessage());
+        }
+    }
+
+    @PostMapping("/updateByGroupIdToOpen")
+    public Result updateByGroupIdToOpen(@RequestBody OpenClose openClose) {
+        try {
+            // 请求成功，则按接口定义，返回成功信息以及数据
+            String message = service.update(openClose);
+            return ResultGenerator.genSuccessResult(message);
         } catch (Exception e) {
             // 请求失败，则按接口定义，返回失败信息
             return ResultGenerator.genFailResult(e.getMessage());

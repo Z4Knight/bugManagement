@@ -20,7 +20,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/testSystem")
+@RequestMapping("/testSystemManagement")
 public class TestSystemController {
     @Autowired
     private TestSystemService service;

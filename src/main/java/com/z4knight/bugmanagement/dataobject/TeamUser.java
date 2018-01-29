@@ -9,7 +9,7 @@ import lombok.Data;
  * 用户管理-小组用户实体类
  */
 @Data
-public class ManageUser {
+public class TeamUser {
 
     private String uuid;
 
@@ -25,7 +25,7 @@ public class ManageUser {
 
     @Override
     public String toString() {
-        return "ManageUser{" +
+        return "TeamUser{" +
                 "uuid='" + uuid + '\'' +
                 ", loginName='" + loginName + '\'' +
                 ", userName='" + userName + '\'' +

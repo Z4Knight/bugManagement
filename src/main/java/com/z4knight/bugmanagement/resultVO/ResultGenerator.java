@@ -27,4 +27,10 @@ public class ResultGenerator {
                 .setCode(ResultCode.FAIL)
                 .setMessage(message);
     }
+
+    public static Result genFailResultWithAuthorize(String message) {
+        return new Result()
+                .setCode(ResultCode.UNAUTHORIZED)
+                .setMessage(message);
+    }
 }

@@ -6,8 +6,12 @@ package com.z4knight.bugmanagement.enums;
  */
 public enum GeneralMsg {
 
+
     YES("是"),
     NO("否"),
+
+    OPEN_SUCCESS("开启成功"),
+    CLOSE_SUCCESS("关闭成功"),
 
     ;
 

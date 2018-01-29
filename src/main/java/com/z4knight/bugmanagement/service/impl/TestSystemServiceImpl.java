@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -59,6 +60,7 @@ public class TestSystemServiceImpl implements TestSystemService {
         return systemList;
     }
 
+    @Transactional
     @Override
     public TestSystem save(TestSystemForm testSystemForm) {
         TestSystem system = null;
@@ -82,6 +84,7 @@ public class TestSystemServiceImpl implements TestSystemService {
         return system;
     }
 
+    @Transactional
     @Override
     public TestSystem update(TestSystemForm testSystemForm) {
         TestSystem result = null;
@@ -130,6 +133,7 @@ public class TestSystemServiceImpl implements TestSystemService {
         return system;
     }
 
+    @Transactional
     @Override
     public int delete(List<String> systemIds) {
         if (systemIds != null || systemIds.size() > 0) {
