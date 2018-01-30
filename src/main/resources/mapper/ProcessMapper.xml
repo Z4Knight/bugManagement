@@ -243,8 +243,6 @@
             <if test="procAssigner != null" >
                 procAssigner = #{procAssigner,jdbcType=VARCHAR},
             </if>
-
-
             <if test="register != null" >
                 register = #{register,jdbcType=VARCHAR},
             </if>

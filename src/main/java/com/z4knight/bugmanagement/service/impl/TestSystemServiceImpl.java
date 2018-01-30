@@ -3,16 +3,16 @@ package com.z4knight.bugmanagement.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.z4knight.bugmanagement.dataobject.TestSystem;
-import com.z4knight.bugmanagement.enums.ErrorMsg;
-import com.z4knight.bugmanagement.enums.ItemCode;
-import com.z4knight.bugmanagement.enums.LoggerMsg;
-import com.z4knight.bugmanagement.enums.OpenCode;
+import com.z4knight.bugmanagement.enums.*;
 import com.z4knight.bugmanagement.exception.ServiceException;
+import com.z4knight.bugmanagement.form.OpenClose;
 import com.z4knight.bugmanagement.form.TestSystemForm;
 import com.z4knight.bugmanagement.repository.TestSystemMapper;
 import com.z4knight.bugmanagement.service.TestSystemService;
 import com.z4knight.bugmanagement.util.CodeGeneratorUtil;
 import com.z4knight.bugmanagement.util.DateUtil;
+import com.z4knight.bugmanagement.util.Entity2VoConvert;
+import com.z4knight.bugmanagement.vo.TestSystemVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class TestSystemServiceImpl implements TestSystemService {
     private TestSystemMapper mapper;
 
     @Override
-    public List<TestSystem> selectAll(Integer page, Integer size) {
+    public List<TestSystemVO> selectAll(Integer page, Integer size) {
         // 起始页
         int startPage = page.intValue();
         // 每页显示多少条
@@ -57,7 +57,8 @@ public class TestSystemServiceImpl implements TestSystemService {
             throw new ServiceException(ErrorMsg.DATA_NOT_EXIST.getMsg());
         }
         log.info(LoggerMsg.SYSTEM_MANAGER_QUERY_LIST.getMsg() + ", List={}", systemList);
-        return systemList;
+        List<TestSystemVO> systemVOList = Entity2VoConvert.convertSystem(systemList);
+        return systemVOList;
     }
 
     @Transactional
@@ -105,6 +106,32 @@ public class TestSystemServiceImpl implements TestSystemService {
         mapper.update(result);
         log.info(LoggerMsg.SYSTEM_MANAGER_UPDATE.getMsg() + ", system={}", system);
         return result;
+    }
+
+    @Transactional
+    @Override
+    public String update(OpenClose openClose) {
+        if (StringUtils.isEmpty(openClose.getId())) {
+            log.error(LoggerMsg.SYSTEM_MANAGER_UPDATE.getMsg() + ", ErrorMsg={}",ErrorMsg.SYSTEM_CODE_REQUIRED.getMsg());
+            throw new ServiceException(ErrorMsg.SYSTEM_CODE_REQUIRED.getMsg());
+        }
+        if (StringUtils.isEmpty(openClose.getOpen())) {
+            log.error(LoggerMsg.SYSTEM_MANAGER_UPDATE.getMsg() + ", ErrorMsg={}",ErrorMsg.SYSTEM_OPEN_REQUIRED.getMsg());
+            throw new ServiceException(ErrorMsg.SYSTEM_OPEN_REQUIRED.getMsg());
+        }
+        // 查询对应小组是否存在
+        TestSystem system = selectBySystemId(openClose.getId());
+        // 修改开启状态
+        system.setOpen(openClose.getOpen());
+        system.setEditTime(DateUtil.getCurrentDate());
+        mapper.update(system);
+        log.info(LoggerMsg.SYSTEM_MANAGER_UPDATE.getMsg() + ", system={}", system);
+        // 根据请求状态返回提示信息
+        if (openClose.getOpen().equals(OpenCode.OPEN.code())) {
+            return GeneralMsg.OPEN_SUCCESS.getMsg();
+        } else {
+            return GeneralMsg.CLOSE_SUCCESS.getMsg();
+        }
     }
 
     @Override

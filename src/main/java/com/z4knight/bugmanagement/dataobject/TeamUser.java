@@ -13,25 +13,47 @@ public class TeamUser {
 
     private String uuid;
 
-    private String loginName;
+    private String nickName;
 
     private String userName;
 
+    private String userPswd;
+
     private String role;
 
-    private String institution;
+    private String ownGroup;
 
-    private String groupName;
+    private String idNumber;
+
+    private String email;
+
+    private String mobile;
+
+    private String register;
+
+    private String modifier;
+
+    private String createTime;
+
+    private String editTime;
+
 
     @Override
     public String toString() {
         return "TeamUser{" +
                 "uuid='" + uuid + '\'' +
-                ", loginName='" + loginName + '\'' +
+                ", nickName='" + nickName + '\'' +
                 ", userName='" + userName + '\'' +
+                ", userPswd='" + userPswd + '\'' +
                 ", role='" + role + '\'' +
-                ", institution='" + institution + '\'' +
-                ", groupName='" + groupName + '\'' +
+                ", ownGroup='" + ownGroup + '\'' +
+                ", idNumber='" + idNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", register='" + register + '\'' +
+                ", modifier='" + modifier + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", editTime='" + editTime + '\'' +
                 '}';
     }
 }

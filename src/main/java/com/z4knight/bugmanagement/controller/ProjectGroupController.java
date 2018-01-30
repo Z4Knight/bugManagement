@@ -108,4 +108,16 @@ public class ProjectGroupController {
         }
     }
 
+    @GetMapping("/listGroupNames")
+    public Result listGroupNames() {
+        try {
+            // 请求成功，则按接口定义，返回成功信息以及数据
+            List<String> groupNames = service.selectAllNames();
+            return ResultGenerator.genSuccessResult(groupNames);
+        } catch (Exception e) {
+            // 请求失败，则按接口定义，返回失败信息
+            return ResultGenerator.genFailResult(e.getMessage());
+        }
+    }
+
 }

@@ -32,4 +32,6 @@ public interface ProjectGroupService {
 
     String update(OpenClose openClose);
 
+    List<String> selectAllNames();
+
 }

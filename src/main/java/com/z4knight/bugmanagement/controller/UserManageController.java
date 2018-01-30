@@ -1,12 +1,16 @@
 package com.z4knight.bugmanagement.controller;
 
+import com.z4knight.bugmanagement.form.TeamUserForm;
 import com.z4knight.bugmanagement.form.UserLoginForm;
 import com.z4knight.bugmanagement.resultVO.Result;
 import com.z4knight.bugmanagement.resultVO.ResultGenerator;
 import com.z4knight.bugmanagement.security.JwtUtil;
-import com.z4knight.bugmanagement.service.UserManageService;
+import com.z4knight.bugmanagement.service.TeamUserService;
+import com.z4knight.bugmanagement.vo.TeamUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 /**
@@ -21,13 +25,13 @@ import org.springframework.web.bind.annotation.*;
 public class UserManageController {
 
     @Autowired
-    private UserManageService userManageService;
+    private TeamUserService teamUserService;
 
     @PostMapping("/login")
     public Result login(@RequestBody UserLoginForm userLoginForm) {
         try {
             // 请求成功，则按接口定义，返回成功信息以及数据
-            UserLoginForm result = userManageService.checkUserInfo(userLoginForm);
+            UserLoginForm result = teamUserService.checkUserInfo(userLoginForm);
             return ResultGenerator.genSuccessResult(JwtUtil.getToken(result.getUserName()));
         } catch (Exception e) {
             // 请求失败，则按接口定义，返回失败信息
@@ -38,14 +42,23 @@ public class UserManageController {
     @GetMapping("/success")
     public Result success() {
         try {
-            return ResultGenerator.genSuccessResult("login success");
+            String currentUserName = JwtUtil.getCurrentUserName();
+            return ResultGenerator.genSuccessResult("login success! welcome " + currentUserName);
         } catch (Exception e) {
             return ResultGenerator.genFailResult(e.getMessage());
         }
-
     }
 
-
+    @PostMapping("/selectByOwnGroup")
+    public Result selectByOwnGroup(@RequestBody TeamUserForm userForm) {
+        try {
+            String ownGroup = userForm.getOwnGroup();
+            List<TeamUserVO> userVOList = teamUserService.selectByOwnGroup(ownGroup);
+            return ResultGenerator.genSuccessResult(userVOList);
+        } catch (Exception e) {
+            return ResultGenerator.genFailResult(e.getMessage());
+        }
+    }
 
 
 

@@ -7,6 +7,7 @@ import com.z4knight.bugmanagement.param.TestSystemFilter;
 import com.z4knight.bugmanagement.resultVO.Result;
 import com.z4knight.bugmanagement.resultVO.ResultGenerator;
 import com.z4knight.bugmanagement.service.TestSystemService;
+import com.z4knight.bugmanagement.vo.TestSystemVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +31,7 @@ public class TestSystemController {
                        @RequestParam(value = "size", defaultValue = "30") Integer size) {
         try {
             // 请求成功，则按接口定义，返回成功信息以及数据
-            List<TestSystem> systemList = service.selectAll(page, size);
+            List<TestSystemVO> systemList = service.selectAll(page, size);
             return ResultGenerator.genSuccessResult(systemList);
         } catch (Exception e) {
             // 请求失败，则按接口定义，返回失败信息

@@ -1,7 +1,9 @@
 package com.z4knight.bugmanagement.service;
 
 import com.z4knight.bugmanagement.dataobject.TestSystem;
+import com.z4knight.bugmanagement.form.OpenClose;
 import com.z4knight.bugmanagement.form.TestSystemForm;
+import com.z4knight.bugmanagement.vo.TestSystemVO;
 
 import java.util.List;
 
@@ -13,7 +15,7 @@ import java.util.List;
  */
 
 public interface TestSystemService {
-    List<TestSystem> selectAll(Integer page, Integer size);
+    List<TestSystemVO> selectAll(Integer page, Integer size);
 
     TestSystem save(TestSystemForm testSystemForm);
 
@@ -24,5 +26,7 @@ public interface TestSystemService {
     TestSystem selectBySystemName(String systemName);
 
     int delete(List<String> systemIds);
+
+    String update(OpenClose openClose);
 
 }

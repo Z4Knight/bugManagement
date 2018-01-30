@@ -16,13 +16,13 @@ public class OpenClose {
 
     private Integer open;
 
-    private String groupId;
+    private String id;
 
     @Override
     public String toString() {
         return "OpenClose{" +
                 "open='" + open + '\'' +
-                ", groupId='" + groupId + '\'' +
+                ", id='" + id + '\'' +
                 '}';
     }
 }

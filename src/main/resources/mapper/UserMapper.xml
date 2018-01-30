@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapper.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.z4knight.bugmanagement.repository.TeamUserMapper">
+
+    <resultMap id="BaseResultMap"
+               type="com.z4knight.bugmanagement.dataobject.TeamUser">
+        <result column="uuid" property="uuid" jdbcType="VARCHAR" />
+        <result column="nickName" property="nickName" jdbcType="VARCHAR" />
+        <result column="userName" property="userName" jdbcType="VARCHAR" />
+        <result column="userPswd" property="userPswd" jdbcType="VARCHAR" />
+        <result column="role" property="role" jdbcType="VARCHAR" />
+        <result column="ownGroup" property="ownGroup" jdbcType="VARCHAR" />
+        <result column="idNumber" property="idNumber" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+        <result column="register" property="register" jdbcType="VARCHAR" />
+        <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+        <result column="createTime" property="createTime" jdbcType="VARCHAR"/>
+        <result column="editTime" property="editTime" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        uuid, nickName, userName, userPswd, role, ownGroup, idNumber, email, mobile, register, modifier, createTime, editTime
+    </sql>
+
+    <select id="selectAll" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        FROM team_user
+    </select>
+
+    <select id="selectByOwnGroup" resultMap="BaseResultMap" parameterType="com.z4knight.bugmanagement.dataobject.TeamUser" >
+        select
+        <include refid="Base_Column_List" />
+        from team_user
+        where ownGroup = #{ownGroup,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByUserName" resultMap="BaseResultMap" parameterType="com.z4knight.bugmanagement.dataobject.TeamUser" >
+        select
+        <include refid="Base_Column_List" />
+        from team_user
+        where userName = #{userName,jdbcType=VARCHAR}
+    </select>
+
+
+    <insert id="save" parameterType="com.z4knight.bugmanagement.dataobject.TeamUser">
+        insert into team_user
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="uuid != null" >
+                uuid,
+            </if>
+            <if test="nickName != null" >
+                nickName,
+            </if>
+            <if test="userName != null" >
+                userName,
+            </if>
+            <if test="userPswd != null" >
+                userPswd,
+            </if>
+            <if test="role != null" >
+                role,
+            </if>
+            <if test="ownGroup != null" >
+                ownGroup,
+            </if>
+            <if test="idNumber != null" >
+                idNumber,
+            </if>
+            <if test="email != null" >
+                email,
+            </if>
+            <if test="mobile != null" >
+                mobile,
+            </if>
+            <if test="register != null" >
+                register,
+            </if>
+            <if test="modifier != null" >
+                modifier,
+            </if>
+            <if test="createTime != null" >
+                createTime,
+            </if>
+            <if test="editTime != null" >
+                editTime
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="uuid != null" >
+                #{uuid,jdbcType=VARCHAR},
+            </if>
+            <if test="nickName != null" >
+                #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null" >
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userPswd != null" >
+                #{userPswd,jdbcType=VARCHAR},
+            </if>
+            <if test="role != null" >
+                #{role,jdbcType=VARCHAR},
+            </if>
+            <if test="ownGroup != null" >
+                #{ownGroup,jdbcType=VARCHAR},
+            </if>
+            <if test="idNumber != null" >
+                #{idNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null" >
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null" >
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="register != null" >
+                #{register,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null" >
+                #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="editTime != null" >
+                #{editTime,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="delete" parameterType="java.util.List">
+        delete from team_user where userName in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <update id="update" parameterType="com.z4knight.bugmanagement.dataobject.TeamUser" >
+        update team_user
+        <set>
+            <if test="nickName != null" >
+                nickName = #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="userPswd != null" >
+                userPswd = #{userPswd,jdbcType=VARCHAR},
+            </if>
+            <if test="role != null" >
+                role = #{role,jdbcType=VARCHAR},
+            </if>
+            <if test="ownGroup != null" >
+                ownGroup = #{ownGroup,jdbcType=VARCHAR},
+            </if>
+            <if test="idNumber != null" >
+                idNumber = #{idNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null" >
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null" >
+                mobile = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="register != null" >
+                register = #{register,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null" >
+                modifier = #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                createTime = #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="editTime != null" >
+                editTime = #{editTime,jdbcType=VARCHAR}
+            </if>
+        </set>
+        <where>
+            userName = #{userName,jdbcType=VARCHAR}
+        </where>
+    </update>
+    
+</mapper>

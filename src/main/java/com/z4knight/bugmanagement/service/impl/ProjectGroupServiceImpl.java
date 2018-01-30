@@ -11,7 +11,7 @@ import com.z4knight.bugmanagement.repository.ProjectGroupMapper;
 import com.z4knight.bugmanagement.service.ProjectGroupService;
 import com.z4knight.bugmanagement.util.CodeGeneratorUtil;
 import com.z4knight.bugmanagement.util.DateUtil;
-import com.z4knight.bugmanagement.util.Group2GroupVoConverter;
+import com.z4knight.bugmanagement.util.Entity2VoConvert;
 import com.z4knight.bugmanagement.vo.ProjectGroupVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,7 +60,7 @@ public class ProjectGroupServiceImpl implements ProjectGroupService{
             throw new ServiceException(ErrorMsg.DATA_NOT_EXIST.getMsg());
         }
         log.info(LoggerMsg.GROUP_MANAGER_QUERY_LIST.getMsg() + ", List={}", groupList);
-        List<ProjectGroupVO> groupVOList = Group2GroupVoConverter.convert(groupList);
+        List<ProjectGroupVO> groupVOList = Entity2VoConvert.convertGroup(groupList);
         return groupVOList;
     }
 
@@ -115,7 +114,7 @@ public class ProjectGroupServiceImpl implements ProjectGroupService{
     @Transactional
     @Override
     public String update(OpenClose openClose) {
-        if (StringUtils.isEmpty(openClose.getGroupId())) {
+        if (StringUtils.isEmpty(openClose.getId())) {
             log.error(LoggerMsg.GROUP_MANAGER_UPDATE.getMsg() + ", ErrorMsg={}",ErrorMsg.GROUP_CODE_REQUIRED.getMsg());
             throw new ServiceException(ErrorMsg.GROUP_CODE_REQUIRED.getMsg());
         }
@@ -124,7 +123,7 @@ public class ProjectGroupServiceImpl implements ProjectGroupService{
             throw new ServiceException(ErrorMsg.GROUP_OPEN_REQUIRED.getMsg());
         }
         // 查询对应小组是否存在
-        ProjectGroup group = selectByGroupId(openClose.getGroupId());
+        ProjectGroup group = selectByGroupId(openClose.getId());
         // 修改开启状态
         group.setOpen(openClose.getOpen());
         group.setEditTime(DateUtil.getCurrentDate());
@@ -136,7 +135,16 @@ public class ProjectGroupServiceImpl implements ProjectGroupService{
         } else {
             return GeneralMsg.CLOSE_SUCCESS.getMsg();
         }
+    }
 
+    @Override
+    public List<String> selectAllNames() {
+        // 默认取 100 条数据
+        List<ProjectGroupVO> groupVOList = selectAll(0, 100);
+        // 只需要小组名称
+        List<String> groupNames = groupVOList.stream().map(p -> p.getGroupName())
+                .collect(Collectors.toList());
+        return groupNames;
     }
 
     @Override

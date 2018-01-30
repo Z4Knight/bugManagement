@@ -25,6 +25,7 @@ public enum ErrorMsg {
     SYSTEM_NAME_EXIST("系统名称已存在"),
     SYSTEM_CODE_REQUIRED("系统编码必填"),
     SYSTEM_NAME_REQUIRED("系统名称必填"),
+    SYSTEM_OPEN_REQUIRED("系统开启关闭状态必填！"),
 
     // 工单管理
     ORDER_NAME_EXIST("工单名称已存在"),
@@ -46,6 +47,21 @@ public enum ErrorMsg {
     ASSIGNER_NOT_EXIST("受让人不存在!"),
     CUR_ASSIGNER_HAS_NOT_FLOW_DATA("当前受让人无流转数据!"),
     BUSINESS_CODE_NOT_EXIST("业务编码不存在"),
+
+
+    // 用户认证管理
+    INVALID_AUTHORIZATION_HEADER("不合法的授权头信息！"),
+    TOKEN_EXPIRED("授权 Token 已过期，请重新登录！"),
+    OTHER_TOKEN_EXCEPTION("授权 Token 异常，请重新登录！"),
+
+    // 小组用户管理
+    USER_OWN_GROUP_NOT_EXIST("用户所属小组不存在！"),
+    USER_NAME_REQUIRED("用户名必填！"),
+    USER_NAME_OR_PSWD_ERROR("用户名或密码错误！"),
+    USER_PSWD_REQUIRED("密码必填！"),
+    CUR_USER_NAME_NOT_EXIST("当前用户名不存在！"),
+
+
     ;
 
     private final String msg;
