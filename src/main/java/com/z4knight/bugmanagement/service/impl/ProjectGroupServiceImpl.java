@@ -8,6 +8,7 @@ import com.z4knight.bugmanagement.exception.ServiceException;
 import com.z4knight.bugmanagement.form.OpenClose;
 import com.z4knight.bugmanagement.form.ProjectGroupForm;
 import com.z4knight.bugmanagement.repository.ProjectGroupMapper;
+import com.z4knight.bugmanagement.security.JwtUtil;
 import com.z4knight.bugmanagement.service.ProjectGroupService;
 import com.z4knight.bugmanagement.util.CodeGeneratorUtil;
 import com.z4knight.bugmanagement.util.DateUtil;
@@ -83,6 +84,9 @@ public class ProjectGroupServiceImpl implements ProjectGroupService{
         // 设置登记与修改日期为系统当前日期
         group.setCreateTime(DateUtil.getCurrentDate());
         group.setEditTime(DateUtil.getCurrentDate());
+        // 设置登记人与修改人为当前登录用户
+        group.setRegister(JwtUtil.getCurrentUserName());
+        group.setModifier(JwtUtil.getCurrentUserName());
         log.info(LoggerMsg.GROUP_MANAGER_ADD.getMsg() + ", group={}", group);
         mapper.save(group);
         return group;
@@ -106,8 +110,10 @@ public class ProjectGroupServiceImpl implements ProjectGroupService{
         result.setCreateTime(group.getCreateTime());
         result.setEditTime(DateUtil.getCurrentDate());
         result.setRegister(group.getRegister());
+        // 设置修改人为当前登录用户
+        result.setModifier(JwtUtil.getCurrentUserName());
         mapper.update(result);
-        log.info(LoggerMsg.GROUP_MANAGER_UPDATE.getMsg() + ", group={}", group);
+        log.info(LoggerMsg.GROUP_MANAGER_UPDATE.getMsg() + ", group={}", result);
         return result;
     }
 
@@ -127,6 +133,7 @@ public class ProjectGroupServiceImpl implements ProjectGroupService{
         // 修改开启状态
         group.setOpen(openClose.getOpen());
         group.setEditTime(DateUtil.getCurrentDate());
+        group.setModifier(JwtUtil.getCurrentUserName());
         mapper.update(group);
         log.info(LoggerMsg.GROUP_MANAGER_UPDATE.getMsg() + ", group={}", group);
         // 根据请求状态返回提示信息
@@ -142,8 +149,11 @@ public class ProjectGroupServiceImpl implements ProjectGroupService{
         // 默认取 100 条数据
         List<ProjectGroupVO> groupVOList = selectAll(0, 100);
         // 只需要小组名称
-        List<String> groupNames = groupVOList.stream().map(p -> p.getGroupName())
+        List<String> groupNames = groupVOList.stream()
+                .filter(p -> p.getOpen().equals(true))
+                .map(p -> p.getGroupName())
                 .collect(Collectors.toList());
+        log.info(LoggerMsg.GROUP_MANAGER_QUERY_LIST.getMsg() + ", list={}", groupNames);
         return groupNames;
     }
 

@@ -55,11 +55,11 @@ public enum ErrorMsg {
     OTHER_TOKEN_EXCEPTION("授权 Token 异常，请重新登录！"),
 
     // 小组用户管理
-    USER_OWN_GROUP_NOT_EXIST("用户所属小组不存在！"),
+    GROUP_NOT_EXIST("此小组信息不存在！"),
     USER_NAME_REQUIRED("用户名必填！"),
     USER_NAME_OR_PSWD_ERROR("用户名或密码错误！"),
     USER_PSWD_REQUIRED("密码必填！"),
-    CUR_USER_NAME_NOT_EXIST("当前用户名不存在！"),
+    CUR_USER_NAME_NOT_EXIST("登录已过期，请重新登录！"),
 
 
     ;

@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * @Date 2018/1/29 13:29
  *
  * 访问配置类
- * 跨域配置
+ * 跨域配置，拦截配置
  */
 
 @EnableWebMvc

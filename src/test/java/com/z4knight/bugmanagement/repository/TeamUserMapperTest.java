@@ -50,16 +50,16 @@ public class TeamUserMapperTest {
     @Test
     public void save() throws Exception {
         TeamUser user = new TeamUser();
-        user.setUserPswd("456");
+        user.setUserPswd("123");
         user.setOwnGroup("测试管理");
-        user.setNickName("管理员1");
+        user.setNickName("tom猫");
         user.setRegister("admin");
         user.setModifier("admin");
         user.setCreateTime(DateUtil.getCurrentTime());
         user.setEditTime(DateUtil.getCurrentTime());
         user.setUuid(UUID.getUUID());
-        user.setUserName("admin1");
-        user.setRole("管理员");
+        user.setUserName("tom");
+        user.setRole("测试人员");
         mapper.save(user);
     }
 

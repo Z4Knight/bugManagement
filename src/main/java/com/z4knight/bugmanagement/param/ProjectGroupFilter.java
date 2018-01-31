@@ -19,10 +19,6 @@ public class ProjectGroupFilter {
     public static void valid(ProjectGroupForm projectGroupForm, ReqType type) {
         if (StringUtils.isEmpty(projectGroupForm.getGroupName())) {
             throw new ServiceException(ErrorMsg.GROUP_NAME_REQUIRED.getMsg());
-        } else if (ReqType.ADD.equals(type) && StringUtils.isEmpty(projectGroupForm.getRegister())) {
-            throw new ServiceException(ErrorMsg.REGISTER_REQUIRED.getMsg());
-        } else if (StringUtils.isEmpty(projectGroupForm.getModifier())) {
-            throw new ServiceException(ErrorMsg.MODIFIER_REQUIRED.getMsg());
         } else if (ReqType.UPDATE.equals(type) && StringUtils.isEmpty(projectGroupForm.getGroupId())) {
             throw new ServiceException(ErrorMsg.GROUP_CODE_REQUIRED.getMsg());
         }

@@ -48,8 +48,8 @@ public class TeamUserServiceImpl implements TeamUserService {
        }
         ProjectGroup group = groupService.selectByGroupName(ownGroup);
        if (group == null) {
-           log.error(LoggerMsg.USER_MANAGER_QUERY_LIST.getMsg() + ", ErrorMsg={}", ErrorMsg.USER_OWN_GROUP_NOT_EXIST.getMsg());
-           throw new ServiceException(ErrorMsg.USER_OWN_GROUP_NOT_EXIST.getMsg());
+           log.error(LoggerMsg.USER_MANAGER_QUERY_LIST.getMsg() + ", ErrorMsg={}", ErrorMsg.GROUP_NOT_EXIST.getMsg());
+           throw new ServiceException(ErrorMsg.GROUP_NOT_EXIST.getMsg());
        }
        List<TeamUser> teamUserList = mapper.selectByOwnGroup(ownGroup);
        List<TeamUserVO> teamUserVOList = Entity2VoConvert.convertUser(teamUserList);

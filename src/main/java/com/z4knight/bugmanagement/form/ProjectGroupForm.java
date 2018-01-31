@@ -24,8 +24,4 @@ public class ProjectGroupForm {
 
     private String note;
 
-    private String register;
-
-    private String modifier;
-
 }

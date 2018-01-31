@@ -1,5 +1,6 @@
 package com.z4knight.bugmanagement.controller;
 
+import com.z4knight.bugmanagement.form.ProjectGroupForm;
 import com.z4knight.bugmanagement.form.TeamUserForm;
 import com.z4knight.bugmanagement.form.UserLoginForm;
 import com.z4knight.bugmanagement.resultVO.Result;
@@ -50,16 +51,14 @@ public class UserManageController {
     }
 
     @PostMapping("/selectByOwnGroup")
-    public Result selectByOwnGroup(@RequestBody TeamUserForm userForm) {
+    public Result selectByOwnGroup(@RequestBody ProjectGroupForm groupForm) {
         try {
-            String ownGroup = userForm.getOwnGroup();
+            String ownGroup = groupForm.getGroupName();
             List<TeamUserVO> userVOList = teamUserService.selectByOwnGroup(ownGroup);
             return ResultGenerator.genSuccessResult(userVOList);
         } catch (Exception e) {
             return ResultGenerator.genFailResult(e.getMessage());
         }
     }
-
-
 
 }

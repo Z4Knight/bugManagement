@@ -48,9 +48,7 @@ public class ProjectGroupServiceImplTest {
         ProjectGroupForm projectGroupForm = new ProjectGroupForm();
         projectGroupForm.setGroupManager("小黑");
         projectGroupForm.setGroupName("测试管理");
-        projectGroupForm.setModifier("老铁");
         projectGroupForm.setNote("empty");
-        projectGroupForm.setRegister("老铁");
         ProjectGroup group = projectGroupService.save(projectGroupForm);
         Assert.assertNotNull(group);
     }
