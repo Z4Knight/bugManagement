@@ -14,9 +14,9 @@ public class CodeGeneratorUtil {
 
     private static int groupNum = 3;
 
-    private static int systemNum = 0;
+    private static int systemNum = 2;
 
-    private static int projectNum = 0;
+    private static int orderNum = 1;
 
     private static int taskNum = 0;
 
@@ -63,7 +63,7 @@ public class CodeGeneratorUtil {
         } else if (ItemCode.SYSTEM.equals(code)) {
             result = ++systemNum;
         } else if (ItemCode.ORDER.equals(code)) {
-            result = ++projectNum;
+            result = ++orderNum;
         } else if (ItemCode.TASK.equals(code)) {
             result = ++taskNum;
         }
@@ -71,19 +71,4 @@ public class CodeGeneratorUtil {
     }
 
 
-    public static void setGroupNum(int groupNum) {
-        CodeGeneratorUtil.groupNum = groupNum;
-    }
-
-    public static void setSystemNum(int systemNum) {
-        CodeGeneratorUtil.systemNum = systemNum;
-    }
-
-    public static void setProjectNum(int projectNum) {
-        CodeGeneratorUtil.projectNum = projectNum;
-    }
-
-    public static void setTaskNum(int taskNum) {
-        CodeGeneratorUtil.taskNum = taskNum;
-    }
 }

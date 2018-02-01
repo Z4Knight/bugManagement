@@ -48,7 +48,4 @@ public class ProjectOrderForm {
 
     private String endTime;
 
-    private String register;
-
-    private String modifier;
 }

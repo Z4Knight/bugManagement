@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.ServletException;
+import java.time.LocalTime;
 import java.util.Date;
 
 /**
@@ -23,7 +24,7 @@ import java.util.Date;
 @Slf4j
 public class JwtUtil {
 
-    final static long TOKEN_EXP = 10000 * 36;//过期时间,测试使用一个小时
+    final static long TOKEN_EXP = 10000 * 360;//过期时间,测试使用一个小时
 
     private static String curUserName;
 
@@ -55,7 +56,7 @@ public class JwtUtil {
     }
 
     public static String getCurrentUserName() {
-        log.info(LoggerMsg.USER_MANAGER_AUTH_TOKEN.getMsg() + ", userName={}", curUserName);
+        log.info(LoggerMsg.USER_MANAGER_AUTH_TOKEN.getMsg() + ", curLoginUser={}", curUserName);
         if (StringUtils.isEmpty(curUserName)) {
             log.error(LoggerMsg.USER_MANAGER_AUTH_TOKEN.getMsg() + ", ErrorMsg={}", ErrorMsg.CUR_USER_NAME_NOT_EXIST.getMsg());
             throw new ServiceException(ErrorMsg.CUR_USER_NAME_NOT_EXIST.getMsg());

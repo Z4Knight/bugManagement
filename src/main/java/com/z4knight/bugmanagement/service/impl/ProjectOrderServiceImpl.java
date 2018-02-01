@@ -10,6 +10,7 @@ import com.z4knight.bugmanagement.exception.ServiceException;
 import com.z4knight.bugmanagement.form.ProcessOrderForm;
 import com.z4knight.bugmanagement.form.ProjectOrderForm;
 import com.z4knight.bugmanagement.repository.ProjectOrderMapper;
+import com.z4knight.bugmanagement.security.JwtUtil;
 import com.z4knight.bugmanagement.service.GeneralProcessService;
 import com.z4knight.bugmanagement.service.HistoricProcessService;
 import com.z4knight.bugmanagement.service.ProjectOrderService;
@@ -22,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -71,6 +73,7 @@ public class ProjectOrderServiceImpl implements ProjectOrderService{
         return orderList;
     }
 
+    @Transactional
     @Override
     public ProjectOrder save(ProjectOrderForm projectOrderForm) {
         ProjectOrder order = selectByOrderName(projectOrderForm.getOrderName());
@@ -98,6 +101,9 @@ public class ProjectOrderServiceImpl implements ProjectOrderService{
         // 设置登记与修改日期为系统当前日期
         order.setCreateTime(DateUtil.getCurrentDate());
         order.setEditTime(DateUtil.getCurrentDate());
+        // 设置登记人与修改人为当前登录用户
+        order.setRegister(JwtUtil.getCurrentUserName());
+        order.setModifier(JwtUtil.getCurrentUserName());
         log.info(LoggerMsg.ORDER_MANAGER_ADD.getMsg() + ", order={}", order);
         mapper.save(order);
         // 设置工单业务流程开始
@@ -134,7 +140,7 @@ public class ProjectOrderServiceImpl implements ProjectOrderService{
         // 绑定当前工单编码及名称并设置业务类型为工单
         process.setObjectId(order.getOrderId());
         process.setObjectName(order.getOrderName());
-        process.setObjectType(ItemMsg.ORDER.getMsg());
+        process.setObjectType(ProcessBusMsg.ORDER.getMsg());
         // 设置分派人和处理人为：工单当前处理人
         process.setProcAssigner(order.getHandler());
         process.setProcUser(order.getHandler());
@@ -185,6 +191,7 @@ public class ProjectOrderServiceImpl implements ProjectOrderService{
         return projectOrderProcessVO;
     }
 
+    @Transactional
     private ProjectOrder update(ProjectOrder order, OrderState orderState) {
         ProjectOrder result = selectByOrderName(order.getOrderName());
         // 判断工单名称是否重复
@@ -197,6 +204,8 @@ public class ProjectOrderServiceImpl implements ProjectOrderService{
             log.error(LoggerMsg.ORDER_MANAGER_UPDATE.getMsg() + ", ErrorMsg={}", ErrorMsg.ORDER_HAS_FLOW_NOT_MODIFIY.getMsg());
             throw new ServiceException(ErrorMsg.ORDER_HAS_FLOW_NOT_MODIFIY.getMsg());
         }
+        // 设置修改人为当前登录用户
+        order.setModifier(JwtUtil.getCurrentUserName());
         log.info(LoggerMsg.ORDER_MANAGER_UPDATE.getMsg() + ", order={}", order);
         mapper.update(order);
         return order;
@@ -245,6 +254,7 @@ public class ProjectOrderServiceImpl implements ProjectOrderService{
         return order;
     }
 
+
     @Override
     public int delete(List<String> orderIds) {
         if (null != orderIds && orderIds.size() > 0) {
@@ -262,7 +272,7 @@ public class ProjectOrderServiceImpl implements ProjectOrderService{
     }
 
 
-
+    @Transactional
     private void deleteByOrderId(String orderId) {
         if (StringUtils.isEmpty(orderId)) {
             log.error(LoggerMsg.ORDER_MANAGER_DELETE.getMsg() + ", ErrorMsg={}", ErrorMsg.ORDER_CODE_REQUIRED.getMsg());

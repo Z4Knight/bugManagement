@@ -1,6 +1,7 @@
 package com.z4knight.bugmanagement.service;
 
 import com.z4knight.bugmanagement.dataobject.GeneralProcess;
+import com.z4knight.bugmanagement.form.ProcessForm;
 import com.z4knight.bugmanagement.form.ProcessOrderForm;
 import com.z4knight.bugmanagement.vo.GeneralProcessVO;
 import com.z4knight.bugmanagement.vo.ProjectOrderProcessVO;
@@ -26,7 +27,6 @@ public interface GeneralProcessService {
     List<GeneralProcessVO> selectByProcAssigner(String procAssigner);
 
     ProjectOrderProcessVO selectByOrderIdToOrder(String orderId);
-
 
     GeneralProcess selectByObjectId(String objectId);
 

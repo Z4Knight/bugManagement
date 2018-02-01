@@ -6,7 +6,7 @@ package com.z4knight.bugmanagement.enums;
  *
  * 通用流程业务名称-枚举类
  */
-public enum ItemMsg {
+public enum ProcessBusMsg {
 
 
     ORDER("工单"),
@@ -19,7 +19,7 @@ public enum ItemMsg {
 
     private final String msg;
 
-    ItemMsg(String msg) {
+    ProcessBusMsg(String msg) {
         this.msg = msg;
     }
 

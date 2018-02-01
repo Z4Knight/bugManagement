@@ -1,17 +1,21 @@
 package com.z4knight.bugmanagement.util;
 
+import com.z4knight.bugmanagement.dataobject.HistoricProcess;
 import com.z4knight.bugmanagement.dataobject.ProjectGroup;
 import com.z4knight.bugmanagement.dataobject.TeamUser;
 import com.z4knight.bugmanagement.dataobject.TestSystem;
 import com.z4knight.bugmanagement.enums.OpenCode;
+import com.z4knight.bugmanagement.vo.HistoricProcessVO;
 import com.z4knight.bugmanagement.vo.ProjectGroupVO;
 import com.z4knight.bugmanagement.vo.TeamUserVO;
 import com.z4knight.bugmanagement.vo.TestSystemVO;
 import org.springframework.beans.BeanUtils;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * @Author Z4knight
@@ -84,5 +88,19 @@ public class Entity2VoConvert {
             userVOList.add(userVO);
         }
         return userVOList;
+    }
+
+    // 流转记录
+    public static List<HistoricProcessVO> convertProcessRecord(List<HistoricProcess> processList) {
+        List<HistoricProcessVO> voList = new ArrayList<>();
+        HistoricProcessVO processVO;
+        for (HistoricProcess process : processList) {
+            processVO = new HistoricProcessVO();
+            BeanUtils.copyProperties(process, processVO);
+            voList.add(processVO);
+        }
+        List<HistoricProcessVO> processVOS = voList.stream().sorted(Comparator.comparing(HistoricProcessVO::getProcTime))
+                .collect(toList());
+        return processVOS;
     }
 }

@@ -48,7 +48,6 @@ public class ProjectOrderServiceImplTest {
         orderForm.setTestManager("zl");
         orderForm.setTestEnv("ff");
         orderForm.setStartTime(DateUtil.getCurrentTime());
-        orderForm.setRegister("zk");
         orderForm.setPriority("high");
         orderForm.setPrincipal("ldl");
         orderForm.setOwnSystem("test");
@@ -59,7 +58,6 @@ public class ProjectOrderServiceImplTest {
         orderForm.setDevScale("for aa");
         orderForm.setDevDirector("小黑鬼");
         orderForm.setDescription("test");
-        orderForm.setModifier("zk");
         ProjectOrder order = projectOrderService.save(orderForm);
         Assert.assertNotNull(order);
     }
@@ -80,7 +78,6 @@ public class ProjectOrderServiceImplTest {
         orderForm.setDevScale("5555");
         orderForm.setDevDirector("iiiii");
         orderForm.setDescription("testttttt");
-        orderForm.setModifier("啦啦啦");
         ProjectOrderPaneVO projectOrderPaneVO = projectOrderService.updateToPane(orderForm);
         Assert.assertNotNull(projectOrderPaneVO);
     }

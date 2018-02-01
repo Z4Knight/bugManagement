@@ -17,10 +17,6 @@ public class ProjectOrderFilter {
     public static void valid(ProjectOrderForm projectOrderForm, ReqType type) {
         if (StringUtils.isEmpty(projectOrderForm.getOrderName())) {
             throw new ServiceException(ErrorMsg.ORDER_NAME_REQUIRED.getMsg());
-        } else if (ReqType.ADD.equals(type) && StringUtils.isEmpty(projectOrderForm.getRegister())) {
-            throw new ServiceException(ErrorMsg.REGISTER_REQUIRED.getMsg());
-        } else if (StringUtils.isEmpty(projectOrderForm.getModifier())) {
-            throw new ServiceException(ErrorMsg.MODIFIER_REQUIRED.getMsg());
         } else if (ReqType.UPDATE.equals(type) && StringUtils.isEmpty(projectOrderForm.getOrderId())) {
             throw new ServiceException(ErrorMsg.ORDER_CODE_REQUIRED.getMsg());
         }

@@ -32,10 +32,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addInterceptor(new JwtInterceptor())
                 .excludePathPatterns("/userManagement/login")
                 .excludePathPatterns("/groupManagement/*")
-                .excludePathPatterns("/processManagement/*")
-                .excludePathPatterns("/orderManagement/*")
+//                .excludePathPatterns("/processManagement/*")
+//                .excludePathPatterns("/orderManagement/*")
                 .excludePathPatterns("/taskManagement/*")
                 .excludePathPatterns("/testSystemManagement/*")
+                .excludePathPatterns("/HistoricProcessManagement/*")
         ;
     }
 }

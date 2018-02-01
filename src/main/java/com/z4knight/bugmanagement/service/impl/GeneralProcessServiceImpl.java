@@ -22,6 +22,7 @@ import org.activiti.engine.task.Task;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import java.util.HashMap;
 import java.util.List;
@@ -66,6 +67,7 @@ public class GeneralProcessServiceImpl implements GeneralProcessService {
     }
 
 
+    @Transactional
     @Override
     public GeneralProcess updateOrder(ProcessOrderForm orderForm) {
         GeneralProcess result = new GeneralProcess();
@@ -176,6 +178,7 @@ public class GeneralProcessServiceImpl implements GeneralProcessService {
         return projectOrderProcessVO;
     }
 
+    @Transactional
     @Override
     public GeneralProcess save(GeneralProcess process, String procDefKey) {
         if (StringUtils.isEmpty(procDefKey)) {
@@ -214,6 +217,7 @@ public class GeneralProcessServiceImpl implements GeneralProcessService {
         process.setProcDesp(result.getProcDesp());
         historicProcessService.save(process);
     }
+
 
     private GeneralProcess delete(String objectId) {
         GeneralProcess process = selectByObjectId(objectId);

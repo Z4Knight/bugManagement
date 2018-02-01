@@ -46,7 +46,9 @@ public enum ErrorMsg {
     PRO_DEF_KEY_NOT_EXIST("流程定义key不存在"),
     ASSIGNER_NOT_EXIST("受让人不存在!"),
     CUR_ASSIGNER_HAS_NOT_FLOW_DATA("当前受让人无流转数据!"),
-    BUSINESS_CODE_NOT_EXIST("业务编码不存在"),
+    BUSINESS_CODE_NOT_EXIST("业务编码不存在！"),
+    BUSINESS_CODE_REQUIRED("业务编码必填！"),
+    BUSINESS_TYPE_REQUIRED("业务类型必填！"),
 
 
     // 用户认证管理

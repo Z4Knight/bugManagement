@@ -1,6 +1,7 @@
 package com.z4knight.bugmanagement.service;
 
 import com.z4knight.bugmanagement.dataobject.HistoricProcess;
+import com.z4knight.bugmanagement.vo.HistoricProcessVO;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface HistoricProcessService {
 
     HistoricProcess update(HistoricProcess process);
 
-    List<HistoricProcess> selectByObjectId(String objectId);
+    List<HistoricProcessVO> selectByObjectId(String objectId);
 
     HistoricProcess save(HistoricProcess process);
 

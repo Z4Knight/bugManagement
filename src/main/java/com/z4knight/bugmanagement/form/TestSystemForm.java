@@ -27,8 +27,4 @@ public class TestSystemForm {
     private String description;
 
     private String note;
-
-    private String register;
-
-    private String modifier;
 }

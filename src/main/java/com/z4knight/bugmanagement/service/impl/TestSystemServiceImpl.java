@@ -8,6 +8,7 @@ import com.z4knight.bugmanagement.exception.ServiceException;
 import com.z4knight.bugmanagement.form.OpenClose;
 import com.z4knight.bugmanagement.form.TestSystemForm;
 import com.z4knight.bugmanagement.repository.TestSystemMapper;
+import com.z4knight.bugmanagement.security.JwtUtil;
 import com.z4knight.bugmanagement.service.TestSystemService;
 import com.z4knight.bugmanagement.util.CodeGeneratorUtil;
 import com.z4knight.bugmanagement.util.DateUtil;
@@ -80,6 +81,9 @@ public class TestSystemServiceImpl implements TestSystemService {
         // 设置登记与修改日期为系统当前日期
         system.setCreateTime(DateUtil.getCurrentDate());
         system.setEditTime(DateUtil.getCurrentDate());
+        // 设置登记人与修改人为当前用户
+        system.setRegister(JwtUtil.getCurrentUserName());
+        system.setModifier(JwtUtil.getCurrentUserName());
         mapper.save(system);
         log.info(LoggerMsg.SYSTEM_MANAGER_ADD.getMsg() + ", system={}", system);
         return system;
@@ -103,6 +107,8 @@ public class TestSystemServiceImpl implements TestSystemService {
         result.setCreateTime(system.getCreateTime());
         result.setEditTime(DateUtil.getCurrentDate());
         result.setRegister(system.getRegister());
+        // 设置修改人为当前用户
+        result.setModifier(JwtUtil.getCurrentUserName());
         mapper.update(result);
         log.info(LoggerMsg.SYSTEM_MANAGER_UPDATE.getMsg() + ", system={}", system);
         return result;
@@ -124,6 +130,7 @@ public class TestSystemServiceImpl implements TestSystemService {
         // 修改开启状态
         system.setOpen(openClose.getOpen());
         system.setEditTime(DateUtil.getCurrentDate());
+        system.setModifier(JwtUtil.getCurrentUserName());
         mapper.update(system);
         log.info(LoggerMsg.SYSTEM_MANAGER_UPDATE.getMsg() + ", system={}", system);
         // 根据请求状态返回提示信息

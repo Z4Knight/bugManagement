@@ -8,10 +8,13 @@ import com.z4knight.bugmanagement.exception.ServiceException;
 import com.z4knight.bugmanagement.util.DateUtil;
 import com.z4knight.bugmanagement.repository.HistoricProcessMapper;
 import com.z4knight.bugmanagement.service.HistoricProcessService;
+import com.z4knight.bugmanagement.util.Entity2VoConvert;
+import com.z4knight.bugmanagement.vo.HistoricProcessVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -41,6 +44,7 @@ public class HistoricProcessServiceImpl implements HistoricProcessService{
     }
 
 
+    @Transactional
     @Override
     public HistoricProcess update(HistoricProcess process) {
         log.info(LoggerMsg.PROCESS_MANAGER_MSG_UPDATE.getMsg() + ", record={}", process);
@@ -49,20 +53,22 @@ public class HistoricProcessServiceImpl implements HistoricProcessService{
     }
 
     @Override
-    public List<HistoricProcess> selectByObjectId(String objectId) {
+    public List<HistoricProcessVO> selectByObjectId(String objectId) {
         if (StringUtils.isEmpty(objectId)) {
             log.error(LoggerMsg.PROCESS_MANAGER_RECORD_QUERY_LIST.getMsg() + ", ErrorMsg={}", ErrorMsg.BUSINESS_CODE_NOT_EXIST.getMsg());
             throw new ServiceException(ErrorMsg.BUSINESS_CODE_NOT_EXIST.getMsg());
         }
         List<HistoricProcess> list =  mapper.selectByObjectId(objectId);
-        if (null == list || list.size() == 0) {
+        List<HistoricProcessVO> voList = Entity2VoConvert.convertProcessRecord(list);
+        if (null == voList || voList.size() == 0) {
             log.error(LoggerMsg.PROCESS_MANAGER_RECORD_QUERY_LIST.getMsg() + ", ErrorMsg={}", ErrorMsg.DATA_NOT_EXIST.getMsg());
             throw new ServiceException(ErrorMsg.DATA_NOT_EXIST.getMsg());
         }
-        log.info(LoggerMsg.PROCESS_MANAGER_MSG_QUERY_LIST.getMsg() + ", List={}", list);
-        return list;
+        log.info(LoggerMsg.PROCESS_MANAGER_RECORD_QUERY_LIST.getMsg() + ", List={}", voList);
+        return voList;
     }
 
+    @Transactional
     @Override
     public HistoricProcess save(HistoricProcess process) {
         HistoricProcess result = new HistoricProcess();
