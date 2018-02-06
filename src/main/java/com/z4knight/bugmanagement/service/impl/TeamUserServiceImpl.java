@@ -105,7 +105,7 @@ public class TeamUserServiceImpl implements TeamUserService {
             log.error(LoggerMsg.USER_MANAGER_LOGIN.getMsg() + ", ErrorMsg={}",ErrorMsg.USER_NAME_OR_PSWD_ERROR.getMsg());
             throw new ServiceException(ErrorMsg.USER_NAME_OR_PSWD_ERROR.getMsg());
         }
-        log.info(LoggerMsg.USER_MANAGER_LOGIN.getMsg() + ", user={}", user);
+        log.info(LoggerMsg.USER_MANAGER_LOGIN.getMsg() + ", userName={}", user.getUserName());
         return userLoginForm;
     }
 }

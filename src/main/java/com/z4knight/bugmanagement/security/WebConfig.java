@@ -22,7 +22,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         // 允许全部跨域访问
-        registry.addMapping("/**");
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .exposedHeaders("x-total-count","x-auth-token")
+                .allowedMethods("GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "TRACE");
     }
 
     // 注册拦截器，将登录排除
@@ -31,12 +34,12 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         //添加拦截器
         registry.addInterceptor(new JwtInterceptor())
                 .excludePathPatterns("/userManagement/login")
-                .excludePathPatterns("/groupManagement/*")
+//                .excludePathPatterns("/groupManagement/*")
 //                .excludePathPatterns("/processManagement/*")
 //                .excludePathPatterns("/orderManagement/*")
-                .excludePathPatterns("/taskManagement/*")
-                .excludePathPatterns("/testSystemManagement/*")
-                .excludePathPatterns("/HistoricProcessManagement/*")
+//                .excludePathPatterns("/taskManagement/*")
+//                .excludePathPatterns("/testSystemManagement/*")
+//                .excludePathPatterns("/HistoricProcessManagement/*")
         ;
     }
 }
