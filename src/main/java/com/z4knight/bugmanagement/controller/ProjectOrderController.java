@@ -93,4 +93,17 @@ public class ProjectOrderController {
         }
     }
 
+
+    @GetMapping("/listOrderNames")
+    public Result listOrderNames() {
+        try {
+            // 请求成功，则按接口定义，返回成功信息以及数据
+            List<String> orderNames = service.selectAllNames();
+            return ResultGenerator.genSuccessResult(orderNames);
+        } catch (Exception e) {
+            // 请求失败，则按接口定义，返回失败信息
+            return ResultGenerator.genFailResult(e.getMessage());
+        }
+    }
+
 }

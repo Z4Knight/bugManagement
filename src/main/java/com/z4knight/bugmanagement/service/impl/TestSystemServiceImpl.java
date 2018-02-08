@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Author Z4knight
@@ -139,6 +140,19 @@ public class TestSystemServiceImpl implements TestSystemService {
         } else {
             return GeneralMsg.CLOSE_SUCCESS.getMsg();
         }
+    }
+
+    @Override
+    public List<String> selectAllNames() {
+        // 默认取 100 条数据
+        List<TestSystemVO> systemVOList = selectAll(0, 100);
+        // 只需要系统名称
+        List<String> systemNames = systemVOList.stream()
+                .filter(p -> p.getOpen().equals(true))
+                .map(p -> p.getSystemName())
+                .collect(Collectors.toList());
+        log.info(LoggerMsg.GROUP_MANAGER_QUERY_LIST.getMsg() + ", list={}", systemNames);
+        return systemNames;
     }
 
     @Override

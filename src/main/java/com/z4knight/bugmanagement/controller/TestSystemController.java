@@ -91,5 +91,16 @@ public class TestSystemController {
         }
     }
 
+    @GetMapping("/listSystemNames")
+    public Result listSystemNames() {
+        try {
+            // 请求成功，则按接口定义，返回成功信息以及数据
+            List<String> systemNames = service.selectAllNames();
+            return ResultGenerator.genSuccessResult(systemNames);
+        } catch (Exception e) {
+            // 请求失败，则按接口定义，返回失败信息
+            return ResultGenerator.genFailResult(e.getMessage());
+        }
+    }
 
 }

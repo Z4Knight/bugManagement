@@ -29,4 +29,5 @@ public interface TestSystemService {
 
     String update(OpenClose openClose);
 
+    List<String> selectAllNames();
 }

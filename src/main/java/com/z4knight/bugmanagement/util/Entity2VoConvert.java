@@ -99,6 +99,7 @@ public class Entity2VoConvert {
             BeanUtils.copyProperties(process, processVO);
             voList.add(processVO);
         }
+        // 根据处理时间排序
         List<HistoricProcessVO> processVOS = voList.stream().sorted(Comparator.comparing(HistoricProcessVO::getProcTime))
                 .collect(toList());
         return processVOS;

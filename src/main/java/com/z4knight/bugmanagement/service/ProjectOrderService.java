@@ -35,4 +35,6 @@ public interface ProjectOrderService {
     ProjectOrder selectByOrderName(String orderName);
 
     int delete(List<String> orderIds);
+
+    List<String> selectAllNames();
 }

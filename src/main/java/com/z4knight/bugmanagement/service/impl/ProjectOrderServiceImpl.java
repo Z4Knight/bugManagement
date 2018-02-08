@@ -19,6 +19,7 @@ import com.z4knight.bugmanagement.util.DateUtil;
 import com.z4knight.bugmanagement.vo.ProjectOrderDetailVO;
 import com.z4knight.bugmanagement.vo.ProjectOrderPaneVO;
 import com.z4knight.bugmanagement.vo.ProjectOrderProcessVO;
+import com.z4knight.bugmanagement.vo.TestSystemVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Author Z4knight
@@ -154,6 +156,7 @@ public class ProjectOrderServiceImpl implements ProjectOrderService{
     }
 
     // 更新来自于工单管理界面的信息
+    @Transactional
     @Override
     public ProjectOrderPaneVO updateToPane(ProjectOrderForm projectOrderForm) {
         ProjectOrder order = new ProjectOrder();
@@ -169,6 +172,7 @@ public class ProjectOrderServiceImpl implements ProjectOrderService{
     }
 
     // 更新来自于工单流转的信息
+    @Transactional
     @Override
     public ProjectOrderProcessVO updateToProfile(ProcessOrderForm processOrderForm, OrderState orderState) {
         ProjectOrder order = new ProjectOrder();
@@ -191,7 +195,7 @@ public class ProjectOrderServiceImpl implements ProjectOrderService{
         return projectOrderProcessVO;
     }
 
-    @Transactional
+
     private ProjectOrder update(ProjectOrder order, OrderState orderState) {
         ProjectOrder result = selectByOrderName(order.getOrderName());
         // 判断工单名称是否重复
@@ -254,8 +258,23 @@ public class ProjectOrderServiceImpl implements ProjectOrderService{
         return order;
     }
 
+    @Override
+    public List<String> selectAllNames() {
+        // 默认取 100 条数据
+        List<ProjectOrderPaneVO> orderPaneVOList = selectAll(0, 100);
+        // 只需要工单名称
+        List<String> orderNames = orderPaneVOList.stream()
+//                TODO 筛选出未关闭的工单
+//                .filter(p -> p.get)
+                .map(p -> p.getOrderName())
+                .collect(Collectors.toList());
+        log.info(LoggerMsg.GROUP_MANAGER_QUERY_LIST.getMsg() + ", list={}", orderNames);
+        return orderNames;
+    }
+
 
     @Override
+    @Transactional
     public int delete(List<String> orderIds) {
         if (null != orderIds && orderIds.size() > 0) {
             int result = 0;
@@ -272,7 +291,6 @@ public class ProjectOrderServiceImpl implements ProjectOrderService{
     }
 
 
-    @Transactional
     private void deleteByOrderId(String orderId) {
         if (StringUtils.isEmpty(orderId)) {
             log.error(LoggerMsg.ORDER_MANAGER_DELETE.getMsg() + ", ErrorMsg={}", ErrorMsg.ORDER_CODE_REQUIRED.getMsg());
