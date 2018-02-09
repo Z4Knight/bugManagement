@@ -19,8 +19,10 @@ import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -98,10 +100,28 @@ public class GeneralProcessServiceImpl implements GeneralProcessService {
             // 保存流转记录
             storeProcess(result);
             // 修改对应工单信息
-            projectOrderService.updateToProfile(orderForm, OrderState.NOT_CLOSED);
+            // 根据当前工单流转节点信息，更新工单状态
+            OrderState orderState = updateOrderStateByTaskName(task.getName());
+            projectOrderService.updateToProfile(orderForm, orderState);
         }
 
         return result;
+    }
+
+    private OrderState updateOrderStateByTaskName(String taskName) {
+        if (OrderState.PROC_WORK_LOAD_ASSESS.getMsg().equals(taskName)) {
+            return OrderState.PASS_SCHEDULE_APPROVAL;
+        } else if (OrderState.PROC_TEST_PREPARE.getMsg().equals(taskName)) {
+            return OrderState.WORK_LOAD_HAS_ASSESS;
+        } else if (OrderState.PROC_SMOKE_TEST.getMsg().equals(taskName)) {
+            return OrderState.TEST_PREPARE;
+        } else if (OrderState.PROC_TEST_EXECUTE.getMsg().equals(taskName)) {
+            return OrderState.PERMIT_TEST_RUNNING;
+        } else if (OrderState.PROC_SUBMIT_UAT_TEST.getMsg().equals(taskName)) {
+            return OrderState.UAT_TEST_RUNNING;
+        } else {
+            return OrderState.UAT_TEST_RESULT_CONFIRM;
+        }
     }
 
     private void storeOrderEndProcess(GeneralProcess generalProcess) {

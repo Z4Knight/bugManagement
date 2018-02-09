@@ -16,10 +16,8 @@ import com.z4knight.bugmanagement.service.HistoricProcessService;
 import com.z4knight.bugmanagement.service.ProjectOrderService;
 import com.z4knight.bugmanagement.util.CodeGeneratorUtil;
 import com.z4knight.bugmanagement.util.DateUtil;
-import com.z4knight.bugmanagement.vo.ProjectOrderDetailVO;
-import com.z4knight.bugmanagement.vo.ProjectOrderPaneVO;
-import com.z4knight.bugmanagement.vo.ProjectOrderProcessVO;
-import com.z4knight.bugmanagement.vo.TestSystemVO;
+import com.z4knight.bugmanagement.util.Entity2VoConvert;
+import com.z4knight.bugmanagement.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,8 +86,8 @@ public class ProjectOrderServiceImpl implements ProjectOrderService{
         BeanUtils.copyProperties(projectOrderForm, order);
         // 设置自动生成编码
         order.setOrderId(CodeGeneratorUtil.generateCode(ItemCode.ORDER));
-        // 新的工单状态默认设置为：排期审批通过
-        order.setState(OrderState.PASS_SCHEDULE_APPROVAL.getMsg());
+        // 新的工单状态默认设置为：新建
+        order.setState(OrderState.NEW_ORDER.getMsg());
         // 默认设置未提交uat测试
         order.setUatSubmit(GeneralMsg.NO.getMsg());
         // 默认设置未关闭
@@ -185,10 +183,12 @@ public class ProjectOrderServiceImpl implements ProjectOrderService{
         if (orderState.equals(OrderState.NORMAL_CLOSED)) {
             order.setIsClosed(GeneralMsg.YES.getMsg());
             order.setCloseDate(DateUtil.getCurrentDate());
-            order.setCloseType(OrderState.NORMAL_CLOSED.getMsg());
+            order.setCloseType(orderState.getMsg());
             order.setCloseDesp(processOrderForm.getProcDesp());
             order.setCloseUser(processOrderForm.getProcUser());
         }
+        // 更新工单状态
+        order.setState(orderState.getMsg());
         ProjectOrder result = update(order, OrderState.FROM_PROCESS);
         ProjectOrderProcessVO projectOrderProcessVO = new ProjectOrderProcessVO();
         BeanUtils.copyProperties(result, projectOrderProcessVO);
@@ -259,17 +259,15 @@ public class ProjectOrderServiceImpl implements ProjectOrderService{
     }
 
     @Override
-    public List<String> selectAllNames() {
-        // 默认取 100 条数据
-        List<ProjectOrderPaneVO> orderPaneVOList = selectAll(0, 100);
-        // 只需要工单名称
-        List<String> orderNames = orderPaneVOList.stream()
-//                TODO 筛选出未关闭的工单
-//                .filter(p -> p.get)
-                .map(p -> p.getOrderName())
-                .collect(Collectors.toList());
-        log.info(LoggerMsg.GROUP_MANAGER_QUERY_LIST.getMsg() + ", list={}", orderNames);
-        return orderNames;
+    public List<ProjectOrderChatVO> selectAll() {
+        List<ProjectOrderPaneVO> paneVOList = mapper.selectAll();
+        if (null == paneVOList || paneVOList.size() == 0) {
+            log.error(LoggerMsg.ORDER_MANAGER_QUERY_LIST.getMsg() + ", ErrorMsg={}", ErrorMsg.DATA_NOT_EXIST.getMsg());
+            throw new ServiceException(ErrorMsg.DATA_NOT_EXIST.getMsg());
+        }
+        List<ProjectOrderChatVO> chatVOList = Entity2VoConvert.convertOrder(paneVOList);
+        log.info(LoggerMsg.ORDER_MANAGER_QUERY_LIST.getMsg() + ", list={}", chatVOList);
+        return chatVOList;
     }
 
 

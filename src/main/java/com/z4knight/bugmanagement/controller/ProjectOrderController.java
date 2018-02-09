@@ -7,6 +7,7 @@ import com.z4knight.bugmanagement.param.ProjectOrderFilter;
 import com.z4knight.bugmanagement.resultVO.Result;
 import com.z4knight.bugmanagement.resultVO.ResultGenerator;
 import com.z4knight.bugmanagement.service.ProjectOrderService;
+import com.z4knight.bugmanagement.vo.ProjectOrderChatVO;
 import com.z4knight.bugmanagement.vo.ProjectOrderDetailVO;
 import com.z4knight.bugmanagement.vo.ProjectOrderPaneVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,12 +95,12 @@ public class ProjectOrderController {
     }
 
 
-    @GetMapping("/listOrderNames")
-    public Result listOrderNames() {
+    @GetMapping("/listOrders")
+    public Result listOrders() {
         try {
             // 请求成功，则按接口定义，返回成功信息以及数据
-            List<String> orderNames = service.selectAllNames();
-            return ResultGenerator.genSuccessResult(orderNames);
+            List<ProjectOrderChatVO> chatVOList = service.selectAll();
+            return ResultGenerator.genSuccessResult(chatVOList);
         } catch (Exception e) {
             // 请求失败，则按接口定义，返回失败信息
             return ResultGenerator.genFailResult(e.getMessage());

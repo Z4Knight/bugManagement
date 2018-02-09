@@ -10,6 +10,8 @@ public enum  TaskState {
 
     NEW_TASK("新建"),
     UNDER_REVIEW("审核中"),
+    TASK_RUNNING("任务执行中"),
+    CLOSE("关闭"),
     ;
 
     private final String msg;

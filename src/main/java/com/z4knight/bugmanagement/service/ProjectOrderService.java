@@ -4,6 +4,7 @@ import com.z4knight.bugmanagement.dataobject.ProjectOrder;
 import com.z4knight.bugmanagement.enums.OrderState;
 import com.z4knight.bugmanagement.form.ProcessOrderForm;
 import com.z4knight.bugmanagement.form.ProjectOrderForm;
+import com.z4knight.bugmanagement.vo.ProjectOrderChatVO;
 import com.z4knight.bugmanagement.vo.ProjectOrderProcessVO;
 import com.z4knight.bugmanagement.vo.ProjectOrderDetailVO;
 import com.z4knight.bugmanagement.vo.ProjectOrderPaneVO;
@@ -36,5 +37,5 @@ public interface ProjectOrderService {
 
     int delete(List<String> orderIds);
 
-    List<String> selectAllNames();
+    List<ProjectOrderChatVO> selectAll();
 }

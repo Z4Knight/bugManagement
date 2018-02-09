@@ -12,11 +12,11 @@ import com.z4knight.bugmanagement.enums.ItemCode;
 public class CodeGeneratorUtil {
 
 
-    private static int groupNum = 4;
+    private static int groupNum = 3;
 
-    private static int systemNum = 4;
+    private static int systemNum = 0;
 
-    private static int orderNum = 2;
+    private static int orderNum = 0;
 
     private static int taskNum = 0;
 

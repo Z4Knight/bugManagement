@@ -5,10 +5,7 @@ import com.z4knight.bugmanagement.dataobject.ProjectGroup;
 import com.z4knight.bugmanagement.dataobject.TeamUser;
 import com.z4knight.bugmanagement.dataobject.TestSystem;
 import com.z4knight.bugmanagement.enums.OpenCode;
-import com.z4knight.bugmanagement.vo.HistoricProcessVO;
-import com.z4knight.bugmanagement.vo.ProjectGroupVO;
-import com.z4knight.bugmanagement.vo.TeamUserVO;
-import com.z4knight.bugmanagement.vo.TestSystemVO;
+import com.z4knight.bugmanagement.vo.*;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
@@ -103,5 +100,17 @@ public class Entity2VoConvert {
         List<HistoricProcessVO> processVOS = voList.stream().sorted(Comparator.comparing(HistoricProcessVO::getProcTime))
                 .collect(toList());
         return processVOS;
+    }
+
+    // 工单管理
+    public static List<ProjectOrderChatVO> convertOrder(List<ProjectOrderPaneVO> paneVOList) {
+        List<ProjectOrderChatVO> chatVOList = new ArrayList<>();
+        ProjectOrderChatVO chatVO;
+        for (ProjectOrderPaneVO paneVO : paneVOList) {
+            chatVO = new ProjectOrderChatVO();
+            BeanUtils.copyProperties(paneVO, chatVO);
+            chatVOList.add(chatVO);
+        }
+        return chatVOList;
     }
 }
