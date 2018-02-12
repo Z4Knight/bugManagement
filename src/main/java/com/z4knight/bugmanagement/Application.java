@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan(basePackages = "com.z4knight.bugmanagement.dataobject")
+@MapperScan(basePackages = "com.z4knight.bugmanagement.repository")
 public class Application {
 
 	public static void main(String[] args) {
