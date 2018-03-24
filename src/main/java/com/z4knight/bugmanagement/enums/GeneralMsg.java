@@ -20,6 +20,7 @@ public enum GeneralMsg {
     AUTH_HEADERS("Authorization"),
     AUTH_SEGMENT("Bearer "),
     AUTH_USER_NAME("userName"),
+    AUTH_ROLE("role"),
     SECRET_KEY("base64EncodedSecretKey"),
 
     ;

@@ -18,6 +18,8 @@ public class TeamUserForm {
 
     private String userName;
 
+    private String userPswd;
+
     private String role;
 
     private String ownGroup;

@@ -1,0 +1,12 @@
+
+c3p0:
+  jdbcUrl: jdbc:mysql://120.78.168.45:3306/bugmanagement?autoReconnect=true
+  user: ym
+  password:
+  driverClass: com.mysql.jdbc.Driver
+  testConnectionOnCheckin: false
+  testConnectionOnCheckout: true
+server:
+  port: 8086
+
+#logging.pattern.console=%d - %msg%n

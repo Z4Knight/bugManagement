@@ -42,7 +42,4 @@ public class ProjectTaskForm {
 
     private String endTime;
 
-    private String register;
-
-    private String modifier;
 }

@@ -1,0 +1,7 @@
+c3p0:
+  jdbcUrl: jdbc:mysql://localhost:3306/bugmanagement?useSSL=true
+  user: root
+  password: 123
+  driverClass: com.mysql.jdbc.Driver
+
+#logging.pattern.console=%d - %msg%n

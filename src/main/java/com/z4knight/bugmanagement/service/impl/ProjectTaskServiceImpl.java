@@ -6,14 +6,17 @@ import com.z4knight.bugmanagement.dataobject.ProjectOrder;
 import com.z4knight.bugmanagement.dataobject.ProjectTask;
 import com.z4knight.bugmanagement.enums.ErrorMsg;
 import com.z4knight.bugmanagement.enums.ItemCode;
+import com.z4knight.bugmanagement.enums.LoggerMsg;
 import com.z4knight.bugmanagement.enums.TaskState;
 import com.z4knight.bugmanagement.exception.ServiceException;
 import com.z4knight.bugmanagement.form.ProjectTaskForm;
 import com.z4knight.bugmanagement.repository.ProjectTaskMapper;
+import com.z4knight.bugmanagement.security.JwtUtil;
 import com.z4knight.bugmanagement.service.ProjectOrderService;
 import com.z4knight.bugmanagement.service.ProjectTaskService;
 import com.z4knight.bugmanagement.util.CodeGeneratorUtil;
 import com.z4knight.bugmanagement.util.DateUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,8 @@ import java.util.List;
  * 
  * 任务-服务实现类
  */
+
+@Slf4j
 @Service
 public class ProjectTaskServiceImpl implements ProjectTaskService {
 
@@ -45,6 +50,7 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
         if (startPage == 0 && pageRow == 0) {
             List<ProjectTask> taskList = mapper.selectAll();
             if (taskList != null && taskList.size() > 1000L) {
+                log.error(LoggerMsg.TASK_MANAGER_QUERY_LIST.getMsg() + ", ErrorMsg={}", ErrorMsg.DATA_OVERFLOW.getMsg());
                 throw new ServiceException(ErrorMsg.DATA_OVERFLOW.getMsg());
             }
         }
@@ -53,8 +59,10 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
         PageInfo<ProjectTask> taskPageInfo = new PageInfo<>(taskList);
         taskList = taskPageInfo.getList();
         if (null == taskList || taskList.size() == 0) {
+            log.error(LoggerMsg.TASK_MANAGER_QUERY_LIST.getMsg() + ", ErrorMsg={}", ErrorMsg.DATA_NOT_EXIST.getMsg());
             throw new ServiceException(ErrorMsg.DATA_NOT_EXIST.getMsg());
         }
+        log.info(LoggerMsg.TASK_MANAGER_QUERY_LIST.getMsg() + ", List={}", taskList);
         return taskList;
     }
 
@@ -62,6 +70,7 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
     public ProjectTask save(ProjectTaskForm projectTaskForm) {
         ProjectTask task = selectByTaskName(projectTaskForm.getTaskName());
         if (null != task) {
+            log.error(LoggerMsg.TASK_MANAGER_ADD.getMsg() + ", ErrorMsg={}", ErrorMsg.TASK_NAME_EXIST.getMsg());
             throw new ServiceException(ErrorMsg.TASK_NAME_EXIST.getMsg());
         }
         task = new ProjectTask();
@@ -72,6 +81,7 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
         // 工作量来自于所属工单
         ProjectOrder order = orderService.selectByOrderName(projectTaskForm.getOwnOrder());
         if (null == order) {
+            log.error(LoggerMsg.TASK_MANAGER_ADD.getMsg() + ", ErrorMsg={}", ErrorMsg.OWN_ORDER_NOT_EXIST.getMsg());
             throw new ServiceException(ErrorMsg.OWN_ORDER_NOT_EXIST.getMsg());
         }
         task.setWorkLoad(order.getDevWorkLoad());
@@ -84,6 +94,10 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
         // 设置登记与修改日期为系统当前日期
         task.setCreateTime(DateUtil.getCurrentDate());
         task.setEditTime(DateUtil.getCurrentDate());
+        // 设置登记人与修改人为当前登录用户
+        task.setRegister(JwtUtil.getCurrentUserName());
+        task.setModifier(JwtUtil.getCurrentUserName());
+        log.info(LoggerMsg.TASK_MANAGER_ADD.getMsg() + ", task={}", task);
         mapper.save(task);
         return task;
     }

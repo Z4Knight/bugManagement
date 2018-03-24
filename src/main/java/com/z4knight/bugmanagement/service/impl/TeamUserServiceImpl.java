@@ -1,5 +1,6 @@
 package com.z4knight.bugmanagement.service.impl;
 
+import cn.lz.cloud.common.util.UUID;
 import com.z4knight.bugmanagement.dataobject.ProjectGroup;
 import com.z4knight.bugmanagement.dataobject.TeamUser;
 import com.z4knight.bugmanagement.enums.ErrorMsg;
@@ -8,17 +9,21 @@ import com.z4knight.bugmanagement.exception.ServiceException;
 import com.z4knight.bugmanagement.form.TeamUserForm;
 import com.z4knight.bugmanagement.form.UserLoginForm;
 import com.z4knight.bugmanagement.repository.TeamUserMapper;
+import com.z4knight.bugmanagement.security.JwtUtil;
 import com.z4knight.bugmanagement.service.ProjectGroupService;
 import com.z4knight.bugmanagement.service.TeamUserService;
+import com.z4knight.bugmanagement.util.DateUtil;
 import com.z4knight.bugmanagement.util.Entity2VoConvert;
 import com.z4knight.bugmanagement.vo.TeamUserVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Author Z4knight
@@ -37,7 +42,15 @@ public class TeamUserServiceImpl implements TeamUserService {
 
     @Override
     public List<TeamUser> selectAll() {
-        return null;
+        List<TeamUser> userList = mapper.selectAll();
+        if (userList == null || userList.size() == 0) {
+            log.error(LoggerMsg.USER_MANAGER_QUERY_LIST.getMsg() + ", ErrorMsg={}", ErrorMsg.DATA_NOT_EXIST.getMsg());
+            throw new ServiceException(ErrorMsg.DATA_NOT_EXIST.getMsg());
+        }
+        List<TeamUser> results = userList.stream().filter(u -> !u.getRole().equals("管理员"))
+                .collect(Collectors.toList());
+        log.info(LoggerMsg.USER_MANAGER_QUERY_LIST.getMsg() + ", list={}", results);
+        return results;
     }
 
     @Override
@@ -48,8 +61,8 @@ public class TeamUserServiceImpl implements TeamUserService {
        }
         ProjectGroup group = groupService.selectByGroupName(ownGroup);
        if (group == null) {
-           log.error(LoggerMsg.USER_MANAGER_QUERY_LIST.getMsg() + ", ErrorMsg={}", ErrorMsg.GROUP_NOT_EXIST.getMsg());
-           throw new ServiceException(ErrorMsg.GROUP_NOT_EXIST.getMsg());
+           log.error(LoggerMsg.USER_MANAGER_QUERY_LIST.getMsg() + ", ErrorMsg={}", ErrorMsg.GROUP_NOT_EXIST_USERS.getMsg());
+           throw new ServiceException(ErrorMsg.GROUP_NOT_EXIST_USERS.getMsg());
        }
        List<TeamUser> teamUserList = mapper.selectByOwnGroup(ownGroup);
        List<TeamUserVO> teamUserVOList = Entity2VoConvert.convertUser(teamUserList);
@@ -60,8 +73,16 @@ public class TeamUserServiceImpl implements TeamUserService {
     @Transactional
     @Override
     public TeamUser save(TeamUserForm userForm) {
-
-        return null;
+        TeamUser result = new TeamUser();
+        BeanUtils.copyProperties(userForm, result);
+        result.setUuid(UUID.getUUID());
+        result.setCreateTime(DateUtil.getCurrentTime());
+        result.setEditTime(DateUtil.getCurrentTime());
+        result.setRegister(JwtUtil.getCurrentUserName());
+        result.setModifier(JwtUtil.getCurrentUserName());
+        mapper.save(result);
+        log.info(LoggerMsg.USER_MANAGER_ADD.getMsg() + ", user={}", result);
+        return result;
     }
 
     @Transactional
@@ -95,7 +116,7 @@ public class TeamUserServiceImpl implements TeamUserService {
     }
 
     @Override
-    public UserLoginForm checkUserInfo(UserLoginForm userLoginForm) {
+    public TeamUserVO checkUserInfo(UserLoginForm userLoginForm) {
         if (StringUtils.isEmpty(userLoginForm.getPassWord())) {
             log.error(LoggerMsg.USER_MANAGER_LOGIN.getMsg() + ", ErrorMsg={}",ErrorMsg.USER_PSWD_REQUIRED.getMsg());
             throw new ServiceException(ErrorMsg.USER_PSWD_REQUIRED.getMsg());
@@ -106,6 +127,8 @@ public class TeamUserServiceImpl implements TeamUserService {
             throw new ServiceException(ErrorMsg.USER_NAME_OR_PSWD_ERROR.getMsg());
         }
         log.info(LoggerMsg.USER_MANAGER_LOGIN.getMsg() + ", userName={}", user.getUserName());
-        return userLoginForm;
+        TeamUserVO userVO = new TeamUserVO();
+        BeanUtils.copyProperties(user, userVO);
+        return userVO;
     }
 }

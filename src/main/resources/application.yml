@@ -1,0 +1,7 @@
+server:
+  context-path: /bugManagement
+spring:
+  profiles:
+    active: dev
+
+#logging.pattern.console=%d - %msg%n

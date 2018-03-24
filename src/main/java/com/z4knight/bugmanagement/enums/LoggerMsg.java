@@ -29,6 +29,14 @@ public enum LoggerMsg {
     ORDER_MANAGER_QUERY_POINT("【工单管理】-查询指定工单"),
     ORDER_MANAGER_UPDATE("【工单管理】-修改工单"),
 
+    // 任务管理
+    TASK_MANAGER_QUERY_LIST("【任务管理】-查询列表"),
+    TASK_MANAGER_ADD("【任务管理】-增加任务"),
+    TASK_MANAGER_DELETE("【任务管理】-删除任务"),
+    TASK_MANAGER_QUERY_POINT("【任务管理】-查询指定任务"),
+    TASK_MANAGER_UPDATE("【任务管理】-修改任务"),
+
+
 
     // 流转管理-信息
     PROCESS_MANAGER_MSG_ADD("【流转管理】-保存流转信息"),

@@ -18,10 +18,6 @@ public class ProjectTaskFilter {
     public static void valid(ProjectTaskForm projectTaskForm, ReqType type) {
         if (StringUtils.isEmpty(projectTaskForm.getTaskName())) {
             throw new ServiceException(ErrorMsg.TASK_NAME_REQUIRED.getMsg());
-        } else if (ReqType.ADD.equals(type) && StringUtils.isEmpty(projectTaskForm.getRegister())) {
-            throw new ServiceException(ErrorMsg.REGISTER_REQUIRED.getMsg());
-        } else if (StringUtils.isEmpty(projectTaskForm.getModifier())) {
-            throw new ServiceException(ErrorMsg.MODIFIER_REQUIRED.getMsg());
         } else if (ReqType.UPDATE.equals(type) && StringUtils.isEmpty(projectTaskForm.getTaskId())) {
             throw new ServiceException(ErrorMsg.TASK_CODE_REQUIRED.getMsg());
         }

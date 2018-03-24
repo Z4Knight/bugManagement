@@ -17,7 +17,7 @@ public interface TeamUserService {
 
     List<TeamUser> selectAll();
 
-    UserLoginForm checkUserInfo(UserLoginForm userLoginForm);
+    TeamUserVO checkUserInfo(UserLoginForm userLoginForm);
 
     List<TeamUserVO> selectByOwnGroup(String ownGroup);
 
