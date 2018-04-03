@@ -11,6 +11,7 @@ import com.z4knight.bugmanagement.repository.GeneralProcessMapper;
 import com.z4knight.bugmanagement.service.GeneralProcessService;
 import com.z4knight.bugmanagement.service.HistoricProcessService;
 import com.z4knight.bugmanagement.service.ProjectOrderService;
+import com.z4knight.bugmanagement.service.ProjectTaskService;
 import com.z4knight.bugmanagement.util.DateUtil;
 import com.z4knight.bugmanagement.vo.GeneralProcessVO;
 import com.z4knight.bugmanagement.vo.ProjectOrderProcessVO;
@@ -55,18 +56,9 @@ public class GeneralProcessServiceImpl implements GeneralProcessService {
     @Autowired
     private ProjectOrderService projectOrderService;
 
+    @Autowired
+    private ProjectTaskService projectTaskService;
 
-
-
-    private List<GeneralProcess> selectAll() {
-        List<GeneralProcess> generalProcessList = mapper.selectAll();
-        if (null == generalProcessList || generalProcessList.size() == 0) {
-            log.error(LoggerMsg.PROCESS_MANAGER_MSG_QUERY_LIST.getMsg() + ", ErrorMsg={}", ErrorMsg.DATA_NOT_EXIST.getMsg());
-            throw new ServiceException(ErrorMsg.DATA_NOT_EXIST.getMsg());
-        }
-        log.info(LoggerMsg.PROCESS_MANAGER_MSG_QUERY_LIST.getMsg() + ", List={}", generalProcessList);
-        return generalProcessList;
-    }
 
 
     @Transactional

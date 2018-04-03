@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/test" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="m1516692865834" name="" targetNamespace="http://www.activiti.org/test" typeLanguage="http://www.w3.org/2001/XMLSchema">
-  <process id="wf_feedtest" isClosed="false" isExecutable="true" name="工单流程" processType="None">
+  <process id="wf_feedtest_order" isClosed="false" isExecutable="true" name="工单流程" processType="None">
     <startEvent id="_2" name="工单新建"/>
     <userTask activiti:assignee="#{procAssigner}" activiti:exclusive="true" id="_3" name="工单评估"/>
     <exclusiveGateway gatewayDirection="Unspecified" id="_4" name="ExclusiveGateway"/>

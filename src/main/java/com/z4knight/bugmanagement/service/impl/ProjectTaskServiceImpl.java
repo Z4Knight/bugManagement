@@ -2,16 +2,17 @@ package com.z4knight.bugmanagement.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.z4knight.bugmanagement.dataobject.GeneralProcess;
+import com.z4knight.bugmanagement.dataobject.HistoricProcess;
 import com.z4knight.bugmanagement.dataobject.ProjectOrder;
 import com.z4knight.bugmanagement.dataobject.ProjectTask;
-import com.z4knight.bugmanagement.enums.ErrorMsg;
-import com.z4knight.bugmanagement.enums.ItemCode;
-import com.z4knight.bugmanagement.enums.LoggerMsg;
-import com.z4knight.bugmanagement.enums.TaskState;
+import com.z4knight.bugmanagement.enums.*;
 import com.z4knight.bugmanagement.exception.ServiceException;
 import com.z4knight.bugmanagement.form.ProjectTaskForm;
 import com.z4knight.bugmanagement.repository.ProjectTaskMapper;
 import com.z4knight.bugmanagement.security.JwtUtil;
+import com.z4knight.bugmanagement.service.GeneralProcessService;
+import com.z4knight.bugmanagement.service.HistoricProcessService;
 import com.z4knight.bugmanagement.service.ProjectOrderService;
 import com.z4knight.bugmanagement.service.ProjectTaskService;
 import com.z4knight.bugmanagement.util.CodeGeneratorUtil;
@@ -40,6 +41,13 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
 
     @Autowired
     private ProjectOrderService orderService;
+
+    @Autowired
+    private GeneralProcessService generalProcessService;
+
+
+    @Autowired
+    private HistoricProcessService historicProcessService;
 
     @Override
     public List<ProjectTask> selectAll(Integer page, Integer size) {
@@ -99,7 +107,51 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
         task.setModifier(JwtUtil.getCurrentUserName());
         log.info(LoggerMsg.TASK_MANAGER_ADD.getMsg() + ", task={}", task);
         mapper.save(task);
+        // 设置任务业务流程开始
+//        startProcess(task);
+        // 保存任务创建流转记录
+//        storeTaskCreateProcess(task);
         return task;
+    }
+
+    private void storeTaskCreateProcess(ProjectTask task) {
+        HistoricProcess process = new HistoricProcess();
+        process.setObjectId(task.getTaskId());
+        process.setTaskName("任务新建");
+        process.setProcTime(DateUtil.getCurrentTime());
+        process.setProcAssigner(task.getHandler());
+        process.setProcUser(task.getRegister());
+        // 默认没有处理结论
+        process.setProcResult(ProcCode.NOTHING.getMsg());
+        historicProcessService.save(process);
+    }
+
+
+
+    private void startProcess(ProjectTask task) {
+        // 设置流转变量
+        GeneralProcess process = new GeneralProcess();
+        // 设置流程定义key
+        String procDefKey = "wf_feedtest_task";
+        // 默认登记、修改人与登记、修改时间与任务新建时相同
+        process.setRegister(task.getRegister());
+        process.setModifier(task.getModifier());
+        process.setCreateTime(task.getCreateTime());
+        process.setEditTime(task.getEditTime());
+        // 绑定当前任务编码及名称并设置业务类型为任务
+        process.setObjectId(task.getTaskId());
+        process.setObjectName(task.getTaskName());
+        process.setObjectType(ProcessBusMsg.TASK.getMsg());
+        // 设置分派人和处理人为：任务当前处理人
+        process.setProcAssigner(task.getHandler());
+        process.setProcUser(task.getHandler());
+        // 处理时间为当前任务创建时间
+        process.setProcDate(task.getCreateTime());
+        // 任务新建完成，处理结论默认设置为：无
+        process.setProcResult(ProcCode.NOTHING.getMsg());
+        // 任务新建完成，默认处理状态为：任务的类型
+        process.setProcStatus(task.getType());
+        generalProcessService.save(process, procDefKey);
     }
 
     @Override

@@ -131,7 +131,7 @@ public class ProjectOrderServiceImpl implements ProjectOrderService{
         // 设置流转变量
         GeneralProcess process = new GeneralProcess();
         // 设置流程定义key
-        String procDefKey = "wf_feedtest";
+        String procDefKey = "wf_feedtest_order";
         // 默认登记、修改人与登记、修改时间与工单新建时相同
         process.setRegister(order.getRegister());
         process.setModifier(order.getModifier());
