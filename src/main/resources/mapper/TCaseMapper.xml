@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.z4knight.bugmanagement.repository.TCaseMapper" >
+  <resultMap id="BaseResultMap" type="com.z4knight.bugmanagement.dataobject.TCase" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="cottomNumber" property="cottomnumber" jdbcType="VARCHAR" />
+    <result column="cottomName" property="cottomname" jdbcType="VARCHAR" />
+    <result column="cottomDescribe" property="cottomdescribe" jdbcType="VARCHAR" />
+    <result column="cottomModule" property="cottommodule" jdbcType="VARCHAR" />
+    <result column="cottomRisklevel" property="cottomrisklevel" jdbcType="VARCHAR" />
+    <result column="cottomPriority" property="cottompriority" jdbcType="VARCHAR" />
+    <result column="cottomPreposition" property="cottompreposition" jdbcType="VARCHAR" />
+    <result column="cottomOperating" property="cottomoperating" jdbcType="VARCHAR" />
+    <result column="cottomData" property="cottomdata" jdbcType="VARCHAR" />
+    <result column="cottomExpect" property="cottomexpect" jdbcType="VARCHAR" />
+    <result column="cottomType" property="cottomtype" jdbcType="VARCHAR" />
+    <result column="cottomExample" property="cottomexample" jdbcType="VARCHAR" />
+    <result column="cottomTest" property="cottomtest" jdbcType="VARCHAR" />
+    <result column="cottomSmoking" property="cottomsmoking" jdbcType="VARCHAR" />
+    <result column="cottomCopy" property="cottomcopy" jdbcType="VARCHAR" />
+    <result column="cottomRegression" property="cottomregression" jdbcType="VARCHAR" />
+    <result column="cottomRemark" property="cottomremark" jdbcType="VARCHAR" />
+    <result column="cottomWriter" property="cottomwriter" jdbcType="VARCHAR" />
+    <result column="cottomTime" property="cottomtime" jdbcType="VARCHAR" />
+    <result column="cottomCreator" property="cottomcreator" jdbcType="VARCHAR" />
+    <result column="cottomCreationDate" property="cottomcreationdate" jdbcType="VARCHAR" />
+    <result column="cottomModifier" property="cottommodifier" jdbcType="VARCHAR" />
+    <result column="cottomModifierTime" property="cottommodifiertime" jdbcType="VARCHAR" />
+    <result column="cottomCritical" property="cottomcritical" jdbcType="VARCHAR" />
+    <result column="cottomAssessor" property="cottomassessor" jdbcType="VARCHAR" />
+    <result column="cottomProgress" property="cottomprogress" jdbcType="VARCHAR" />
+    <result column="cottomInspectionDate" property="cottominspectiondate" jdbcType="VARCHAR" />
+    <result column="demEncoded" property="demencoded" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, cottomNumber, cottomName, cottomDescribe, cottomModule, cottomRisklevel, cottomPriority, 
+    cottomPreposition, cottomOperating, cottomData, cottomExpect, cottomType, cottomExample, 
+    cottomTest, cottomSmoking, cottomCopy, cottomRegression, cottomRemark, cottomWriter, 
+    cottomTime, cottomCreator, cottomCreationDate, cottomModifier, cottomModifierTime, 
+    cottomCritical, cottomAssessor, cottomProgress, cottomInspectionDate, demEncoded
+  </sql>
+   <!--parameterType  请求的数据类型  -->
+  <!--resultMap      返回的数据类型 -->
+  <select id="selectList" resultMap="BaseResultMap" parameterType="java.lang.String">
+      SELECT cottomNumber,cottomName,cottomModule,
+      cottomPriority,cottomPreposition, cottomOperating,
+      cottomExpect, cottomType, cottomExample,
+      cottomWriter, cottomTime, cottomCreator,
+      cottomCreationDate, cottomModifier, cottomModifierTime,
+      cottomCritical, cottomAssessor, cottomProgress,
+      cottomInspectionDate
+      FROM T_CASE WHERE demEncoded = #{demcond}
+      
+  </select>
+  <insert id="insertCase" parameterType="com.z4knight.bugmanagement.dataobject.TCase">
+  INSERT INTO t_case
+   (demEncoded,cottomNumber, cottomName, cottomDescribe, cottomModule, cottomRisklevel, 
+                    cottomPriority, cottomPreposition, cottomOperating, cottomData, cottomExpect, cottomType,
+                    cottomExample, cottomTest, cottomSmoking, cottomCopy, cottomRegression, cottomRemark,
+                    cottomWriter, cottomTime, cottomCreator, cottomCreationDate, cottomModifier, cottomModifierTime,
+                    cottomCritical, cottomAssessor, cottomProgress, cottomInspectionDate)
+      VALUES( #{demencoded,jdbcType=VARCHAR},#{cottomnumber,jdbcType=VARCHAR}, #{cottomname,jdbcType=VARCHAR}, 
+      #{cottomdescribe,jdbcType=VARCHAR}, #{cottommodule,jdbcType=VARCHAR}, #{cottomrisklevel,jdbcType=VARCHAR}, 
+      #{cottompriority,jdbcType=VARCHAR}, #{cottompreposition,jdbcType=VARCHAR}, #{cottomoperating,jdbcType=VARCHAR}, 
+      #{cottomdata,jdbcType=VARCHAR}, #{cottomexpect,jdbcType=VARCHAR}, #{cottomtype,jdbcType=VARCHAR}, 
+      #{cottomexample,jdbcType=VARCHAR}, #{cottomtest,jdbcType=VARCHAR}, #{cottomsmoking,jdbcType=VARCHAR}, 
+      #{cottomcopy,jdbcType=VARCHAR}, #{cottomregression,jdbcType=VARCHAR}, #{cottomremark,jdbcType=VARCHAR}, 
+      #{cottomwriter,jdbcType=VARCHAR}, #{cottomtime,jdbcType=VARCHAR}, #{cottomcreator,jdbcType=VARCHAR}, 
+      #{cottomcreationdate,jdbcType=VARCHAR}, #{cottommodifier,jdbcType=VARCHAR}, #{cottommodifiertime,jdbcType=VARCHAR}, 
+      #{cottomcritical,jdbcType=VARCHAR}, #{cottomassessor,jdbcType=VARCHAR}, #{cottomprogress,jdbcType=VARCHAR}, 
+      #{cottominspectiondate,jdbcType=VARCHAR})
+  </insert>
+  <select id="selectTwo" resultMap="BaseResultMap">
+   SELECT * FROM T_CASE 
+  </select>
+  <select id="TCaseList" resultMap="BaseResultMap" parameterType="java.lang.String">
+   SELECT * FROM T_CASE where cottomNumber=#{cottomnumber}  
+  </select>
+  <update id="update" parameterType="com.z4knight.bugmanagement.dataobject.TCase">
+    UPDATE T_CASE SET 
+	    cottomName= #{cottomname,jdbcType=VARCHAR},cottomDescribe= #{cottomdescribe,jdbcType=VARCHAR},cottomRisklevel= #{cottomrisklevel,jdbcType=VARCHAR},
+	    cottomPriority= #{cottompriority,jdbcType=VARCHAR},cottomType= #{cottomtype,jdbcType=VARCHAR},cottomExample= #{cottomexample,jdbcType=VARCHAR},
+		cottomPreposition= #{cottompreposition,jdbcType=VARCHAR},cottomData= #{cottomdata,jdbcType=VARCHAR},cottomOperating= #{cottomoperating,jdbcType=VARCHAR},
+		cottomExpect= #{cottomexpect,jdbcType=VARCHAR},cottomSmoking= #{cottomsmoking,jdbcType=VARCHAR},cottomTest= #{cottomtest,jdbcType=VARCHAR},
+		cottomCopy= #{cottomcopy,jdbcType=VARCHAR},cottomRegression= #{cottomregression,jdbcType=VARCHAR},cottomRemark= #{cottomremark,jdbcType=VARCHAR}
+	WHERE  demEncoded = #{demencoded,jdbcType=VARCHAR} AND cottomNumber= #{cottomnumber,jdbcType=VARCHAR}
+  </update>
+  <delete id="delect" parameterType="com.z4knight.bugmanagement.dataobject.TCase">
+    DELETE FROM t_case WHERE  cottomNumber=#{cottomnumber,jdbcType=VARCHAR} AND demEncoded=#{demencoded,jdbcType=VARCHAR}
+  </delete>
+  <select id="updateList" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select *from T_CASE where demEncoded= #{demencoded}
+  </select>
+  <select id="screenList" resultMap="BaseResultMap" parameterType="com.z4knight.bugmanagement.dataobject.TCase">
+     SELECT *FROM T_CASE WHERE 
+	 	<if test="cottomnumber !=null">
+	    cottomNumber LIKE '%' #{cottomnumber,jdbcType=VARCHAR} '%'
+	 	</if>
+		<if test="cottomname !=null">
+	 		AND  cottomName LIKE '%' #{cottomname,jdbcType=VARCHAR} '%'
+		</if>
+		 <if test="cottomtype !=null ">
+	 		AND  cottomType LIKE '%' #{cottomtype,jdbcType=VARCHAR} '%'
+	 	</if>
+  </select>
+  
+</mapper>

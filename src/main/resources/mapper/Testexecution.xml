@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.z4knight.bugmanagement.repository.TestexecutionMapper" >
+ <resultMap id="BaseResultMap" type="com.z4knight.bugmanagement.dataobject.Testexecution" >
+   <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="caseTestNumber" property="casetestnumber" jdbcType="VARCHAR" />
+    <result column="cottomNumber" property="cottomnumber" jdbcType="VARCHAR" />
+    <result column="cottomName" property="cottomname" jdbcType="VARCHAR" />
+    <result column="cottomModule" property="cottommodule" jdbcType="VARCHAR" />
+    <result column="cottomDescribe" property="cottomdescribe" jdbcType="VARCHAR" />
+    <result column="cottomPriority" property="cottompriority" jdbcType="VARCHAR" />
+    <result column="cottomPreposition" property="cottompreposition" jdbcType="VARCHAR" />
+    <result column="cottomOperating" property="cottomoperating" jdbcType="VARCHAR" />
+    <result column="cottomExpect" property="cottomexpect" jdbcType="VARCHAR" />
+    <result column="cottomType" property="cottomtype" jdbcType="VARCHAR" />
+    <result column="cottomExample" property="cottomexample" jdbcType="VARCHAR" />
+    <result column="cottomWriter" property="cottomwriter" jdbcType="VARCHAR" />
+    <result column="cottomPurpose" property="cottompurpose" jdbcType="VARCHAR" />
+    <result column="cottomOperator" property="cottomoperator" jdbcType="VARCHAR" />
+    <result column="cottomState" property="cottomstate" jdbcType="VARCHAR" />
+    <result column="cottomTest" property="cottomtest" jdbcType="VARCHAR" />
+    <result column="cottomSmoking" property="cottomsmoking" jdbcType="VARCHAR" />
+    <result column="cottomCopy" property="cottomcopy" jdbcType="VARCHAR" />
+    <result column="cottomRegression" property="cottomregression" jdbcType="VARCHAR" />
+    <result column="cottomRemark" property="cottomremark" jdbcType="VARCHAR" />
+    <result column="cottomZSType" property="cottomzstype" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, caseTestNumber, cottomNumber, cottomName, cottomModule, cottomDescribe, cottomPriority, 
+    cottomPreposition, cottomOperating, cottomExpect, cottomType, cottomExample, cottomWriter, 
+    cottomPurpose, cottomOperator, cottomState, cottomTest, cottomSmoking, cottomCopy, 
+    cottomRegression, cottomRemark, cottomZSType
+  </sql>
+    <!--parameterType  请求的数据类型  -->
+  <!--resultMap      返回的数据类型 -->
+  <select id="selectlist" resultMap="BaseResultMap" parameterType="com.z4knight.bugmanagement.dataobject.Testexecution">
+     SELECT cottomNumber,cottomName,cottomPriority,
+     cottomPreposition,cottomOperating,cottomExpect,cottomType,
+     cottomExample,cottomWriter,cottomPurpose,cottomOperator,
+     cottomState,cottomRemark FROM t_casetestgather WHERE caseTestNumber = #{casetestnumber,jdbcType=VARCHAR}
+  </select>
+  <select id="executeTest" resultMap="BaseResultMap" parameterType="com.z4knight.bugmanagement.dataobject.Testexecution">
+   SELECT  caseTestNumber,cottomNumber, cottomName, cottomOperating,cottomPreposition,cottomExpect,cottomDataTwo,cottomStateRemark,cottomStateExpect
+FROM t_casetestgather WHERE caseTestNumber = #{casetestnumber,jdbcType=VARCHAR} AND cottomNumber =#{cottomnumber,jdbcType=VARCHAR} AND cottomOperator=#{cottomoperator,jdbcType=VARCHAR}
+  </select>
+ <insert id="insertInto" parameterType="com.z4knight.bugmanagement.dataobject.Testexecution">
+   INSERT INTO t_defects 
+  (caseTestNumber,cottomNumber,defectsName,
+	defectsType,defectsSeverity,defectsPriority,
+	defectsPhase,defectsProject,defectsSystom,
+	defectsModule,defectsProbability,defectsCurrentProcessing,
+	defectsVersionNumber,defectsRemark,defectsNumber) 
+VALUES(#{casetestnumber,jdbcType=VARCHAR},#{cottomnumber,jdbcType=VARCHAR},#{defectsname,jdbcType=VARCHAR},
+			#{defectstype,jdbcType=VARCHAR},#{defectsseverity,jdbcType=VARCHAR},#{defectspriority,jdbcType=VARCHAR},
+			#{defectsphase,jdbcType=VARCHAR},#{defectsproject,jdbcType=VARCHAR},#{defectssystom,jdbcType=VARCHAR},
+			#{defectsmodule,jdbcType=VARCHAR},#{defectsprobability,jdbcType=VARCHAR},#{defectscurrentprocessing,jdbcType=VARCHAR},
+			#{defectsversionnumber,jdbcType=VARCHAR},#{defectsremark,jdbcType=VARCHAR},#{defectsnumber,jdbcType=VARCHAR})
+  </insert>  
+  <select id="selectlist2" resultMap="BaseResultMap" parameterType="com.z4knight.bugmanagement.dataobject.Testexecution">
+     SELECT cottomNumber,cottomName,cottomPriority,
+     cottomPreposition,cottomOperating,cottomExpect,cottomType,
+     cottomExample,cottomWriter,cottomPurpose,cottomOperator,
+     cottomState,cottomRemark FROM t_casetestgather WHERE caseTestNumber = #{casetestnumber,jdbcType=VARCHAR}
+  </select>
+</mapper>

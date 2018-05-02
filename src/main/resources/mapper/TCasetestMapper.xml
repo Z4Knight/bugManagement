@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.z4knight.bugmanagement.repository.TCaseTestMapper" >
+  <resultMap id="BaseResultMap" type="com.z4knight.bugmanagement.dataobject.TCasetest" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="caseTestNumber" property="casetestnumber" jdbcType="VARCHAR" />
+    <result column="caseTestName" property="casetestname" jdbcType="VARCHAR" />
+  </resultMap>
+ 
+  <sql id="Base_Column_List" >
+    id, caseTestNumber, caseTestName
+  </sql>
+    <select id="activityList" resultMap="BaseResultMap" parameterType="java.lang.String">
+	 select a.caseTestNumber,a.caseTestName, b.cottomNumber,b.cottomName,b.cottomPriority,
+	  b.cottomPreposition,b.cottomOperating,b.cottomExpect,
+	  b.cottomType,b.cottomExample,b.cottomWriter,
+	  b.cottomOperator,b.cottomState,
+	  b.cottomTest,b.cottomSmoking,b.cottomCopy,
+	  b.cottomRegression,b.cottomRemark
+	  from t_casetest a  
+	  left join t_caseTestgather b 
+	  on a.caseTestNumber = b.caseTestNumber
+	  where b.caseTestNumber=#{casetestnumber}
+	  </select>
+	  <insert id="insertINto" parameterType="com.z4knight.bugmanagement.dataobject.TCasetest">
+	  INSERT INTO t_casetestgather (caseTestNumber, cottomNumber,cottomName,
+															cottomModule,cottomDescribe,cottomPriority,
+															cottomPreposition,cottomOperating,cottomExpect,
+															cottomType,cottomExample,cottomWriter,
+															cottomPurpose,cottomState,
+															cottomTest,cottomSmoking,cottomCopy,
+															cottomRegression,cottomRemark ) 
+             VALUES(#{casetestnumber,jdbcType=VARCHAR},#{cottomnumber,jdbcType=VARCHAR}, #{cottomname,jdbcType=VARCHAR},
+                    #{cottommodule,jdbcType=VARCHAR},#{cottomdescribe,jdbcType=VARCHAR}, #{cottompriority,jdbcType=VARCHAR},
+                    #{cottompreposition,jdbcType=VARCHAR},#{cottomoperating,jdbcType=VARCHAR}, #{cottomexpect,jdbcType=VARCHAR},
+                    #{cottomtype,jdbcType=VARCHAR}, #{cottomexample,jdbcType=VARCHAR}, #{cottomwriter,jdbcType=VARCHAR},
+                    #{cottompurpose,jdbcType=VARCHAR},#{cottomstate,jdbcType=VARCHAR},
+                    #{cottomtest,jdbcType=VARCHAR}, #{cottomsmoking,jdbcType=VARCHAR}, #{cottomcopy,jdbcType=VARCHAR}, 
+                    #{cottomregression,jdbcType=VARCHAR},#{cottomremark,jdbcType=VARCHAR} )
+	  </insert>
+	  <insert id="insertIntoPeople" parameterType="com.z4knight.bugmanagement.dataobject.TCasetest">
+	  UPDATE t_casetestgather SET cottomZSType = #{cottomzstype,jdbcType=VARCHAR},cottomOperator=#{cottomoperator,jdbcType=VARCHAR} 
+	                       WHERE caseTestNumber = #{casetestnumber,jdbcType=VARCHAR} and cottomNumber= #{cottomnumber,jdbcType=VARCHAR}
+	  </insert>
+	  <delete id="delectTcaseTest" parameterType="com.z4knight.bugmanagement.dataobject.TCasetest">
+		  DELETE FROM t_casetestgather WHERE  cottomNumber=#{cottomnumber,jdbcType=VARCHAR} AND caseTestNumber=#{casetestnumber,jdbcType=VARCHAR} 
+	  </delete>
+	  <select id="updateTest" resultMap="BaseResultMap" parameterType="com.z4knight.bugmanagement.dataobject.TCasetest">
+	 select a.caseTestNumber,a.caseTestName, b.cottomNumber,b.cottomName,b.cottomPriority,
+	  b.cottomPreposition,b.cottomOperating,b.cottomExpect,
+	  b.cottomType,b.cottomExample,b.cottomWriter,
+	  b.cottomOperator,b.cottomState,
+	  b.cottomTest,b.cottomSmoking,b.cottomCopy,
+	  b.cottomRegression,b.cottomRemark
+	  from t_casetest a  
+	  left join t_caseTestgather b 
+	  on a.caseTestNumber = b.caseTestNumber
+	  where b.caseTestNumber=#{casetestnumber,jdbcType=VARCHAR}
+	  </select>
+	  <select id="findFiltrate" resultMap="BaseResultMap" parameterType="com.z4knight.bugmanagement.dataobject.TCasetest">
+	 SELECT cottomNumber,cottomName,cottomPriority,cottomPreposition,cottomOperating,cottomExpect
+,cottomType,cottomExample,cottomWriter,cottomPurpose,cottomOperator,cottomState,cottomTest
+,cottomSmoking,cottomCopy,cottomRegression,cottomRemark FROM t_caseTestgather WHERE 
+	 	<if test="cottomnumber !=null">
+	    cottomNumber LIKE '%' #{cottomnumber,jdbcType=VARCHAR} '%'
+	 	</if>
+		<if test="cottomname !=null">
+	 		AND   cottomName LIKE '%' #{cottomname,jdbcType=VARCHAR} '%'
+		</if>
+		 <if test="cottompriority !=null ">
+	 		AND cottomPriority LIKE '%' #{cottompriority,jdbcType=VARCHAR} '%'
+	 	</if>
+	  	<if test="cottomtype !=null">
+	   	AND cottomType LIKE '%' #{cottomtype,jdbcType=VARCHAR} '%'
+	  	</if>
+	   <if test="cottomwriter !=null ">
+	    AND cottomWriter LIKE '%' #{cottomwriter,jdbcType=VARCHAR} '%'
+	   </if>
+	   <if test="cottomsmoking !=null">
+	    AND cottomSmoking LIKE '%' #{cottomsmoking,jdbcType=VARCHAR} '%'
+	   </if>
+	    <if test="cottomtest !=null ">
+	    AND cottomTest LIKE '%' #{cottomtest,jdbcType=VARCHAR} '%'
+	   </if>
+	    <if test="cottomcopy !=null ">
+	    AND cottomCopy LIKE '%' #{cottomcopy,jdbcType=VARCHAR} '%'
+	   </if>
+	    <if test="cottomregression !=null ">
+	    AND cottomRegression LIKE '%' #{cottomregression,jdbcType=VARCHAR} '%'
+	   </if>
+	    <if test="cottomoperator !=null ">
+	    AND cottomOperator LIKE '%' #{cottomoperator,jdbcType=VARCHAR} '%'
+	   </if>
+	</select>
+</mapper>

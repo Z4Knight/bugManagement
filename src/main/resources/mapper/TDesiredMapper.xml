@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.z4knight.bugmanagement.repository.TDesiredMapper" >
+  <resultMap id="BaseResultMap" type="com.z4knight.bugmanagement.dataobject.TDesired" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="demEncoded" property="demencoded" jdbcType="VARCHAR" />
+    <result column="demName" property="demname" jdbcType="VARCHAR" />
+    <result column="demDescribe" property="demdescribe" jdbcType="VARCHAR" />
+    <result column="demModule" property="demmodule" jdbcType="VARCHAR" />
+    <result column="demSection" property="demsection" jdbcType="VARCHAR" />
+    <result column="demRisklevel" property="demrisklevel" jdbcType="VARCHAR" />
+    <result column="demPriority" property="dempriority" jdbcType="VARCHAR" />
+    <result column="demSource" property="demsource" jdbcType="VARCHAR" />
+    <result column="demSystom" property="demsystom" jdbcType="VARCHAR" />
+    <result column="demRemarks" property="demremarks" jdbcType="VARCHAR" />
+    <result column="demWriter" property="demwriter" jdbcType="VARCHAR" />
+    <result column="demWtime" property="demwtime" jdbcType="VARCHAR" />
+    <result column="demModifier" property="demmodifier" jdbcType="VARCHAR" />
+    <result column="demMtime" property="demmtime" jdbcType="VARCHAR" />
+    <result column="taskId" property="taskid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, demEncoded, demName, demDescribe, demModule, demSection, demRisklevel, demPriority, 
+    demSource, demSystom, demRemarks, demWriter, demWtime, demModifier, demMtime, taskId
+  </sql>
+  <!--parameterType  请求的数据类型  -->
+  <!--resultMap      返回的数据类型 -->
+  <select id="selectByTaskId" resultMap="BaseResultMap" parameterType="java.lang.String">
+  		SELECT *FROM T_DESIRED WHERE TASKID = #{id}
+  </select>
+   <select id="selectAllTDesired" resultMap="BaseResultMap" >
+  		SELECT *FROM T_DESIRED 
+  </select>
+  <insert id="intsertTDesired" parameterType="com.z4knight.bugmanagement.dataobject.TDesired" >
+    insert into t_desired (taskId,demEncoded,demName, 
+      demDescribe, demModule, demSection, 
+      demRisklevel, demPriority, demSource, 
+      demSystom, demRemarks,demWriter, 
+      demWtime)
+    values (#{taskid,jdbcType=VARCHAR},#{demencoded,jdbcType=VARCHAR},#{demname,jdbcType=VARCHAR}, 
+      #{demdescribe,jdbcType=VARCHAR}, #{demmodule,jdbcType=VARCHAR}, #{demsection,jdbcType=VARCHAR}, 
+      #{demrisklevel,jdbcType=VARCHAR}, #{dempriority,jdbcType=VARCHAR}, #{demsource,jdbcType=VARCHAR}, 
+      #{demsystom,jdbcType=VARCHAR}, #{demremarks,jdbcType=VARCHAR},#{demwriter,jdbcType=VARCHAR}, 
+      #{demwtime,jdbcType=VARCHAR})
+  </insert>
+ <update id="updateRedact"  parameterType="com.z4knight.bugmanagement.dataobject.TDesired" >
+		update t_desired set
+		  demName = #{demname,jdbcType=VARCHAR}, demDescribe = #{demdescribe,jdbcType=VARCHAR},
+		  demModule = #{demmodule,jdbcType=VARCHAR},demSection = #{demsection,jdbcType=VARCHAR},
+		  demRisklevel = #{demrisklevel,jdbcType=VARCHAR}, demPriority = #{dempriority,jdbcType=VARCHAR},
+		  demSource = #{demsource,jdbcType=VARCHAR}, demSystom = #{demsystom,jdbcType=VARCHAR},
+		  demRemarks = #{demremarks,jdbcType=VARCHAR}, demModifier = #{demmodifier,jdbcType=VARCHAR}, 
+		  demMtime = #{demmtime,jdbcType=VARCHAR}
+		  where demEncoded=#{demencoded,jdbcType=VARCHAR}
+	</update>
+	<delete id="delectRedact" parameterType="java.lang.String">
+	    DELETE FROM t_desired where demEncoded = #{demencoded}
+	</delete>
+	<select id="renewal" resultMap="BaseResultMap" parameterType="java.lang.String">
+	   SELECT demEncoded, demName, demDescribe, demModule, demSection, demRisklevel, demPriority, 
+        demSource, demSystom, demRemarks, demWriter, demWtime, demModifier, demMtime, taskId
+     FROM t_desired WHERE taskId = #{taskid}
+	</select>
+	<select id="renewalFilter" resultMap="BaseResultMap" parameterType="com.z4knight.bugmanagement.dataobject.TDesired">
+	 SELECT *FROM t_desired WHERE 
+	 	<if test="demencoded !=null">
+	    demEncoded LIKE '%' #{demencoded,jdbcType=VARCHAR} '%'
+	 	</if>
+		<if test="demname !=null">
+	 		AND   demName LIKE '%' #{demname,jdbcType=VARCHAR} '%'
+		</if>
+		 <if test="demrisklevel !=null ">
+	 		AND demRisklevel LIKE '%' #{demrisklevel,jdbcType=VARCHAR} '%'
+	 	</if>
+	  	<if test="dempriority !=null">
+	   	AND demPriority LIKE '%' #{dempriority,jdbcType=VARCHAR} '%'
+	  	</if>
+	   <if test="demsource !=null ">
+	    AND demSource LIKE '%' #{demsource,jdbcType=VARCHAR} '%'
+	   </if>
+	   <if test="demwtime !=null">
+	    AND demWtime LIKE '%' #{demwtime,jdbcType=VARCHAR} '%'
+	   </if>
+	</select>
+</mapper>

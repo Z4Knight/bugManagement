@@ -11,9 +11,11 @@ import com.z4knight.bugmanagement.enums.ResultCode;
  * 按照接口设计，返回对应信息给前端
  */
 public class Result {
-
+	// 状态码
     private int code;
+	// 响应结果
     private String message;
+	// 响应返回的数据
     private Object data;
 
     public Result setCode(ResultCode resultCode) {

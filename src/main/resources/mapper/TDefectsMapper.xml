@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.z4knight.bugmanagement.repository.TDefectsMapper" >
+  <resultMap id="BaseResultMap" type="com.z4knight.bugmanagement.dataobject.TDefects" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="defectsNumber" property="defectsnumber" jdbcType="VARCHAR" />
+    <result column="defectsName" property="defectsname" jdbcType="VARCHAR" />
+    <result column="defectsState" property="defectsstate" jdbcType="VARCHAR" />
+    <result column="defectsDiscoverer" property="defectsdiscoverer" jdbcType="VARCHAR" />
+    <result column="defectsDiscovererTime" property="defectsdiscoverertime" jdbcType="VARCHAR" />
+    <result column="defectsCurrentProcessing" property="defectscurrentprocessing" jdbcType="VARCHAR" />
+    <result column="defectsType" property="defectstype" jdbcType="VARCHAR" />
+    <result column="defectsSeverity" property="defectsseverity" jdbcType="VARCHAR" />
+    <result column="defectsProbability" property="defectsprobability" jdbcType="VARCHAR" />
+    <result column="defectsPriority" property="defectspriority" jdbcType="VARCHAR" />
+    <result column="defectsPhase" property="defectsphase" jdbcType="VARCHAR" />
+    <result column="defectsProject" property="defectsproject" jdbcType="VARCHAR" />
+    <result column="defectsSystom" property="defectssystom" jdbcType="VARCHAR" />
+    <result column="defectsModule" property="defectsmodule" jdbcType="VARCHAR" />
+    <result column="defectsRemark" property="defectsremark" jdbcType="VARCHAR" />
+    <result column="defectsCreator" property="defectscreator" jdbcType="VARCHAR" />
+    <result column="defectsCreatTime" property="defectscreattime" jdbcType="VARCHAR" />
+    <result column="defectsModificationdate" property="defectsmodificationdate" jdbcType="VARCHAR" />
+    <result column="defectsClosePeople" property="defectsclosepeople" jdbcType="VARCHAR" />
+    <result column="defectsClose" property="defectsclose" jdbcType="VARCHAR" />
+    <result column="defectsVersionNumber" property="defectsversionnumber" jdbcType="VARCHAR" />
+    <result column="defectsExpectationRepairTime" property="defectsexpectationrepairtime" jdbcType="VARCHAR" />
+    <result column="defectsAbstract" property="defectsabstract" jdbcType="VARCHAR" />
+    <result column="defectsManageConclusion" property="defectsmanageconclusion" jdbcType="VARCHAR" />
+    <result column="defectsManageOpinion" property="defectsmanageopinion" jdbcType="VARCHAR" />
+    <result column="assignUserName" property="assignusername" jdbcType="VARCHAR" />
+    <result column="caseTestNumber" property="casetestnumber" jdbcType="VARCHAR" />
+    <result column="cottomNumber" property="cottomnumber" jdbcType="VARCHAR" />
+  </resultMap>
+ 
+  <sql id="Base_Column_List" >
+    id, defectsNumber, defectsName, defectsState, defectsDiscoverer, defectsDiscovererTime, 
+    defectsCurrentProcessing, defectsType, defectsSeverity, defectsProbability, defectsPriority, 
+    defectsPhase, defectsProject, defectsSystom, defectsModule, defectsRemark, defectsCreator, 
+    defectsCreatTime, defectsModificationdate, defectsClosePeople, defectsClose, defectsVersionNumber, 
+    defectsExpectationRepairTime, defectsAbstract, defectsManageConclusion, defectsManageOpinion, 
+    assignUserName, caseTestNumber, cottomNumber
+  </sql>
+  <!--resultMap返回数据类型  -->
+  <!--parameterType 请求数据类型  -->
+ <select id="findList" resultMap="BaseResultMap">
+ 		SELECT 
+defectsNumber,defectsName,defectsState,
+defectsDiscoverer,defectsDiscovererTime,defectsCurrentProcessing,
+defectsSeverity,defectsProbability,defectsPriority,
+defectsSystom,defectsRemark,defectsCreator,
+defectsCreatTime,defectsModificationdate,defectsClosePeople,
+defectsClose  FROM t_defects
+ </select>
+ <insert id="insertInto" parameterType="com.z4knight.bugmanagement.dataobject.TDefects">
+ INSERT INTO t_defects
+		(defectsName,defectsType,defectsSeverity,
+			defectsPriority,defectsPhase,defectsProject,
+				defectsSystom,defectsModule,defectsProbability,
+					defectsCurrentProcessing,defectsVersionNumber,defectsRemark,
+					                defectsNumber,defectsCreatTime,defectsCreator)
+  VALUES(#{defectsname,jdbcType=VARCHAR},#{defectstype,jdbcType=VARCHAR},#{defectsseverity,jdbcType=VARCHAR},
+  			#{defectspriority,jdbcType=VARCHAR},#{defectsphase,jdbcType=VARCHAR},#{defectsproject,jdbcType=VARCHAR},
+  			#{defectssystom,jdbcType=VARCHAR},#{defectsmodule,jdbcType=VARCHAR},#{defectsprobability,jdbcType=VARCHAR},
+  			#{defectscurrentprocessing,jdbcType=VARCHAR},#{defectsversionnumber,jdbcType=VARCHAR},#{defectsremark,jdbcType=VARCHAR},
+  			#{defectsnumber,jdbcType=VARCHAR},#{defectscreattime,jdbcType=VARCHAR},#{defectscreator,jdbcType=VARCHAR}
+  )
+ </insert>
+ <select id="updateSelect" resultMap="BaseResultMap" parameterType="com.z4knight.bugmanagement.dataobject.TDefects">
+ 		select defectsNumber,defectsName,defectsState,
+ 					defectsCurrentProcessing,defectsSeverity,defectsProbability,
+ 							defectsPriority,defectsSystom,defectsRemark,
+ 									defectsCreator,defectsModificationdate,defectsClosePeople,
+        defectsClose from t_defects where defectsNumber=#{defectsnumber,jdbcType=VARCHAR} and defectsCreator=#{defectscreator,jdbcType=VARCHAR}
+ </select>
+ <update id="updateTdefec" parameterType="com.z4knight.bugmanagement.dataobject.TDefects">
+  	UPDATE t_defects SET
+		 defectsState=#{defectsstate,jdbcType=VARCHAR},defectsCurrentProcessing=#{defectscurrentprocessing,jdbcType=VARCHAR},defectsSeverity=#{defectsseverity,jdbcType=VARCHAR},
+					defectsProbability=#{defectsprobability,jdbcType=VARCHAR},defectsPriority=#{defectspriority,jdbcType=VARCHAR},defectsSystom=#{defectssystom,jdbcType=VARCHAR},
+									defectsRemark=#{defectsremark,jdbcType=VARCHAR},defectsClosePeople=#{defectsclosepeople,jdbcType=VARCHAR},defectsClose=#{defectsclose,jdbcType=VARCHAR},
+											defectsCreatTime=#{defectscreattime,jdbcType=VARCHAR} 
+  WHERE defectsNumber=#{defectsnumber,jdbcType=VARCHAR} 
+ </update>
+ 	<delete id="delectTdfec" parameterType="com.z4knight.bugmanagement.dataobject.TDefects">
+ 			delete from  t_defects where defectsNumber=#{defectsnumber,jdbcType=VARCHAR} and defectsCreator=#{defectscreator,jdbcType=VARCHAR}
+ 	</delete>
+ 
+</mapper>

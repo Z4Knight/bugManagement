@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.z4knight.bugmanagement.repository.TAssigntestMapper" >
+  <resultMap id="BaseResultMap" type="com.z4knight.bugmanagement.dataobject.TAssigntest" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="assignUserNumber" property="assignusernumber" jdbcType="VARCHAR" />
+    <result column="assignUserName" property="assignusername" jdbcType="VARCHAR" />
+    <result column="assignUserPart" property="assignuserpart" jdbcType="VARCHAR" />
+    <result column="assignUserOrganization" property="assignuserorganization" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, assignUserNumber, assignUserName, assignUserPart, assignUserOrganization
+  </sql>
+  <select id="assigntestList" resultMap="BaseResultMap">
+    SELECT * FROM T_ASSIGNTEST  
+  </select>
+  <select id="assignuser" resultMap="BaseResultMap">
+    SELECT * FROM T_ASSIGNTEST  
+  </select>
+</mapper>
