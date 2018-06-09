@@ -1,12 +1,12 @@
 
 c3p0:
-  jdbcUrl: jdbc:mysql://120.78.168.45:3306/bugmanagement?autoReconnect=true
-  user: ym
-  password:
+  jdbcUrl: jdbc:mysql://rm-bp1tzs8oi16fkge40.mysql.rds.aliyuncs.com:3306/bugmanagement?autoReconnect=true
+  user: root
+  password: Z4Knight=bug
   driverClass: com.mysql.jdbc.Driver
   testConnectionOnCheckin: false
   testConnectionOnCheckout: true
 server:
-  port: 8086
+  port: 8080
 
 #logging.pattern.console=%d - %msg%n
