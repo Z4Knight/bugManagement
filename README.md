@@ -29,7 +29,7 @@
 项目搭建骨架：[spring-boot-api-project-seed](https://github.com/lihengming/spring-boot-api-project-seed)
 
 ### 分享说明
-本项目作为个人的毕设项目，仅供个人学习或者非商业使用。
+本项目作为个人练习项目，仅供个人学习或者非商业使用。
 
 ### 我的博客
 欢迎来[我的博客](https://z4knight.coding.me/blog/)，更多有趣的东西再等着你~
